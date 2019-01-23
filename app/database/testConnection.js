@@ -3,7 +3,6 @@ const mysqlssh = require('mysql-ssh');
 
 const authorization = require('./authorization');
 
-console.log("db");
 
 
 
