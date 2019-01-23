@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-var db = require('../database');
+var db = require('../database/testConnection');
 
 /* GET home page. */
 router.get('/testDbConnection', function(req, res, next) {

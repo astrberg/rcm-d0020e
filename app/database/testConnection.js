@@ -1,21 +1,11 @@
 const mysqlssh = require('mysql-ssh');
-const fs = require('fs');
+
+
+const authorization = require('./authorization');
 
 console.log("db");
 
 
-var ssh = {
-            host: '130.240.204.191',
-            user: 'bugmana',
-            privateKey: fs.readFileSync(process.env.HOME + '/.ssh/id_rsa')
-            };
-
-var database = {
-            host: 'localhost',
-            user: 'java',
-            password: 'password',
-            database: 'db'
-            };
 
 /* Functions in the DB class that is usable by other files */
 module.exports = {
@@ -28,9 +18,12 @@ module.exports = {
 
     // Check connection to MySQL 
     testConnection : function(req, res, next){
-        
+       
+
+        let auth = new authorization.Authorization();
+
         // ssh to database server and then connect to db
-        mysqlssh.connect(ssh, database).then(client => {
+        mysqlssh.connect(auth.ssh, auth.database).then(client => {
 
             // get rowcount of weather
             client.query('SELECT COUNT(*) FROM `weather_data`', function (err, results, fields) {
@@ -45,5 +38,5 @@ module.exports = {
             console.log(err)
         })
         
-    },
+    }
 };
