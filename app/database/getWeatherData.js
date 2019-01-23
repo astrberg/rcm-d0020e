@@ -1,8 +1,4 @@
-
-
 const mysqlssh = require('mysql-ssh');
-
-
 const authorization = require('./authorization');
 
 
@@ -23,7 +19,6 @@ module.exports = {
         // ssh to database server and then connect to db
         mysqlssh.connect(auth.ssh, auth.database).then(client => {
             
-            
             // get latest row of station weather data
             const sql = "SELECT * FROM weather_data WHERE station_id = ? ORDER BY id DESC LIMIT 1";
             const values =  [[station_id]];
@@ -39,7 +34,6 @@ module.exports = {
                 
                 mysqlssh.close()
                 
-                
                 // send data back to client
                 res.send(results);
             })
@@ -49,10 +43,8 @@ module.exports = {
         })
         
     },
-
     getWeatherData : function(req, res, next, station_id, start_time, stop_time){
        
-
         let auth = new authorization.Authorization();
 
         // ssh to database server and then connect to db
@@ -65,7 +57,6 @@ module.exports = {
             
             client.query(sql, values, function (err, results) {
                 if (err) throw err
-
 
                 // convert fetched timestamp to correct timezone. 
                 // JSON parses timestamp to UTC+0 and we live in UTC+1
@@ -83,7 +74,6 @@ module.exports = {
 
         }).catch(err => {
             console.log(err)
-        })
-        
+        })    
     }
 };

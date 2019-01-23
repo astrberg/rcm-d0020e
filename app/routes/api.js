@@ -20,7 +20,7 @@ router.get('/getStationData', function(req, res, next) {
 
 /* GET weather data */
 router.get('/getLatestWeatherData', function(req, res, next) {
-    // station_id = 'SE_STA_VVIS2240';
+    //station_id = 'SE_STA_VVIS2240';
     weather.getLatestWeatherData(req,res,next,station_id);
 });
 

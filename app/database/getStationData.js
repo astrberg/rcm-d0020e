@@ -1,8 +1,5 @@
 const mysqlssh = require('mysql-ssh');
-
-
 const authorization = require('./authorization');
-
 
 
 /* Functions in the DB class that is usable by other files */
@@ -17,12 +14,10 @@ module.exports = {
     // Check connection to MySQL 
     getStationData : function(req, res, next){
        
-
         let auth = new authorization.Authorization();
 
         // ssh to database server and then connect to db
         mysqlssh.connect(auth.ssh, auth.database).then(client => {
-            
             
             // get all station data that have weather data
             const sql = 'SELECT * FROM station_data WHERE id IN (SELECT station_id FROM weather_data)';
@@ -32,14 +27,12 @@ module.exports = {
                 
                 mysqlssh.close()
                 
-
                 // send data back to client
                 res.send(results);
             })
 
         }).catch(err => {
             console.log(err)
-        })
-        
+        }) 
     }
 };
