@@ -1,15 +1,20 @@
 var express = require('express');
 var router = express.Router();
 
-var db = require('../database/testConnection');
+var test = require('../database/testConnection');
+var station = require('../database/getStationData');
 
-/* GET home page. */
+
+/* GET test connection */
 router.get('/testDbConnection', function(req, res, next) {
   
-    console.log("api");
-    db.testConnection(req,res,next);
+    test.testConnection(req,res,next);
 });
 
-
+/* GET station data */
+router.get('/getStationData', function(req, res, next) {
+  
+    station.getStationData(req,res,next);
+});
 
 module.exports = router;
