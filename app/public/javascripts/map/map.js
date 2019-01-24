@@ -6,16 +6,19 @@ var chosenStations = [];
 /**
  * The layer for the Leaflet map
  */
-var standardTileLayer = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+var mapboxURL = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiYnVnbWFuYSIsImEiOiJjanJhbXVqbmowcmQzNDRuMHZhdzNxbjkxIn0.x1rFh-zIo8WfBRfpj2HsjA';
+var standardTileLayer = L.TileLayer.boundaryCanvas(mapboxURL, {
     maxZoom: 18,
     minZoom: 5,
     maxBoundsViscosity: 1.0,
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
         '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
         'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-    id: 'mapbox.streets'
+    id: 'mapbox.streets',
+    boundary: sweden
 });
 standardTileLayer.addTo(map);
+
 
 /**
  * Restrict the map movement
@@ -123,7 +126,7 @@ function onEachFeature(feature, layer) {
         click: zoomToFeature
     });
 }
-var geojson = L.geoJson(statesData, {
+var geojson = L.geoJson(sweden, {
     style: style,
     onEachFeature: onEachFeature
 }).addTo(map);
