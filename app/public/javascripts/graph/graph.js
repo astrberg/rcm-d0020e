@@ -1,6 +1,6 @@
 //var csv = require("./data.csv")
-
-
+var data = [1, 2, 3, 4, 5, 6];
+drawChart("histogram", data);
 /*
 It should return a color depending of case, used by the charts functions in this file.
 */
