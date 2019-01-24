@@ -50,6 +50,81 @@ function addChosenStation(station_id){
     }else{
         console.log("Station is already chosen");
     }
+
+    
     
 }
+var info = L.control();
+
+	info.onAdd = function (map) {
+		this._div = L.DomUtil.create('div', 'info');
+		this.update();
+		return this._div;
+	};
+info.update = function (props) {
+    this._div.innerHTML = '<h4>Sverige medeltemperatur realtid</h4>' +  (props ?
+        '<b>' + props.name + '</b><br />' + props.temperature + ' grader celsius'
+        : 'Hovra över län');
+};
+
+info.addTo(map);
+
+function getColor(d) {
+    return d > 50 ? '#800026' :
+            d > 40  ? '#BD0026' :
+            d > 30  ? '#E31A1C' :
+            d > 20 ? '#FC4E2A' :
+            d > 10  ? '#FD8D3C' :
+            d > 5   ? '#FEB24C' :
+            d > 2   ? '#FED976' :
+                        '#FFEDA0';
+}
+
+function style(feature) {
+    return {
+        weight: 2,
+        opacity: 0.2,
+        color: 'black',
+        dashArray: '3',
+        fillOpacity: 0.7,
+        fillColor: getColor(feature.properties.temperature)
+    };
+}
+
+function highlightFeature(e) {
+    var layer = e.target;
+
+    layer.setStyle({
+        weight: 5,
+        color: '#666',
+        dashArray: '',
+        fillOpacity: 0.7
+    });
+
+    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+        layer.bringToFront();
+    }
+
+    info.update(layer.feature.properties);
+}
+function resetHighlight(e) {
+    geojson.resetStyle(e.target);
+    info.update();
+}
+
+function zoomToFeature(e) {
+    map.fitBounds(e.target.getBounds());
+}
+
+function onEachFeature(feature, layer) {
+    layer.on({
+        mouseover: highlightFeature,
+        mouseout: resetHighlight,
+        click: zoomToFeature
+    });
+}
+var geojson = L.geoJson(statesData, {
+    style: style,
+    onEachFeature: onEachFeature
+}).addTo(map);
 
