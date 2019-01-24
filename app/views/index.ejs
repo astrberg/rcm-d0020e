@@ -8,10 +8,43 @@
   <body>
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
-      <div>
-        <script src="https://d3js.org/d3.v4.min.js"></script>
-        <script type="text/javascript" src="javascript/graph/graph.js"></script>
-        <svg></svg>
-      </div>
+
+  <style>
+	canvas{
+  	width:500px !important;
+  	height:300px !important;
+	margin: 35px;
+        padding: 35px;
+	}
+	
+	#type1 {
+	float: right;
+	}
+	#type2 {
+	float: left;
+	}
+</style>
+
+ <form>
+  <input type="checkbox" name="alt" value="alt1"> Alternativ1<br>
+  <input type="checkbox" name="alt" value="alt2" checked>Alternativ2<br>
+  <input type="submit" value="Submit">
+</form> 
+
+<div id="type1">
+  <canvas id="myChart1"></canvas>
+  <canvas id="myChart2"></canvas>
+</div>
+
+<div id="type2">
+  <canvas id="myChart3"></canvas>
+  <canvas id="myChart4"></canvas>
+
+</div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+
+  <script type="text/javascript" src="/javascripts/graph/grafer.js"></script>
+
   </body>
 </html>
