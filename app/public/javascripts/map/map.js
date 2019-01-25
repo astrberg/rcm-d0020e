@@ -34,16 +34,28 @@ map.on('drag', function () {
 /**
  * Adds a station marker to the map
  */
+ 
 function addStationToMap(station){
-    var marker = L.marker([station.lat, station.long]).addTo(map);
-    marker.bindPopup('<div id = "popupid:' + station.id + '" class="popup" >' + 
-    'Station: ' + station.name + '<br>' +
-    'Lufttemperatur: ' + station.airTemp + '<br>' +
-    'Vägtemperatur: ' + station.roadTemp + '<br>' +
-    'Luftfuktighet: ' + station.humidity + '<br>' +
-    'Vind: ' + station.windSpeed + '<br>' +
-    'Vindriktning: ' + station.windDirection + '<br>' +
-    '<div class="center"><button id="buttonid:' + station.id +'" onclick="addChosenStation('+station.id+')" class="button" >Lägg till</button></div>');
+    var marker = L.marker([station.lon, station.lat]);
+    var icon = marker.options.icon;
+    icon.options.iconSize = [15,15];
+    icon.options.shadowSize = [0,0];
+    marker.setIcon(icon);
+    marker.addTo(map);
+    //marker.bindPopup('<div id = "popupid:' + station.id + '" class="popup" >' + 
+    //'Station: ' + station.name + '<br>');
+    // 'Lufttemperatur: ' + station.airTemp + '<br>' +
+    // 'Vägtemperatur: ' + station.roadTemp + '<br>' +
+    // 'Luftfuktighet: ' + station.humidity + '<br>' +
+    // 'Vind: ' + station.windSpeed + '<br>' +
+    // 'Vindriktning: ' + station.windDirection + '<br>' +
+    // '<div class="center"><button id="buttonid:' + station.id +'" onclick="addChosenStation('+station.id+')" class="button" >Lägg till</button></div>');
+}
+
+function displayStations(stations){
+    for(var i = 0; i<stations.length; i++){
+        addStationToMap(stations[i]);
+    }
 }
 
 function addChosenStation(station_id){

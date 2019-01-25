@@ -10,18 +10,18 @@
 
 
   </head>
-  <body onload="getWeatherData()">
+  <body>
     <div id=map-container class="map-container">
       <div id="mapid" class="map"></div>
     </div>
     <script src="javascripts/map/province.js"></script>
     <script src="javascripts/map/stations.js"></script>
     <script src="javascripts/graph/getWeatherData.js"></script>
-    <script src="javascripts/map/swedenStates.js"></script>
     <script src="javascripts/map/boundaryCanvas.js"></script>
     <script src="javascripts/map/map.js"></script>
-    
-    
+    <script>
+      getStations();
+    </script>
 
   </body>
 </html>
