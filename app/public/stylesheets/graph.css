@@ -1,0 +1,45 @@
+/* The biggest div for the right panel with graphs */
+#graphs_div {
+    width: 450px;
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    right: -450px;
+    background-color: rgba(255,255,255,1);
+    transition: all 0.1s;
+    z-index: 20;
+}
+
+.graphs-div-open {
+    right: 0px !important;
+}
+/* The first div inside "graphs_div" and including the show/hide button */
+#inner-graphs {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+/* This div is needed to place the button and graphs correctly */
+/*#graphs_container_big {
+}*/
+
+/* This div lists all the graphs */
+#graphs_container {
+    overflow: visible;
+}
+
+/* The button to show or hide the graphpanel */
+#graphsButton {
+    background-image: url("../media/arrow-left.png");
+    background-size: 50px 50px;
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    left: -50px;
+    bottom: 0px;
+}
+
+.graphs-button-open {
+       background-image: url("../media/arrow-right.png") !important;
+}
