@@ -4,8 +4,9 @@
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <link rel='stylesheet' href='/stylesheets/graph.css' />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   </head>
-  <body>
+  <body onload="initlatestgraf()">
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
 
@@ -43,8 +44,14 @@
 </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <script src="javascripts/map/stations.js"></script>
+ <script src="javascripts/graph/getWeatherData.js"></script>
+ <script type="text/javascript" src="/javascripts/graph/grafer.js"></script>
 
-  <script type="text/javascript" src="/javascripts/graph/grafer.js"></script>
+
+
+
+ 
 
   </body>
 </html>

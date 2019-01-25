@@ -1,16 +1,25 @@
+	
+	function graf(weatherdata){
+	var newarray = [];
+	var newarray2 = [];
+	//console.log(weatherdata[0].road_temperature);
+	for(var i = 0; i < weatherdata.length; i++){
+		newarray.push(weatherdata[i].timestamp);
+		newarray2.push(weatherdata[i].road_temperature);
+	}
+
 	var ctx = document.getElementById('myChart1').getContext('2d');
 	var chart = new Chart(ctx, {
-	
 	    type: 'line',
 
 	
 	    data: {
-		labels: ["January", "February", "March", "April", "May", "June", "July"],
+		labels: newarray,
 		datasets: [{
-		    label: "graf1",
+		    label: "Temperatur",
 		    backgroundColor: 'rgb(255, 99, 132)',
 		    borderColor: 'rgb(255, 99, 132)',
-		    data: [-200, -50,0, 100, 200, 300,500,200],
+		    data: newarray2,
 		}]
 	    },
 
@@ -19,8 +28,9 @@
 		
 		}
 	});
+	}
 	
-
+	function graf1(stations,temparray){
 	var ctx = document.getElementById('myChart2').getContext('2d');
 	var chart = new Chart(ctx, {
 	
@@ -28,20 +38,22 @@
 
 	
 	    data: {
-		labels: ["January", "February", "March", "April", "May", "June", "July"],
+		labels: stations,
 		datasets: [{
 		    label: "graf2",
 		    backgroundColor: 'rgb(255, 99, 132)',
 		    borderColor: 'rgb(255, 99, 132)',
-		     data: [-200, -50,0, 100, 200, 300,500,200],
+		     data: temparray,
 		}]
 	    },
 
 	
 	    options: {}
 	});
+}
 
-	//different colors when data is below 0
+ function graf2(){
+//different colors when data is below 0
 	var pointBackgroundColors = [];
 	var ctx = document.getElementById('myChart3').getContext('2d');
 	var myChart = new Chart(ctx, {
@@ -52,7 +64,7 @@
 	    data: {
 		labels: ["January", "February", "March", "April", "May", "June", "July"],
 		datasets: [{
-		    label: "graf1",
+		    label: "graf3",
 		    pointBackgroundColor: pointBackgroundColors,
 		    data: [-200, -50,0, 100, 200, 300,500,200],
 		}]
@@ -75,8 +87,10 @@
 	}
 
 	myChart.update();
+}
+	
 
-
+function graf3(){
 //car example multiple lines
 var speedCanvas = document.getElementById("myChart4");
 Chart.defaults.global.defaultFontFamily = "Lato";
@@ -134,3 +148,5 @@ var lineChart = new Chart(speedCanvas, {
   data: speedData,
   options: chartOptions
 });
+}
+
