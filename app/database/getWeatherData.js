@@ -11,6 +11,7 @@ module.exports = {
     https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
     */
 
+    // get latest inserted weather from given station
     getLatestWeatherData : function(req, res, next, station_id){
        
 
@@ -43,6 +44,7 @@ module.exports = {
         })
         
     },
+    // get weather data from given station
     getWeatherData : function(req, res, next, station_id, start_time, stop_time){
        
         let auth = new authorization.Authorization();
@@ -66,6 +68,33 @@ module.exports = {
 
                     current_time.setHours(current_time.getHours() - current_time.getTimezoneOffset() / 60);
                 });
+                mysqlssh.close()
+                
+                // send data back to client
+                res.send(results);
+            })
+
+        }).catch(err => {
+            console.log(err)
+        })    
+    },
+    // get avarage weather data from given station
+    getAverageWeatherData : function(req, res, next, station_id, start_time, stop_time){
+       
+        let auth = new authorization.Authorization();
+
+        // ssh to database server and then connect to db
+        mysqlssh.connect(auth.ssh, auth.database).then(client => {
+            
+            
+            // get weather data between to given timestamps
+            var sql = "SELECT AVG(road_temperature),AVG(air_temperature), AVG(air_humidity), AVG(wind_speed) \
+                       FROM weather_data WHERE station_id = ? AND timestamp BETWEEN ? AND ?";
+            var values =  [station_id,start_time, stop_time];
+            
+            client.query(sql, values, function (err, results) {
+                if (err) throw err
+
                 mysqlssh.close()
                 
                 // send data back to client
