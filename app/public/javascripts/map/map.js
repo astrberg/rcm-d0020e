@@ -15,7 +15,7 @@ var standardTileLayer = L.TileLayer.boundaryCanvas(mapboxURL, {
         '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
         'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
     id: 'mapbox.streets',
-    boundary: sweden
+    boundary: countyData
 });
 standardTileLayer.addTo(map);
 
@@ -42,9 +42,9 @@ function addStationToMap(station){
     icon.options.shadowSize = [0,0];
     marker.setIcon(icon);
     marker.addTo(map);
-    //marker.bindPopup('<div id = "popupid:' + station.id + '" class="popup" >' + 
-    //'Station: ' + station.name + '<br>');
-    // 'Lufttemperatur: ' + station.airTemp + '<br>' +
+    marker.bindPopup('<div id = "popupid:' + station.id + '" class="popup" >' + 
+    'Station: ' + station.name + '<br>' +
+    'Landskap: ' + station.county_number + '<br>');
     // 'Vägtemperatur: ' + station.roadTemp + '<br>' +
     // 'Luftfuktighet: ' + station.humidity + '<br>' +
     // 'Vind: ' + station.windSpeed + '<br>' +
@@ -138,7 +138,7 @@ function onEachFeature(feature, layer) {
         click: zoomToFeature
     });
 }
-var geojson = L.geoJson(sweden, {
+var geojson = L.geoJson(countyData, {
     style: style,
     onEachFeature: onEachFeature
 }).addTo(map);
