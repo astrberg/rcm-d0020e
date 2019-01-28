@@ -31,25 +31,53 @@ map.on('drag', function () {
     map.panInsideBounds(bounds, { animate: false });
 });
 
+
+map.on('zoomend', function() {
+    // Difference between zoom level and group number = 4
+    addMarkerOnZoom(map.getZoom()-4);
+    removeMarkerOnZoom(map.getZoom()-4);
+});
+
+function addMarkerOnZoom(group){
+    for(var i = 0; i <= group; i++){
+        if(!map.hasLayer(layerGroups[i])){
+            map.addLayer(layerGroups[i]);
+        
+        }
+    }
+    console.log(layerGroups[group]);
+}
+
+function removeMarkerOnZoom(group){
+    for(var i = 10; i >= group; i--){
+        if(map.hasLayer(layerGroups[i])){
+            map.removeLayer(layerGroups[i]);
+        
+        }
+    }
+    
+}
+
+
 /**
  * Adds a station marker to the map
  */
 
 var layerGroups = [];
 
-function addStationToMap(station){
+function addStationToMap(station, layerNumber){
     var marker = L.marker([station.lon, station.lat]);
     var icon = marker.options.icon;
     //icon.options.iconSize = [17,15];
     icon.options.shadowSize = [0,0];
     marker.setIcon(icon);
     
-    if(!layerGroups[station.county_number]) {
-            layerGroups[station.county_number] = new L.layerGroup();
+    if(!layerGroups[layerNumber]) {
+            layerGroups[layerNumber] = new L.layerGroup();
     }
 
-    layerGroups[station.county_number].addLayer(marker);
-    map.addLayer(layerGroups[station.county_number]);
+    layerGroups[layerNumber].addLayer(marker);
+    // map.addLayer(layerGroups[station.county_number]);
     
     
     marker.bindPopup('<div id = "popupid:' + station.id + '" class="popup" >' + 
@@ -65,10 +93,17 @@ function addStationToMap(station){
 
 
 function displayStations(stations){
-    for(var i = 0; i<stations.length; i++){
-
-        addStationToMap(stations[i]);
+    var count = 0;
+    for(var j = 0; j < 5; j++){
+        for(var i = j; i< stations.length; i+=5){
+            
+            addStationToMap(stations[i], j);
+            count++;
+        }
+        //console.log(j);
     }
+
+    map.addLayer(layerGroups[0])
 }
 
 function addChosenStation(station_id){
