@@ -34,14 +34,24 @@ map.on('drag', function () {
 /**
  * Adds a station marker to the map
  */
- 
+
+var layerGroups = [];
+
 function addStationToMap(station){
     var marker = L.marker([station.lon, station.lat]);
     var icon = marker.options.icon;
     //icon.options.iconSize = [17,15];
     icon.options.shadowSize = [0,0];
     marker.setIcon(icon);
-    marker.addTo(map);
+    
+    if(!layerGroups[station.county_number]) {
+            layerGroups[station.county_number] = new L.layerGroup();
+    }
+
+    layerGroups[station.county_number].addLayer(marker);
+    map.addLayer(layerGroups[station.county_number]);
+    
+    
     marker.bindPopup('<div id = "popupid:' + station.id + '" class="popup" >' + 
     'Station: ' + station.name + '<br>' +
     'Landskap: ' + station.county_number + '<br>');
@@ -50,10 +60,13 @@ function addStationToMap(station){
     // 'Vind: ' + station.windSpeed + '<br>' +
     // 'Vindriktning: ' + station.windDirection + '<br>' +
     // '<div class="center"><button id="buttonid:' + station.id +'" onclick="addChosenStation('+station.id+')" class="button" >Lägg till</button></div>');
+    
 }
+
 
 function displayStations(stations){
     for(var i = 0; i<stations.length; i++){
+
         addStationToMap(stations[i]);
     }
 }
