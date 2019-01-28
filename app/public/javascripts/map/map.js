@@ -38,7 +38,7 @@ map.on('drag', function () {
 function addStationToMap(station){
     var marker = L.marker([station.lon, station.lat]);
     var icon = marker.options.icon;
-    icon.options.iconSize = [15,15];
+    //icon.options.iconSize = [17,15];
     icon.options.shadowSize = [0,0];
     marker.setIcon(icon);
     marker.addTo(map);
