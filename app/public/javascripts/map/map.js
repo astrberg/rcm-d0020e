@@ -91,7 +91,7 @@ function addStationToLayer(station, layerNumber){
     // marker.on('popupopen', function(){
 
     // });
-    marker.addTo(map);
+    // marker.addTo(map);
     // '<div class="center"><button id="buttonid:' + station.id +'" onclick="addChosenStation('+station.id+')" class="button" >Lägg till</button></div>');
     
 }
