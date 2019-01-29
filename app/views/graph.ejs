@@ -58,9 +58,15 @@ for(var i = 0; i < stations.length; i++){
 }
 
 
+async function test(){
+await getWeatherData('SE_STA_VVIS2240','2019-01-20 13:12:12','2019-01-23 13:23:20');
 
-getWeatherData('SE_STA_VVIS2240','2019-01-20 13:12:12','2019-01-23 13:23:20');
-getWeatherData('SE_STA_VVIS1524','2019-01-20 13:12:12','2019-01-23 13:23:20');
+await getWeatherData('SE_STA_VVIS1524','2019-01-20 13:12:12','2019-01-23 13:23:20');
+
+await graf3();
+}
+
+test();
 
 </script>
 
