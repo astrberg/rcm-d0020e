@@ -44,7 +44,7 @@ function addStationToMap(station){
     marker.addTo(map);
     marker.bindPopup('<div id = "popupid:' + station.id + '" class="popup" >' + 
     'Station: ' + station.name + '<br>' +
-    'Landskap: ' + station.county_number + '<br>');
+    'Län: ' + countyNames[station.county_number] + '<br>');
     // 'Vägtemperatur: ' + station.roadTemp + '<br>' +
     // 'Luftfuktighet: ' + station.humidity + '<br>' +
     // 'Vind: ' + station.windSpeed + '<br>' +
