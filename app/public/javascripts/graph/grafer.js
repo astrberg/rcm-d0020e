@@ -1,5 +1,4 @@
-	
-	function graf(weatherdata){
+function graf(weatherdata){
 	var newarray = [];
 	var newarray2 = [];
 	//console.log(weatherdata[0].road_temperature);
@@ -30,7 +29,7 @@
 	});
 	}
 	
-	function graf1(stations,temparray){
+function graf1(stations,temparray){
 	var ctx = document.getElementById('myChart2').getContext('2d');
 	var chart = new Chart(ctx, {
 	
@@ -52,7 +51,7 @@
 	});
 }
 
- function graf2(){
+function graf2(){
 //different colors when data is below 0
 	var pointBackgroundColors = [];
 	var ctx = document.getElementById('myChart3').getContext('2d');
@@ -88,22 +87,29 @@
 
 	myChart.update();
 }
-	
 
-function graf3(){
-//car example multiple lines
-var speedCanvas = document.getElementById("myChart4");
-Chart.defaults.global.defaultFontFamily = "Lato";
-Chart.defaults.global.defaultFontSize = 18;
+var data3graf3 = [];
+var datagraftimestamp = [];	
+function datamultieplegraf(weatherdata){
+	var datagrafroadtemp = [];
+	var stationame = weatherdata[0].station_id;
+	for(var i = 0; i < weatherdata.length; i++){
+		datagrafroadtemp.push(weatherdata[i].road_temperature);
+		datagraftimestamp.push(weatherdata[i].timestamp);
+	}
+	generatedata(datagrafroadtemp,stationame)
+}
 
-var dataFirst = {
-    label: "Car A",
-    data: [-30,0, 59, 75, 20, 20, 55, 40],
+function generatedata(datagrafroadtemp,stationame){
+    var colorforline = '#'+Math.floor(Math.random()*16777215).toString(16);
+    var dataFirst = {
+    label: stationame,
+    data: datagrafroadtemp,
     lineTension: 0.3,
     fill: false,
-    borderColor: 'red',
+    borderColor: colorforline,
     backgroundColor: 'transparent',
-    pointBorderColor: 'red',
+    pointBorderColor: colorforline,
     pointBackgroundColor: 'lightgreen',
     pointRadius: 5,
     pointHoverRadius: 15,
@@ -111,25 +117,21 @@ var dataFirst = {
     pointBorderWidth: 2,
     pointStyle: 'rect'
   };
+	
+	data3graf3.push(dataFirst);
+}
 
-var dataSecond = {
-    label: "Car B",
-    data: [-30,20, 15, 60, 60, 65, 30, 70],
-    lineTension: 0.3,
-    fill: false,
-    borderColor: 'purple',
-    backgroundColor: 'transparent',
-    pointBorderColor: 'purple',
-    pointBackgroundColor: 'lightgreen',
-    pointRadius: 5,
-    pointHoverRadius: 15,
-    pointHitRadius: 30,
-    pointBorderWidth: 2
-  };
+function graf3(){
+//car example multiple lines
+var speedCanvas = document.getElementById("myChart4");
+Chart.defaults.global.defaultFontFamily = "Lato";
+Chart.defaults.global.defaultFontSize = 18;
+
+
 
 var speedData = {
-  labels: ["0s", "10s", "20s", "30s", "40s", "50s", "60s"],
-  datasets: [dataFirst, dataSecond]
+  labels: datagraftimestamp,
+  datasets: data3graf3
 };
 
 var chartOptions = {
@@ -148,5 +150,7 @@ var lineChart = new Chart(speedCanvas, {
   data: speedData,
   options: chartOptions
 });
+
+lineChart.update();
 }
 

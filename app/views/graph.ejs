@@ -4,9 +4,10 @@
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <link rel='stylesheet' href='/stylesheets/graph.css' />
+   
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   </head>
-  <body onload="initlatestgraf()">
+  <body onload="">
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
 
@@ -50,7 +51,17 @@
 
 
 <script>
-getWeatherData()
+var stations = ['SE_STA_VVIS1524','SE_STA_VVIS1525','SE_STA_VVIS1536','SE_STA_VVIS1544','SE_STA_VVIS1557','SE_STA_VVIS2240'];
+
+for(var i = 0; i < stations.length; i++){
+	//getWeatherData(stations[i],'2019-01-20 13:12:12','2019-01-23 13:23:20');
+}
+
+
+
+getWeatherData('SE_STA_VVIS2240','2019-01-20 13:12:12','2019-01-23 13:23:20');
+getWeatherData('SE_STA_VVIS1524','2019-01-20 13:12:12','2019-01-23 13:23:20');
+
 </script>
 
  
