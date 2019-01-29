@@ -19,6 +19,13 @@ var standardTileLayer = L.TileLayer.boundaryCanvas(mapboxURL, {
 });
 standardTileLayer.addTo(map);
 
+var icon = L.icon({
+    iconUrl: '../../images/icons8-marker-96.png',
+    iconSize: [23, 19],
+    iconAnchor: [11, 19],
+    // popupAnchor: [-3, -76],
+});
+
 
 /**
  * Restrict the map movement
@@ -67,9 +74,6 @@ var layerGroups = [];
 
 function addStationToLayer(station, layerNumber){
     var marker = L.marker([station.lon, station.lat]);
-    var icon = marker.options.icon;
-    //icon.options.iconSize = [17,15];
-    icon.options.shadowSize = [0,0];
     marker.setIcon(icon);
 
     
