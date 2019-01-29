@@ -1,4 +1,4 @@
-var provinceNames = {
+var countyNames = {
     "2": "Stockholms län",
     "3": "Uppsala län",
     "4": "Södermanlands län",

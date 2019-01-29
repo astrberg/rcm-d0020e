@@ -21,7 +21,7 @@ module.exports = {
             
             // get all station data that have weather data
             const sql = 'SELECT * FROM station_data WHERE id IN (SELECT station_id FROM weather_data)';
-
+            
             client.query(sql, function (err, results, fields) {
                 if (err) throw err
                 

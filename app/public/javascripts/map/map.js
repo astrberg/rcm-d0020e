@@ -71,6 +71,7 @@ function addStationToLayer(station, layerNumber){
     //icon.options.iconSize = [17,15];
     icon.options.shadowSize = [0,0];
     marker.setIcon(icon);
+
     
     if(!layerGroups[layerNumber]) {
         layerGroups[layerNumber] = new L.layerGroup();
@@ -80,11 +81,13 @@ function addStationToLayer(station, layerNumber){
     
     marker.bindPopup('<div id = "popupid:' + station.id + '" class="popup" >' + 
     'Station: ' + station.name + '<br>' +
-    'Landskap: ' + station.county_number + '<br>');
-    // 'Vägtemperatur: ' + station.roadTemp + '<br>' +
-    // 'Luftfuktighet: ' + station.humidity + '<br>' +
-    // 'Vind: ' + station.windSpeed + '<br>' +
-    // 'Vindriktning: ' + station.windDirection + '<br>' +
+    'Län: ' + countyNames[station.county_number] + '<br>');
+    //var weatherdata = getLatestWeatherData(station.id);
+
+    // marker.on('popupopen', function(){
+
+    // });
+    marker.addTo(map);
     // '<div class="center"><button id="buttonid:' + station.id +'" onclick="addChosenStation('+station.id+')" class="button" >Lägg till</button></div>');
     
 }
@@ -115,6 +118,14 @@ function createLayers(stations){
 
     map.addLayer(layerGroups[0])
 }
+
+// function displayAverageCountytemp(counties){
+//     for(var i = 0; i< counties.length; i++) {
+//         var data = getAvgCountyWeatherData(counties[i]);
+
+//     }
+
+// }
 
 function addChosenStation(station_id){
     if(!chosenStations.includes(station_id)){
@@ -196,6 +207,8 @@ function onEachFeature(feature, layer) {
         click: zoomToFeature
     });
 }
+
+// Adds the Swedish countys to the map
 var geojson = L.geoJson(countyData, {
     style: style,
     onEachFeature: onEachFeature
