@@ -7,7 +7,7 @@ var countyData = {"type": "FeatureCollection", "features": [
         "boundary": "administrative",
         "name": "Gotlands län",
         "ref:se:län:bokstav": "I",
-        "ref:se:länskod": "09",
+        "ref:se:länskod": "9",
         "type": "multipolygon"
       },
       "geometry": {
@@ -291,7 +291,7 @@ var countyData = {"type": "FeatureCollection", "features": [
         "boundary": "administrative",
         "name": "Kalmar län",
         "ref:se:län:bokstav": "H",
-        "ref:se:länskod": "08",
+        "ref:se:länskod": "8",
         "type": "multipolygon"
       },
       "geometry": {
@@ -2108,7 +2108,7 @@ var countyData = {"type": "FeatureCollection", "features": [
         "boundary": "administrative",
         "name": "Kronobergs län",
         "ref:se:län:bokstav": "G",
-        "ref:se:länskod": "07",
+        "ref:se:länskod": "7",
         "type": "multipolygon"
       },
       "geometry": {
@@ -3590,7 +3590,7 @@ var countyData = {"type": "FeatureCollection", "features": [
         "boundary": "administrative",
         "name": "Södermanlands län",
         "ref:se:län:bokstav": "D",
-        "ref:se:länskod": "04",
+        "ref:se:länskod": "4",
         "type": "multipolygon"
       },
       "geometry": {
@@ -3821,7 +3821,7 @@ var countyData = {"type": "FeatureCollection", "features": [
         "boundary": "administrative",
         "name": "Jönköpings län",
         "ref:se:län:bokstav": "F",
-        "ref:se:länskod": "06",
+        "ref:se:länskod": "6",
         "type": "multipolygon"
       },
       "geometry": {
@@ -4188,7 +4188,7 @@ var countyData = {"type": "FeatureCollection", "features": [
         "boundary": "administrative",
         "name": "Östergötlands län",
         "ref:se:län:bokstav": "E",
-        "ref:se:länskod": "05",
+        "ref:se:länskod": "5",
         "type": "multipolygon"
       },
       "geometry": {
@@ -4662,7 +4662,7 @@ var countyData = {"type": "FeatureCollection", "features": [
         "boundary": "administrative",
         "name": "Stockholms län",
         "ref:se:län:bokstav": "AB",
-        "ref:se:län:kod": "01",
+        "ref:se:län:kod": "2",
         "type": "multipolygon"
       },
       "geometry": {
@@ -5871,7 +5871,7 @@ var countyData = {"type": "FeatureCollection", "features": [
         "boundary": "administrative",
         "name": "Uppsala län",
         "ref:se:län:bokstav": "C",
-        "ref:se:länskod": "03",
+        "ref:se:länskod": "3",
         "type": "multipolygon"
       },
       "geometry": {

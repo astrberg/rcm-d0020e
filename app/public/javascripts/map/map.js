@@ -60,6 +60,14 @@ function displayStations(stations){
     }
 }
 
+// function displayAverageCountytemp(counties){
+//     for(var i = 0; i< counties.length; i++) {
+//         var data = getAvgCountyWeatherData(counties[i]);
+
+//     }
+
+// }
+
 function addChosenStation(station_id){
     if(!chosenStations.includes(station_id)){
         chosenStations.push(station_id);
