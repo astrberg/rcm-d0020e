@@ -123,7 +123,7 @@ function displayAverageCountytemp(counties){
         onEachFeature: function(feature){
             console.log(getAvgCountyWeatherData(feature.properties.countyCode));
         }
-    })
+    });
 }
 
 function addChosenStation(station_id){
