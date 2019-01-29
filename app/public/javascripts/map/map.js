@@ -8,7 +8,7 @@ var chosenStations = [];
  */
 var mapboxURL = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiYnVnbWFuYSIsImEiOiJjanJhbXVqbmowcmQzNDRuMHZhdzNxbjkxIn0.x1rFh-zIo8WfBRfpj2HsjA';
 var standardTileLayer = L.TileLayer.boundaryCanvas(mapboxURL, {
-    maxZoom: 18,
+    maxZoom: 9,
     minZoom: 5,
     maxBoundsViscosity: 1.0,
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
@@ -31,16 +31,54 @@ map.on('drag', function () {
     map.panInsideBounds(bounds, { animate: false });
 });
 
+
+map.on('zoomend', function() {
+    // Difference between zoom level and group number = 5
+    addMarkerOnZoom(map.getZoom()-5);
+    removeMarkerOnZoom(map.getZoom()-5);
+
+});
+
+function addMarkerOnZoom(group){
+    for(var i = 0; i <= group; i++){
+        if(!map.hasLayer(layerGroups[i])){
+            map.addLayer(layerGroups[i]);
+        
+        }
+    }
+}
+
+function removeMarkerOnZoom(group){
+    for(var i = 9; i > group; i--){
+        if(map.hasLayer(layerGroups[i])){
+            map.removeLayer(layerGroups[i]);
+        
+        }
+    }
+    
+}
+
+
 /**
  * Adds a station marker to the map
  */
- 
-function addStationToMap(station){
+
+var layerGroups = [];
+
+function addStationToLayer(station, layerNumber){
     var marker = L.marker([station.lon, station.lat]);
     var icon = marker.options.icon;
     //icon.options.iconSize = [17,15];
     icon.options.shadowSize = [0,0];
     marker.setIcon(icon);
+
+    
+    if(!layerGroups[layerNumber]) {
+        layerGroups[layerNumber] = new L.layerGroup();
+    }
+
+    layerGroups[layerNumber].addLayer(marker);    
+    
     marker.bindPopup('<div id = "popupid:' + station.id + '" class="popup" >' + 
     'Station: ' + station.name + '<br>' +
     'Län: ' + countyNames[station.county_number] + '<br>');
@@ -51,13 +89,34 @@ function addStationToMap(station){
     // });
     marker.addTo(map);
     // '<div class="center"><button id="buttonid:' + station.id +'" onclick="addChosenStation('+station.id+')" class="button" >Lägg till</button></div>');
+    
 }
 
-// Loops through all stations that are brought from the database in JSON format
-function displayStations(stations){
-    for(var i = 0; i<stations.length; i++){
-        addStationToMap(stations[i]);
+
+function createLayers(stations){
+    // add every tenth station to the first layer
+    for(var i = 0; i< stations.length; i+=10){
+        addStationToLayer(stations[i], 0);
     }
+
+    // add every fifth station to the jth layer
+    for(var j = 0; j < 5; j++){
+        for(var i = j; i< stations.length; i+=5){
+            // skip every tenth station
+            if(i % 10 != 0){
+
+                // merge the fourth and fifth layers into one
+                if(j == 4){
+                    addStationToLayer(stations[i], j);
+                }else{
+                    addStationToLayer(stations[i], j+1);
+                }
+                
+            }
+        }
+    }
+
+    map.addLayer(layerGroups[0])
 }
 
 // function displayAverageCountytemp(counties){
