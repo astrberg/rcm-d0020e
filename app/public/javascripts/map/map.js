@@ -24,9 +24,6 @@ var icon = L.icon({
     iconSize: [23, 19],
     iconAnchor: [11, 19],
     // popupAnchor: [-3, -76],
-    // shadowUrl: 'my-icon-shadow.png',
-    // shadowSize: [68, 95],
-    // shadowAnchor: [22, 94]
 });
 
 
@@ -77,9 +74,6 @@ var layerGroups = [];
 
 function addStationToLayer(station, layerNumber){
     var marker = L.marker([station.lon, station.lat]);
-    // var icon = marker.options.icon;
-    //icon.options.iconSize = [17,15];
-    // icon.options.shadowSize = [0,0];
     marker.setIcon(icon);
     
     if(!layerGroups[layerNumber]) {
