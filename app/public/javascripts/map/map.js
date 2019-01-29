@@ -87,7 +87,6 @@ function addStationToLayer(station, layerNumber){
     // marker.on('popupopen', function(){
 
     // });
-    marker.addTo(map);
     // '<div class="center"><button id="buttonid:' + station.id +'" onclick="addChosenStation('+station.id+')" class="button" >Lägg till</button></div>');
     
 }
@@ -119,13 +118,13 @@ function createLayers(stations){
     map.addLayer(layerGroups[0])
 }
 
-// function displayAverageCountytemp(counties){
-//     for(var i = 0; i< counties.length; i++) {
-//         var data = getAvgCountyWeatherData(counties[i]);
-
-//     }
-
-// }
+function displayAverageCountytemp(counties){
+    L.geoJson(counties, {
+        onEachFeature: function(feature){
+            console.log(getAvgCountyWeatherData(feature.properties.countyCode));
+        }
+    })
+}
 
 function addChosenStation(station_id){
     if(!chosenStations.includes(station_id)){
@@ -214,3 +213,4 @@ var geojson = L.geoJson(countyData, {
     onEachFeature: onEachFeature
 }).addTo(map);
 
+displayAverageCountytemp(countyData);
