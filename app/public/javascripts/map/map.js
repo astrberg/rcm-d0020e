@@ -44,6 +44,8 @@ function addStationToMap(station){
     marker.bindPopup('<div id = "popupid:' + station.id + '" class="popup" >' + 
     'Station: ' + station.name + '<br>' +
     'Län: ' + countyNames[station.county_number] + '<br>');
+    //var weatherdata = getLatestWeatherData(station.id);
+
     // marker.on('popupopen', function(){
 
     // });

@@ -7,3 +7,9 @@ function getLatestWeatherData(station_id) {
     }); 
     return weatherData;   
 }
+
+// function getAvgCountyWeatherData(county){
+//     $.getJSON("/api/getLatestWeatherData",{station_id}, function(latestWeatherData) {
+//         weatherData = latestWeatherData;
+//     });
+// }
