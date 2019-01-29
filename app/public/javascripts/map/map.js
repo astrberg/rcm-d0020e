@@ -15,7 +15,7 @@ var standardTileLayer = L.TileLayer.boundaryCanvas(mapboxURL, {
         '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
         'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
     id: 'mapbox.streets',
-    boundary: sweden
+    boundary: countyData
 });
 standardTileLayer.addTo(map);
 
@@ -34,16 +34,30 @@ map.on('drag', function () {
 /**
  * Adds a station marker to the map
  */
+ 
 function addStationToMap(station){
-    var marker = L.marker([station.lat, station.long]).addTo(map);
+    var marker = L.marker([station.lon, station.lat]);
+    var icon = marker.options.icon;
+    //icon.options.iconSize = [17,15];
+    icon.options.shadowSize = [0,0];
+    marker.setIcon(icon);
     marker.bindPopup('<div id = "popupid:' + station.id + '" class="popup" >' + 
     'Station: ' + station.name + '<br>' +
-    'Lufttemperatur: ' + station.airTemp + '<br>' +
-    'Vägtemperatur: ' + station.roadTemp + '<br>' +
-    'Luftfuktighet: ' + station.humidity + '<br>' +
-    'Vind: ' + station.windSpeed + '<br>' +
-    'Vindriktning: ' + station.windDirection + '<br>' +
-    '<div class="center"><button id="buttonid:' + station.id +'" onclick="addChosenStation('+station.id+')" class="button" >Lägg till</button></div>');
+    'Län: ' + countyNames[station.county_number] + '<br>');
+    //var weatherdata = getLatestWeatherData(station.id);
+
+    // marker.on('popupopen', function(){
+
+    // });
+    marker.addTo(map);
+    // '<div class="center"><button id="buttonid:' + station.id +'" onclick="addChosenStation('+station.id+')" class="button" >Lägg till</button></div>');
+}
+
+// Loops through all stations that are brought from the database in JSON format
+function displayStations(stations){
+    for(var i = 0; i<stations.length; i++){
+        addStationToMap(stations[i]);
+    }
 }
 
 function addChosenStation(station_id){
@@ -126,7 +140,9 @@ function onEachFeature(feature, layer) {
         click: zoomToFeature
     });
 }
-var geojson = L.geoJson(sweden, {
+
+// Adds the Swedish countys to the map
+var geojson = L.geoJson(countyData, {
     style: style,
     onEachFeature: onEachFeature
 }).addTo(map);

@@ -15,7 +15,7 @@
     "morgan": "~1.9.0",
     "nodemon": "^1.18.9",
     "mysql-ssh": "1.0.6",
-    "fs" : "0.0.1-security"
+    "fs": "0.0.1-security"
   },
   "devDependencies": {
     "nodemon": "^1.18.9"
