@@ -1,3 +1,4 @@
+// Ref: http://kodapan.se/geodata/data/2015-06-26/laen-kustlinjer.geo.json
 var countyData = {"type": "FeatureCollection", "features": [
     {
       "type": "Feature",

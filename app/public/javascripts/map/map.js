@@ -41,17 +41,17 @@ function addStationToMap(station){
     //icon.options.iconSize = [17,15];
     icon.options.shadowSize = [0,0];
     marker.setIcon(icon);
-    marker.addTo(map);
     marker.bindPopup('<div id = "popupid:' + station.id + '" class="popup" >' + 
     'Station: ' + station.name + '<br>' +
     'Län: ' + countyNames[station.county_number] + '<br>');
-    // 'Vägtemperatur: ' + station.roadTemp + '<br>' +
-    // 'Luftfuktighet: ' + station.humidity + '<br>' +
-    // 'Vind: ' + station.windSpeed + '<br>' +
-    // 'Vindriktning: ' + station.windDirection + '<br>' +
+    // marker.on('popupopen', function(){
+
+    // });
+    marker.addTo(map);
     // '<div class="center"><button id="buttonid:' + station.id +'" onclick="addChosenStation('+station.id+')" class="button" >Lägg till</button></div>');
 }
 
+// Loops through all stations that are brought from the database in JSON format
 function displayStations(stations){
     for(var i = 0; i<stations.length; i++){
         addStationToMap(stations[i]);
@@ -138,6 +138,8 @@ function onEachFeature(feature, layer) {
         click: zoomToFeature
     });
 }
+
+// Adds the Swedish countys to the map
 var geojson = L.geoJson(countyData, {
     style: style,
     onEachFeature: onEachFeature
