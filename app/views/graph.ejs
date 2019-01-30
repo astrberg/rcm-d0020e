@@ -4,10 +4,12 @@
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <link rel='stylesheet' href='/stylesheets/graph.css' />
-   
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
   </head>
   <body>
+
   <style>
 	canvas{
   	/*width:500px !important;
@@ -15,17 +17,23 @@
 	margin: auto;
         padding: 20px;
 	}
+  </style>
 
+<p id="output1"></p>
+<div class="slidecontainer1">
+  <input type="range" min="1547986366" max="1548850366" value="1" class="slider" id="myRange1">
+</div>
 
-</style>
+<p id="output2"></p>
+<div class="slidecontainer2">
+  <input type="range" min="1547986366" max="1548850366" value="1" class="slider" id="myRange2">
+</div>
 
 <input type="checkbox" checked=checked id="airtemp"/>Air_temp
 <input type="checkbox" checked=checked id="Road_temp"/>Road_temp
 <input type="checkbox" checked=checked id="Air_humidity"/>Air_humidity
 <input type="checkbox" checked=checked id="Wind_speed"/>Wind_speed
 <input type="checkbox" checked=checked id="current_temp"/>current_temp
-
-
 
 
 <div id="type1">
@@ -45,12 +53,13 @@
 </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
-    <script src="javascripts/map/stations.js"></script>
+  <script src="javascripts/map/stations.js"></script>
  <script src="javascripts/graph/getWeatherData.js"></script>
  <script type="text/javascript" src="/javascripts/graph/grafer.js"></script>
 
 
 <script>
+
 var stations = ['SE_STA_VVIS1524','SE_STA_VVIS1525','SE_STA_VVIS1536','SE_STA_VVIS1544','SE_STA_VVIS1557','SE_STA_VVIS2240'];
 
 async function rungraphs(){
@@ -70,7 +79,7 @@ async function rungraphs(){
 
 }
 
-rungraphs();
+//rungraphs();
 
 
 //testfunction
@@ -93,7 +102,7 @@ await getlatest('SE_STA_VVIS2240');
 await currenttempgraph();
 }
 
-//test();
+test();
 
 
 
@@ -145,6 +154,29 @@ $(function () {
         });
  });
 
+
+
+var slider1 = document.getElementById("myRange1");
+var output1 = document.getElementById("output1");
+output1.innerHTML = slider1.value; // Display the default slider value
+
+// Update the current slider value (each time you drag the slider handle)
+slider1.oninput = function() {
+ var d = new Date(0);
+ d.setUTCSeconds(this.value);
+  output1.innerHTML = d;
+} 
+
+var slider = document.getElementById("myRange2");
+var output = document.getElementById("output2");
+output.innerHTML = slider.value; // Display the default slider value
+
+// Update the current slider value (each time you drag the slider handle)
+slider.oninput = function() {
+  var d = new Date(0);
+  d.setUTCSeconds(this.value);
+  output.innerHTML = d;
+} 
 
 </script>
 
