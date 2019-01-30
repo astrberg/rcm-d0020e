@@ -143,13 +143,18 @@ function createLayers(stations){
     map.addLayer(layerGroups[0])
 }
 
-// function displayAverageCountytemp(counties){
-//     L.geoJson(counties, {
-//         onEachFeature: function(feature){
-//             //console.log(getAvgCountyWeatherData(feature.properties.countyCode));
-//         }
-//     });
-// }
+
+function displayAverageCountytemp(counties){
+     getAvgCountyWeatherData(counties);
+}
+
+function addChosenStation(station_id){
+    if(!chosenStations.includes(station_id)){
+        chosenStations.push(station_id);
+        console.log("Added station: " + station_id + " to chosenStations.");
+    }else{
+        console.log("Station is already chosen");
+    }
 
 var info = L.control();
 
