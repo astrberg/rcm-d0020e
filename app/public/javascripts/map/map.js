@@ -66,7 +66,7 @@ function removeMarkerOnZoom(group){
 
 var layerGroups = [];
 var timer = Date.now();
-async function addStationToLayer(station, layerNumber){
+function addStationToLayer(station, layerNumber){
     var marker = L.marker([station.lon, station.lat]);
     var icon = marker.options.icon;
     //icon.options.iconSize = [17,15];
@@ -79,16 +79,16 @@ async function addStationToLayer(station, layerNumber){
     }
 
     layerGroups[layerNumber].addLayer(marker);    
-    var popupContent = await popupContentSetup(station);
+    var popupContent = popupContentSetup(station);
     marker.bindPopup(popupContent);
     marker.on('click', function(){
-        await getLatestWeatherData(station, this);
+        getLatestWeatherData(station, this);
     });
     
 }
 
 // returns the popup for a new station marker
-async function popupContentSetup(station){
+function popupContentSetup(station){
     var div = document.createElement("div");
     div.id = "popupid:" + station.id;
     var center = document.createElement("div");
@@ -117,7 +117,7 @@ async function popupContentSetup(station){
 }
 
 // Adds a station to chosenStations array
-async function addStation(station){
+function addStation(station){
     var button = document.getElementById("buttonid:" + station.id);
     button.className = "remove-button";
     button.innerText = "Ta bort";
@@ -126,7 +126,7 @@ async function addStation(station){
 }
 
 // Removes a station from chosenStations array
-async function removeStation(station){
+function removeStation(station){
     var button = document.getElementById("buttonid:" + station.id);
     button.className = "add-button";
     button.innerText = "Lägg till";
@@ -142,19 +142,19 @@ async function removeStation(station){
 }
 
 // Checks if a station is added or removed from chosenStations array
-async function handleChosenStations(station){
+function handleChosenStations(station){
 
     if(!chosenStations.includes(station)){
-        await addStation(station);
+        addStation(station);
     }else{
-        await removeStation(station);
+        removeStation(station);
     }
 }
 
-async function createLayers(stations){
+function createLayers(stations){
     // add every tenth station to the first layer
     for(var i = 0; i< stations.length; i+=10){
-        await addStationToLayer(stations[i], 0);
+        addStationToLayer(stations[i], 0);
     }
 
     // add every fifth station to the jth layer
@@ -165,9 +165,9 @@ async function createLayers(stations){
 
                 // merge the fourth and fifth layers into one
                 if(j == 4){
-                    await addStationToLayer(stations[i], j);
+                    addStationToLayer(stations[i], j);
                 }else{
-                    await addStationToLayer(stations[i], j+1);
+                    addStationToLayer(stations[i], j+1);
                 }
                 
             }
