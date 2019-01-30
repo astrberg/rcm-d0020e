@@ -78,19 +78,31 @@ function addStationToLayer(station, layerNumber){
     }
 
     layerGroups[layerNumber].addLayer(marker);    
-    
-    marker.bindPopup(
-        '<div id = "popupid:' + station.id + '" class="popup" >' +
+    var div = document.createElement("div");
+    div.id = "popupid:" + station.id;
+    var center = document.createElement("div");
+    center.className = "center";
+    var button = document.createElement("button");
+    button.id = "buttonid:" + station.id;
+    button.className = "add-button";
+    button.innerText = "Lägg till";
+    button.addEventListener('click', function(){
+        addChosenStation(station_id);
+    });
+    center.appendChild(button);
+    var content = document.createElement("P");
+    content.className = "popup-content";
+    content.innerHTML = 
         'Station: ' + station.name + '<br>' +
-        'Län: <br>' + 
+        'Län: ' + countyNames[station.county_number] + '<br>' + 
         'Lufttemperatur: <br>' +
         'Vägtemperatur: <br>' +
         'Luftfuktighet: <br>' +
         'Vindhastighet: <br>' +
-        'Vindriktning: <br>' +
-        '<div class="center"><button id="buttonid:' + station.id +'" onclick="addChosenStation('+station.id+')" class="button" >Lägg till</button></div>' +
-        '</div>'
-    );
+        'Vindriktning: <br>';
+    div.appendChild(content);
+    div.appendChild(center);
+    marker.bindPopup(div);
     marker.on('click', function(){
         getLatestWeatherData(station, this);
     });
@@ -149,24 +161,36 @@ function displayAverageCountytemp(counties){
 }
 
 function addChosenStation(station_id){
+    var button = document.getElementById("buttonid:" + station_id);
     if(!chosenStations.includes(station_id)){
         chosenStations.push(station_id);
+        button.innerText = "Ta bort";
+        button.className = "remove-button";
         console.log("Added station: " + station_id + " to chosenStations.");
     }else{
+        for(var i = 0; i <chosenStations.length-1; i++){
+            if(chosenStations[i] == station_id){
+                chosenStations.splice(i,1);
+                break;
+            }
+        }
+        button.innerText = "Lägg till";
+        button.className = "add-button";
         console.log("Station is already chosen");
     }
-
+}
 var info = L.control();
 
-	info.onAdd = function (map) {
-		this._div = L.DomUtil.create('div', 'info');
-		this.update();
-		return this._div;
-	};
+info.onAdd = function (map) {
+    this._div = L.DomUtil.create('div', 'info');
+    this.update();
+    return this._div;
+};
+
 info.update = function (props) {
-    this._div.innerHTML = '<h4>Sverige medeltemperatur realtid</h4>' +  (props ?
-        '<b>' + props.name + '</b><br />' + ' grader celsius'
-        : 'Hovra över län');
+this._div.innerHTML = '<h4>Sverige medeltemperatur realtid</h4>' +  (props ?
+    '<b>' + props.name + '</b><br />' + ' grader celsius'
+    : 'Hovra över län');
 };
 
 info.addTo(map);
@@ -209,6 +233,7 @@ function highlightFeature(e) {
 
     info.update(layer.feature.properties);
 }
+
 function resetHighlight(e) {
     geojson.resetStyle(e.target);
     info.update();
@@ -226,7 +251,7 @@ function onEachFeature(feature, layer) {
     });
 }
 
-// Adds the Swedish countys to the map
+//Adds the Swedish countys to the map
 var geojson = L.geoJson(countyData, {
     style: style,
     onEachFeature: onEachFeature

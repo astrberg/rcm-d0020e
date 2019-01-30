@@ -34,21 +34,8 @@ function getLatestWeatherDataCallback(station,marker,data){
     div.appendChild(content);
     div.appendChild(center);
     marker._popup.setContent(div);
-    // marker._popup.setContent(
-    //     '<div id = "popupid:' + station.id + '" class="popup" >' + 
-    //     'Station: ' + station.name + '<br>' +
-    //     'Län: ' + countyNames[station.county_number] + '<br>' + 
-    //     'Lufttemperatur: ' + data[0].air_temperature + '\xB0C<br>' +
-    //     'Vägtemperatur: ' + data[0].road_temperature + '\xB0C<br>' +
-    //     'Luftfuktighet: ' + data[0].air_humidity + '% <br>' +
-    //     'Vindhastighet: ' + data[0].wind_speed + ' m/s <br>' +
-    //     'Vindriktning: ' + data[0].wind_direction + '<br>' +
-    //     '<div class="center"><button id="buttonid:' + station.id + ' class="button" >Lägg till</button></div>' +
-    //     '</div>'
-    // );
     
 }
-
 
 //  function getAvgCountyWeatherData(county_id){
 //      var countyData = null;
