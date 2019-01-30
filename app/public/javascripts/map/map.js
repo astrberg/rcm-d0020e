@@ -19,11 +19,12 @@ var standardTileLayer = L.TileLayer.boundaryCanvas(mapboxURL, {
 });
 standardTileLayer.addTo(map);
 
-var icon = L.icon({
-    iconUrl: '../../images/icons8-marker-96.png',
-    iconSize: [23, 19],
-    iconAnchor: [11, 19],
-    // popupAnchor: [-3, -76],
+var icon = L.divIcon({
+    className: 'fa fa-map-marker icon-marker',
+    //iconUrl: '../../images/icons8-marker-96.png',
+    //iconSize: [50, 25],
+    iconAnchor: [12, 24],
+    popupAnchor: [-3, 0],
 });
 
 
