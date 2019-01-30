@@ -28,16 +28,12 @@
 
 }
 
-.icon-marker {
-    font-size: 24px;
+.fa-map-marker {
     color: #0074D9;
-    /* background-size: cover; */
-    cursor: pointer;
-
     
 }
 
-.icon-marker:hover {
+.fa-map-marker:hover {
     font-size: 30px;
 }
 
