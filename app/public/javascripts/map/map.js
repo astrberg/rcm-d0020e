@@ -61,12 +61,12 @@ function removeMarkerOnZoom(group){
 
 
 /**
- * Adds a station marker to a map layer
+ * Adds a station marker with popup to a map layer
  */
 
 var layerGroups = [];
 var timer = Date.now();
-function addStationToLayer(station, layerNumber){
+async function addStationToLayer(station, layerNumber){
     var marker = L.marker([station.lon, station.lat]);
     var icon = marker.options.icon;
     //icon.options.iconSize = [17,15];
@@ -79,6 +79,16 @@ function addStationToLayer(station, layerNumber){
     }
 
     layerGroups[layerNumber].addLayer(marker);    
+    var popupContent = await popupContentSetup(station);
+    marker.bindPopup(popupContent);
+    marker.on('click', function(){
+        await getLatestWeatherData(station, this);
+    });
+    
+}
+
+// returns the popup for a new station marker
+async function popupContentSetup(station){
     var div = document.createElement("div");
     div.id = "popupid:" + station.id;
     var center = document.createElement("div");
@@ -103,14 +113,11 @@ function addStationToLayer(station, layerNumber){
         'Vindriktning: <br>';
     div.appendChild(content);
     div.appendChild(center);
-    marker.bindPopup(div);
-    marker.on('click', function(){
-        getLatestWeatherData(station, this);
-    });
-    
+    return div;
 }
 
-function addStation(station){
+// Adds a station to chosenStations array
+async function addStation(station){
     var button = document.getElementById("buttonid:" + station.id);
     button.className = "remove-button";
     button.innerText = "Ta bort";
@@ -118,7 +125,8 @@ function addStation(station){
     console.log("Added station: " + station.id + " to chosenStations.");
 }
 
-function removeStation(station){
+// Removes a station from chosenStations array
+async function removeStation(station){
     var button = document.getElementById("buttonid:" + station.id);
     button.className = "add-button";
     button.innerText = "Lägg till";
@@ -127,24 +135,26 @@ function removeStation(station){
             console.log("Size before: " + chosenStations.length);
             chosenStations.splice(i,1);
             console.log("Size after: " + chosenStations.length);
+            console.log("Removed station: " + station.id + " from chosenStations.");
             return;
         }
     }
 }
 
-function handleChosenStations(station){
+// Checks if a station is added or removed from chosenStations array
+async function handleChosenStations(station){
 
     if(!chosenStations.includes(station)){
-        addStation(station);
+        await addStation(station);
     }else{
-        removeStation(station);
+        await removeStation(station);
     }
 }
 
-function createLayers(stations){
+async function createLayers(stations){
     // add every tenth station to the first layer
     for(var i = 0; i< stations.length; i+=10){
-        addStationToLayer(stations[i], 0);
+        await addStationToLayer(stations[i], 0);
     }
 
     // add every fifth station to the jth layer
@@ -155,9 +165,9 @@ function createLayers(stations){
 
                 // merge the fourth and fifth layers into one
                 if(j == 4){
-                    addStationToLayer(stations[i], j);
+                    await addStationToLayer(stations[i], j);
                 }else{
-                    addStationToLayer(stations[i], j+1);
+                    await addStationToLayer(stations[i], j+1);
                 }
                 
             }
@@ -245,7 +255,7 @@ function onEachFeature(feature, layer) {
     });
 }
 
-//Adds the Swedish countys to the map
+//Adds the Swedish countys to the map with some css styling
 var geojson = L.geoJson(countyData, {
     style: style,
     onEachFeature: onEachFeature

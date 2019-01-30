@@ -2,11 +2,11 @@
 async function getLatestWeatherData(station, marker) {
     station_id = station.id;
     await $.getJSON("/api/getLatestWeatherData",{station_id}, function(latestWeatherData) {
-        getLatestWeatherDataCallback(station,marker,latestWeatherData);
+        await getLatestWeatherDataCallback(station,marker,latestWeatherData);
     }); 
 }
 
-function getLatestWeatherDataCallback(station,marker,data){
+async function getLatestWeatherDataCallback(station,marker,data){
     var station_id = station.id;
     console.log(station_id);
     var div = document.createElement("div");
