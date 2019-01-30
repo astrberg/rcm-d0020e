@@ -31,12 +31,12 @@ function getStationBox(index, name){
 function addStationsToField(){
     $("#stationList-container").empty();
     
-    for(var i = 0; i < chosenStations.length(); i++){
-        $("#stationList-container").append(getStationBox(chosenStations[i].id, chosenStations[i].name));
-    }
-
-    // for(var i = 0; i < 15; i++){
-    //     $("#stationList-container").append(getStationBox(i, "WASD"));
+    // for(var i = 0; i < chosenStations.length(); i++){
+    //     $("#stationList-container").append(getStationBox(chosenStations[i].id, chosenStations[i].name));
     // }
+
+    for(var i = 0; i < 15; i++){
+        $("#stationList-container").append(getStationBox(i, "WASD"));
+    }
    
 }
