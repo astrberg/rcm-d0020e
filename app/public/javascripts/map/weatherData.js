@@ -1,7 +1,7 @@
 
-function getLatestWeatherData(station, marker) {
+async function getLatestWeatherData(station, marker) {
     station_id = station.id;
-    $.getJSON("/api/getLatestWeatherData",{station_id}, function(latestWeatherData) {
+    await $.getJSON("/api/getLatestWeatherData",{station_id}, function(latestWeatherData) {
         getLatestWeatherDataCallback(station,marker,latestWeatherData);
     }); 
 }
@@ -15,10 +15,15 @@ function getLatestWeatherDataCallback(station,marker,data){
     center.className = "center";
     var button = document.createElement("button");
     button.id = "buttonid:" + station.id;
-    button.className = "add-button";
-    button.innerText = "Lägg till";
+    if(!chosenStations.includes(station)){
+        button.className = "add-button";
+        button.innerText = "Lägg till";
+    }else{
+        button.className = "remove-button";
+        button.innerText = "Ta bort";
+    }
     button.addEventListener('click', function(){
-        addChosenStation(station_id);
+        handleChosenStations(station);
     });
     center.appendChild(button);
     var content = document.createElement("P");

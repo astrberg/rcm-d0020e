@@ -3,6 +3,7 @@
  */
 const map = L.map('mapid').setView([62.97519757003264, 15.864257812499998], 5);
 var chosenStations = [];
+var stationsData = [];
 /**
  * The layer for the Leaflet map
  */
@@ -109,23 +110,34 @@ function addStationToLayer(station, layerNumber){
     
 }
 
-function addChosenStation(station_id){
-    var button = document.getElementById("buttonid:" + station_id);
-    if(!chosenStations.includes(station_id)){
-        chosenStations.push(station_id);
-        
-        button.innerText = "Ta bort";
-        button.className = "remove-button";
-        console.log("Added station: " + station_id + " to chosenStations.");
-    }else{
-        for(var i = 0; i < chosenStations.length-1; i++){
-            if(chosenStations[i] == station_id){
-                chosenStations(i,1);
-            }
+function addToChosenStations(station){
+    var button = document.getElementById("buttonid:" + station.id);
+    button.className = "remove-button";
+    button.innerText = "Ta bort";
+    chosenStations.push(station);
+    console.log("Added station: " + station.id + " to chosenStations.");
+}
+
+function removeStation(station){
+    var button = document.getElementById("buttonid:" + station.id);
+    button.className = "add-button";
+    button.innerText = "Lägg till";
+    for(var i = 0; i <chosenStations.length; i++){
+        if(chosenStations[i] == station){
+            console.log("Size before: " + chosenStations.length);
+            chosenStations.splice(i,1);
+            console.log("Size after: " + chosenStations.length);
+            return;
         }
-        button.innerText = "Lägg till";
-        button.className = "add-button";
-        console.log("Station " + station_id + "is removed");
+    }
+}
+
+function handleChosenStations(station){
+
+    if(!chosenStations.includes(station)){
+        addChosenStation(station);
+    }else{
+        removeFromChosenStations(station);
     }
 }
 
@@ -170,13 +182,18 @@ function addChosenStation(station_id){
     }else{
         for(var i = 0; i <chosenStations.length-1; i++){
             if(chosenStations[i] == station_id){
+                console.log("Size before: " + chosenStations.length);
                 chosenStations.splice(i,1);
+                console.log("Size before: " + chosenStations.length);
                 break;
             }
         }
         button.innerText = "Lägg till";
         button.className = "add-button";
-        console.log("Station is already chosen");
+        console.log("Station " + station_id + " is removed");
+        chosenStations.forEach(function(elem){
+            console.log("Elem: " + elem);
+        })
     }
 }
 var info = L.control();
