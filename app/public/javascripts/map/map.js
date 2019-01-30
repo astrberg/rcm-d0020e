@@ -110,7 +110,7 @@ function addStationToLayer(station, layerNumber){
     
 }
 
-function addToChosenStations(station){
+function addStation(station){
     var button = document.getElementById("buttonid:" + station.id);
     button.className = "remove-button";
     button.innerText = "Ta bort";
@@ -135,9 +135,9 @@ function removeStation(station){
 function handleChosenStations(station){
 
     if(!chosenStations.includes(station)){
-        addChosenStation(station);
+        addStation(station);
     }else{
-        removeFromChosenStations(station);
+        removeStation(station);
     }
 }
 
@@ -172,30 +172,7 @@ function displayAverageCountytemp(counties){
      getAvgCountyWeatherData(counties);
 }
 
-function addChosenStation(station_id){
-    var button = document.getElementById("buttonid:" + station_id);
-    if(!chosenStations.includes(station_id)){
-        chosenStations.push(station_id);
-        button.innerText = "Ta bort";
-        button.className = "remove-button";
-        console.log("Added station: " + station_id + " to chosenStations.");
-    }else{
-        for(var i = 0; i <chosenStations.length-1; i++){
-            if(chosenStations[i] == station_id){
-                console.log("Size before: " + chosenStations.length);
-                chosenStations.splice(i,1);
-                console.log("Size before: " + chosenStations.length);
-                break;
-            }
-        }
-        button.innerText = "Lägg till";
-        button.className = "add-button";
-        console.log("Station " + station_id + " is removed");
-        chosenStations.forEach(function(elem){
-            console.log("Elem: " + elem);
-        })
-    }
-}
+
 var info = L.control();
 
 info.onAdd = function (map) {
