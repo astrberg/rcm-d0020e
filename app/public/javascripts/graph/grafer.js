@@ -27,15 +27,13 @@ function graf(weatherdata){
 		
 		}
 	});
-	}
-	
+}
+
+
 function graf1(stations,temparray){
 	var ctx = document.getElementById('myChart2').getContext('2d');
 	var chart = new Chart(ctx, {
-	
 	    type: 'bar',
-
-	
 	    data: {
 		labels: stations,
 		datasets: [{
@@ -87,43 +85,171 @@ function graf2(){
 
 	myChart.update();
 }
+	
+//current data air temp
+function databarchartcurrent(weatherdata){
+	var stationame = weatherdata[0].station_id;
+	var datatempvar= weatherdata[0].air_temperature;
+	generatedataforbar(datatempvar,stationame)
+}
 
+
+var currentdatatemp = [];
+function generatedataforbar(datatempvar,stationame){
+    var dataFirst = {
+    label: stationame,
+    backgroundColor: colornamelist[stationnamelist.indexOf(stationame)],
+    borderColor: colornamelist[stationnamelist.indexOf(stationame)],
+    data: [datatempvar]
+  };
+  currentdatatemp.push(dataFirst);
+}
+
+function currenttempgraph(weatherdata){
+	var ctx = document.getElementById('myChart5').getContext('2d');
+	var chart = new Chart(ctx, {
+	    type: 'bar',
+	    data: {
+		//labels: stations,
+		datasets: currentdatatemp
+	    },
+
+	
+	    options: {}
+	});
+}
+
+
+//wind_speed
+//multiple lines in the graph
+var datagrafwindspeed = [];
+var datagraftimestampwindspeed = [];	
+function datamultieplegrafwinspeed(weatherdata){
+	var datagrafwindspeed = [];
+	var valuegraph = "windspeed"
+	var stationame = weatherdata[0].station_id;
+	for(var i = 0; i < weatherdata.length; i++){
+		datagrafwindspeed.push(weatherdata[i].wind_speed);
+	if(datagraftimestampwindspeed.length < weatherdata.length){
+		datagraftimestampwindspeed.push(weatherdata[i].timestamp.slice(2,10));
+	}
+	}
+	generatedata(valuegraph,datagrafwindspeed,stationame)
+}
+
+//humidity
+//multiple lines in the graph
+var datagrafhum = [];
+var datagraftimestamphum = [];	
+function datamultieplegrafhumidity(weatherdata){
+	var datagrafhum = [];
+	var valuegraph = "humidity"
+	var stationame = weatherdata[0].station_id;
+	for(var i = 0; i < weatherdata.length; i++){
+		datagrafhum.push(weatherdata[i].air_humidity);
+		if(datagraftimestamphum.length < weatherdata.length){
+		datagraftimestamphum.push(weatherdata[i].timestamp.slice(2,10));
+	}
+	}
+	generatedata(valuegraph,datagrafhum,stationame)
+}
+
+
+//air_temp
+//multiple lines in the graph
+var datagrafair = [];
+var datagraftimestampair = [];	
+function datamultieplegrafair(weatherdata){
+	var datagrafairtemp = [];
+	var valuegraph = "airtemp"
+	var stationame = weatherdata[0].station_id;
+	for(var i = 0; i < weatherdata.length; i++){
+		datagrafairtemp.push(weatherdata[i].air_temperature);
+		if(datagraftimestampair.length < weatherdata.length){
+		datagraftimestampair.push(weatherdata[i].timestamp.slice(2,10));
+	}
+	}
+	generatedata(valuegraph,datagrafairtemp,stationame)
+}
+
+
+//road_temp
+//multiple lines in the graph
 var data3graf3 = [];
 var datagraftimestamp = [];	
 function datamultieplegraf(weatherdata){
 	var datagrafroadtemp = [];
+	var valuegraph = "roadtemp"
 	var stationame = weatherdata[0].station_id;
 	for(var i = 0; i < weatherdata.length; i++){
 		datagrafroadtemp.push(weatherdata[i].road_temperature);
-		datagraftimestamp.push(weatherdata[i].timestamp);
+		if(datagraftimestamp.length < weatherdata.length){
+			datagraftimestamp.push(weatherdata[i].timestamp.slice(2,10));
+		}
 	}
-	generatedata(datagrafroadtemp,stationame)
+	generatedata(valuegraph, datagrafroadtemp,stationame)
 }
 
-function generatedata(datagrafroadtemp,stationame){
-    var colorforline = '#'+Math.floor(Math.random()*16777215).toString(16);
-    var dataFirst = {
-    label: stationame,
-    data: datagrafroadtemp,
-    lineTension: 0.3,
-    fill: false,
-    borderColor: colorforline,
-    backgroundColor: 'transparent',
-    pointBorderColor: colorforline,
-    pointBackgroundColor: 'lightgreen',
-    pointRadius: 5,
-    pointHoverRadius: 15,
-    pointHitRadius: 30,
-    pointBorderWidth: 2,
-    pointStyle: 'rect'
+var stationnamelist = [];
+var colornamelist = [];
+function generatedata(value, datagraf, stationame){
+    if(stationnamelist.includes(stationame)){
+	    var dataFirst = {
+	    label: stationame,
+	    data: datagraf,
+	    lineTension: 0.3,
+	    fill: false,
+	    borderColor: colornamelist[stationnamelist.indexOf(stationame)],
+	    backgroundColor: 'transparent',
+	    pointBorderColor: colorforline,
+	    pointBackgroundColor: 'lightgreen',
+	    pointRadius: 1,
+	    pointHoverRadius: 5,
+	    pointHitRadius: 2,
+	    pointBorderWidth: 1,
+	    pointStyle: 'rect'
   };
-	
-	data3graf3.push(dataFirst);
+}
+else{
+    var colorforline = '#' + Math.random().toString(16).slice(2, 8).toUpperCase();
+    stationnamelist.push(stationame);
+    colornamelist.push(colorforline);
+	    var dataFirst = {
+	    label: stationame,
+	    data: datagraf,
+	    lineTension: 0.3,
+	    fill: false,
+	    borderColor: colorforline,
+	    backgroundColor: 'transparent',
+	    pointBorderColor: colorforline,
+	    pointBackgroundColor: 'lightgreen',
+	    pointRadius: 1,
+	    pointHoverRadius: 5,
+	    pointHitRadius: 2,
+	    pointBorderWidth: 1,
+	    pointStyle: 'rect'
+
+};
 }
 
-function graf3(){
-//car example multiple lines
-var speedCanvas = document.getElementById("myChart4");
+	if(value=="roadtemp"){
+		data3graf3.push(dataFirst);
+	}
+	if(value=="airtemp"){
+		datagrafair.push(dataFirst);
+	}
+	if(value=="humidity"){
+		datagrafhum.push(dataFirst);
+	}
+	if(value=="windspeed"){
+		datagrafwindspeed.push(dataFirst);
+	}
+}
+
+
+//function to create road_temp graph
+function roadtemp(){
+var speedCanvas = document.getElementById("myChart2");
 Chart.defaults.global.defaultFontFamily = "Lato";
 Chart.defaults.global.defaultFontSize = 18;
 
@@ -135,6 +261,9 @@ var speedData = {
 };
 
 var chartOptions = {
+    title:{
+	display:true,
+	text: "Road_temp",
   legend: {
     display: true,
     position: 'top',
@@ -142,6 +271,7 @@ var chartOptions = {
       boxWidth: 80,
       fontColor: 'black'
     }
+}
   }
 };
 
@@ -151,6 +281,119 @@ var lineChart = new Chart(speedCanvas, {
   options: chartOptions
 });
 
-lineChart.update();
 }
+
+
+
+//function to create air_temp graph
+function airtemp(){
+var speedCanvas = document.getElementById("myChart1");
+Chart.defaults.global.defaultFontFamily = "Lato";
+Chart.defaults.global.defaultFontSize = 18;
+
+
+
+var speedData = {
+  labels: datagraftimestampair,
+  datasets: datagrafair
+};
+
+var chartOptions = {
+    title:{
+	display:true,
+	text: "Air_temp",
+  legend: {
+    display: true,
+    position: 'top',
+    labels: {
+      boxWidth: 80,
+      fontColor: 'black'
+    }
+}
+  }
+};
+
+var lineChart = new Chart(speedCanvas, {
+  type: 'line',
+  data: speedData,
+  options: chartOptions
+});
+
+}
+
+
+//function to create humidity graph
+function humiditygraph(){
+var speedCanvas = document.getElementById("myChart3");
+Chart.defaults.global.defaultFontFamily = "Lato";
+Chart.defaults.global.defaultFontSize = 18;
+
+
+
+var speedData = {
+  labels: datagraftimestamphum,
+  datasets: datagrafhum
+};
+
+var chartOptions = {
+    title:{
+	display:true,
+	text: "Air_humidity",
+  legend: {
+    display: true,
+    position: 'top',
+    labels: {
+      boxWidth: 80,
+      fontColor: 'black'
+    }
+}
+  }
+};
+
+var lineChart = new Chart(speedCanvas, {
+  type: 'line',
+  data: speedData,
+  options: chartOptions
+});
+
+}
+
+
+//function to create windspeed graph
+function windspeed(){
+var speedCanvas = document.getElementById("myChart4");
+Chart.defaults.global.defaultFontFamily = "Lato";
+Chart.defaults.global.defaultFontSize = 18;
+
+
+
+var speedData = {
+  labels: datagraftimestampwindspeed,
+  datasets: datagrafwindspeed
+};
+
+var chartOptions = {
+    title:{
+	display:true,
+	text: "Wind_speed",
+  legend: {
+    display: true,
+    position: 'top',
+    labels: {
+      boxWidth: 80,
+      fontColor: 'black'
+    }
+}
+  }
+};
+
+var lineChart = new Chart(speedCanvas, {
+  type: 'line',
+  data: speedData,
+  options: chartOptions
+});
+
+}
+
+//wind_direction
 

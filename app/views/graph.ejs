@@ -41,6 +41,8 @@
 <div id="type2">
   <canvas id="myChart3"></canvas>
   <canvas id="myChart4"></canvas>
+  <canvas id="myChart5"></canvas>
+
 
 </div>
 
@@ -53,20 +55,47 @@
 <script>
 var stations = ['SE_STA_VVIS1524','SE_STA_VVIS1525','SE_STA_VVIS1536','SE_STA_VVIS1544','SE_STA_VVIS1557','SE_STA_VVIS2240'];
 
-for(var i = 0; i < stations.length; i++){
-	//getWeatherData(stations[i],'2019-01-20 13:12:12','2019-01-23 13:23:20');
+async function rungraphs(){
+	for(var i = 0; i < stations.length; i++){
+		await getWeatherData(stations[i],'2019-01-20 13:12:12','2019-01-23 13:23:20');
+		await getlatest(stations[i]);
+	}
+	await roadtemp();
+
+	await airtemp();
+
+	await humiditygraph();
+
+	await windspeed();
+
+	await currenttempgraph();
+
 }
 
+rungraphs();
 
+
+//testfunction
 async function test(){
 await getWeatherData('SE_STA_VVIS2240','2019-01-20 13:12:12','2019-01-23 13:23:20');
-
 await getWeatherData('SE_STA_VVIS1524','2019-01-20 13:12:12','2019-01-23 13:23:20');
 
-await graf3();
+await roadtemp();
+
+await airtemp();
+
+await humiditygraph();
+
+await windspeed();
+
+await getlatest('SE_STA_VVIS1524');
+
+await getlatest('SE_STA_VVIS2240');
+
+await currenttempgraph();
 }
 
-test();
+//test();
 
 </script>
 
