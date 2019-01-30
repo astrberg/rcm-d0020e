@@ -9,9 +9,7 @@ function getLatestWeatherData(station_id) {
 }
 
  function getAvgCountyWeatherData(county_id){
-     var countyData = null;
-     $.getJSON('/api/getAverageTempProvince',{county_id}, function(averageCountyWeather) {
-         countyData = latestCountyData;
+     $.getJSON("/api/getAverageTempProvince",{county_id}, function() {
      });
-     return countyData;
+     
  }

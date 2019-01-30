@@ -119,11 +119,7 @@ function createLayers(stations){
 }
 
 function displayAverageCountytemp(counties){
-    L.geoJson(counties, {
-        onEachFeature: function(feature){
-            console.log(getAvgCountyWeatherData(feature.properties.countyCode));
-        }
-    });
+     getAvgCountyWeatherData(counties);
 }
 
 function addChosenStation(station_id){
@@ -144,9 +140,9 @@ var info = L.control();
 		this.update();
 		return this._div;
 	};
-info.update = function (props) {
-    this._div.innerHTML = '<h4>Sverige medeltemperatur realtid</h4>' +  (props ?
-        '<b>' + props.name + '</b><br />' + props.temperature + ' grader celsius'
+info.update = function (properties) {
+    this._div.innerHTML = '<h4>Sverige medeltemperatur realtid</h4>' +  (properties ?
+        '<b>' + properties.name + '</b><br />' + displayAverageCountytemp(properties.countyCode) + ' grader celsius'
         : 'Hovra över län');
 };
 
@@ -212,5 +208,3 @@ var geojson = L.geoJson(countyData, {
     style: style,
     onEachFeature: onEachFeature
 }).addTo(map);
-
-displayAverageCountytemp(countyData);
