@@ -7,43 +7,41 @@
    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   </head>
-  <body onload="">
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-
+  <body>
   <style>
 	canvas{
-  	width:500px !important;
-  	height:300px !important;
-	margin: 35px;
-        padding: 35px;
+  	/*width:500px !important;
+  	height:300px !important;*/
+	margin: auto;
+        padding: 20px;
 	}
-	
-	#type1 {
-	float: right;
-	}
-	#type2 {
-	float: left;
-	}
+
+
 </style>
 
- <form>
-  <input type="checkbox" name="alt" value="alt1"> Alternativ1<br>
-  <input type="checkbox" name="alt" value="alt2" checked>Alternativ2<br>
-  <input type="submit" value="Submit">
-</form> 
+<input type="checkbox" checked=checked id="airtemp"/>Air_temp
+<input type="checkbox" checked=checked id="Road_temp"/>Road_temp
+<input type="checkbox" checked=checked id="Air_humidity"/>Air_humidity
+<input type="checkbox" checked=checked id="Wind_speed"/>Wind_speed
+<input type="checkbox" checked=checked id="current_temp"/>current_temp
+
+
+
 
 <div id="type1">
   <canvas id="myChart1"></canvas>
+</div>
+<div id="type2">
   <canvas id="myChart2"></canvas>
 </div>
-
-<div id="type2">
+<div id="type3">
   <canvas id="myChart3"></canvas>
+</div>
+<div id="type4">
   <canvas id="myChart4"></canvas>
+</div>
+<div id="type5">
   <canvas id="myChart5"></canvas>
-
-
 </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
@@ -96,6 +94,57 @@ await currenttempgraph();
 }
 
 //test();
+
+
+
+$(function () {
+        $("#airtemp").click(function () {
+            if ($(this).is(":checked")) {
+                $("#myChart1").show();
+              
+            } else {
+                $("#myChart1").hide();
+                
+            }
+        });
+    $("#Road_temp").click(function () {
+            if ($(this).is(":checked")) {
+                $("#myChart2").show();
+              
+            } else {
+                $("#myChart2").hide();
+                
+            }
+        });
+    $("#Air_humidity").click(function () {
+            if ($(this).is(":checked")) {
+                $("#myChart3").show();
+              
+            } else {
+                $("#myChart3").hide();
+                
+            }
+        });
+    $("#Wind_speed").click(function () {
+            if ($(this).is(":checked")) {
+                $("#myChart4").show();
+              
+            } else {
+                $("#myChart4").hide();
+                
+            }
+        });
+    $("#current_temp").click(function () {
+            if ($(this).is(":checked")) {
+                $("#myChart5").show();
+              
+            } else {
+                $("#myChart5").hide();
+                
+            }
+        });
+ });
+
 
 </script>
 
