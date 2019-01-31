@@ -194,10 +194,9 @@ info.onAdd = function (map) {
     this.update();
     return this._div;
 };
-
 info.update = function (props) {
     this._div.innerHTML = '<h4>Sverige medeltemperatur realtid</h4>' +  (props ?
-        '<b>' + props.name + '</b><br />'   + averageData[props.countyCode] + ' grader celsius'
+        '<b>' + props.name + '</b><br />'   + averageData[props.countyCode][1] + ' grader celsius'
         : 'Hovra över län');
 };
 info.addTo(map);
