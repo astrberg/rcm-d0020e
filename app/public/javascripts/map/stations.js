@@ -1,6 +1,6 @@
 
-function getStations() {
-    $.getJSON("/api/getStationData", function(stations) {
+async function getStations() {
+    await $.getJSON("/api/getStationData", function(stations) {
         createLayers(stations);
         stationsData = stations;
     });    

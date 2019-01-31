@@ -1,12 +1,12 @@
 
-function getLatestWeatherData(station, marker) {
+async function getLatestWeatherData(station, marker) {
     station_id = station.id;
-    $.getJSON("/api/getLatestWeatherData",{station_id}, function(latestWeatherData) {
-        getLatestWeatherDataCallback(station,marker,latestWeatherData);
+   await $.getJSON("/api/getLatestWeatherData",{station_id},  function(latestWeatherData) {
+         getLatestWeatherDataCallback(station,marker,latestWeatherData);
     }); 
 }
 
-function getLatestWeatherDataCallback(station,marker,data){
+ function getLatestWeatherDataCallback(station,marker,data){
     var station_id = station.id;
     var div = document.createElement("div");
     div.id = "popupid:" + station.id;
@@ -43,9 +43,11 @@ function getLatestWeatherDataCallback(station,marker,data){
 
 
 
- async function getAvgCountyWeatherData(county_id){
-      await $.getJSON('/api/getAverageTempProvince',{county_id}, function(averageCountyWeather) {
-          displayAverageCountytemp(averageCountyWeather);
+ async function getAvgCountyWeatherData(){
+      await $.getJSON('/api/getAverageTempProvince', function(averageCountyWeather) {
+          averageData = averageCountyWeather;
+
       });
   }
+
  

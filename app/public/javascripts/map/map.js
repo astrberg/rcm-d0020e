@@ -4,6 +4,8 @@
 const map = L.map('mapid').setView([62.97519757003264, 15.864257812499998], 5);
 var chosenStations = [];
 var stationsData = [];
+var averageData = [];
+var geoJson;
 /**
  * The layer for the Leaflet map
  */
@@ -72,7 +74,7 @@ function removeMarkerOnZoom(group){
 
 var layerGroups = [];
 var timer = Date.now();
-function addStationToLayer(station, layerNumber){
+  function addStationToLayer(station, layerNumber){
     var marker = L.marker([station.lon, station.lat]);
     marker.setIcon(icon);
 
@@ -84,8 +86,8 @@ function addStationToLayer(station, layerNumber){
     layerGroups[layerNumber].addLayer(marker);    
     var popupContent = popupContentSetup(station);
     marker.bindPopup(popupContent);
-    marker.on('click', function(){
-        getLatestWeatherData(station, this);
+    marker.on('click', async function(){
+        await getLatestWeatherData(station, this);
     });
     
 }
@@ -101,7 +103,7 @@ function popupContentSetup(station){
     button.className = "add-button";
     button.innerText = "Lägg till";
     button.addEventListener('click', function(){
-        handleChosenStations(station);
+         handleChosenStations(station);
     });
     center.appendChild(button);
     var content = document.createElement("P");
@@ -155,7 +157,7 @@ function handleChosenStations(station){
     }
 }
 
-function createLayers(stations){
+  function createLayers(stations){
     // add every tenth station to the first layer
     for(var i = 0; i< stations.length; i+=10){
         addStationToLayer(stations[i], 0);
@@ -182,9 +184,7 @@ function createLayers(stations){
 }
 
 
-async function displayAverageCountytemp(counties){
-    console.log(counties);
-}
+
 
 
 var info = L.control();
@@ -196,22 +196,32 @@ info.onAdd = function (map) {
 };
 
 info.update = function (props) {
-this._div.innerHTML = '<h4>Sverige medeltemperatur realtid</h4>' +  (props ?
-    '<b>' + props.name + '</b><br />' + displayAverageCountytemp(props.countyCode) + ' grader celsius'
-    : 'Hovra över län');
+    this._div.innerHTML = '<h4>Sverige medeltemperatur realtid</h4>' +  (props ?
+        '<b>' + props.name + '</b><br />'   + averageData[props.countyCode] + ' grader celsius'
+        : 'Hovra över län');
 };
-
 info.addTo(map);
 
 function getColor(d) {
-    return d > 50 ? '#800026' :
-            d > 40  ? '#BD0026' :
-            d > 30  ? '#E31A1C' :
-            d > 20 ? '#FC4E2A' :
-            d > 10  ? '#FD8D3C' :
-            d > 5   ? '#FEB24C' :
-            d > 2   ? '#FED976' :
-                        '#FFEDA0';
+    d = d[1];
+    return  d > 35  ? '#CC0000' :
+            d > 30  ? '#FF0000' :
+            d > 25 ? '#FF3333' :
+            d > 20  ? '#CC6600' :
+            d > 15   ? '#FF8000' :
+            d > 10   ? '#FF9933' :
+            d > 5   ? '#FFB266' :
+            d > 0  ? '#FFCC99' :
+
+
+            d > -5  ? '#99DDFF' :
+            d > -10 ? '#66CDFF' :
+            d > -15  ? '#3399FF' :
+            d > -20   ? '#0080FF' :
+            d > -25   ? '#0066CC' :
+            d > -30   ? '#3333FF' :
+            d > -35   ? '#0000FF' :
+                        '#000099';
 }
 
 function style(feature) {
@@ -221,7 +231,7 @@ function style(feature) {
         color: 'black',
         dashArray: '3',
         fillOpacity: 0.7,
-        fillColor: getColor(feature.properties.temperature)
+        fillColor: getColor(averageData[feature.properties.countyCode])
     };
 }
 
@@ -260,7 +270,11 @@ function onEachFeature(feature, layer) {
 }
 
 //Adds the Swedish countys to the map with some css styling
-var geojson = L.geoJson(countyData, {
-    style: style,
-    onEachFeature: onEachFeature
-}).addTo(map);
+
+function drawMap() {
+    geojson = L.geoJson(countyData, {
+        style: style,
+        onEachFeature: onEachFeature
+    }).addTo(map);
+}
+

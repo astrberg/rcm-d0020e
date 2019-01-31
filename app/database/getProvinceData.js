@@ -51,7 +51,7 @@ module.exports = {
                 var temperatures = [];
                 
                 // smalest county number is 2
-                var county = 2;
+                var county = 0;
 
                 // highest county number is 25, loop up to that
                 while(county < 26){
@@ -68,10 +68,10 @@ module.exports = {
                         
                     }
                     // if there is any stations in a county, add the calculated avg to the list
-                    if(stations_per_county > 0){
-                        temperatures.push([county,temporary_temp/stations_per_county]);
+                   
+                    temperatures.push([county,temporary_temp/stations_per_county]);
 
-                    }
+                    
 
                     county++;
                 }
