@@ -25,7 +25,12 @@ standardTileLayer.addTo(map);
 var icon = L.divIcon({
     className: 'fa fa-map-marker fa-2x',
     iconAnchor: [12, 24],
-    popupAnchor: [-3, 0],
+    popupAnchor: [-3, 0]
+});
+var selectedIcon = L.divIcon({
+    className: 'fa fa-map-marker fa-3x',
+    iconAnchor: [12, 24],
+    popupAnchor: [-3, 0]
 });
 
 
@@ -122,7 +127,12 @@ function popupContentSetup(station){
 }
 
 // Adds a station to chosenStations array
-function addStation(station){
+function addStation(station, marker){
+    
+    marker.setIcon(selectedIcon);
+    // layerGroups[].addLayer(marker);
+    //map.addLayer(layerGroups[0]);
+
     var button = document.getElementById("buttonid:" + station.id);
     button.className = "remove-button";
     button.innerText = "Ta bort";
@@ -134,7 +144,9 @@ function addStation(station){
 }
 
 // Removes a station from chosenStations array
-function removeStationViaButton(station){
+function removeStationViaButton(station, marker){
+    marker.setIcon(icon);
+
     var button = document.getElementById("buttonid:" + station.id);
     button.className = "add-button";
     button.innerText = "Lägg till";
@@ -155,6 +167,7 @@ function removeStation(station){
         if(chosenStations[i] == station){
             chosenStations.splice(i,1);
             console.log("Removed station: " + station.id + " from chosenStations.");
+            console.log("Added station name: " + station.name + " to chosenStations.");
             console.log("chosenStations length: " + chosenStations.length);
             return;
         }
@@ -162,12 +175,12 @@ function removeStation(station){
 }
 
 // Checks if a station is added or removed from chosenStations array
-function handleChosenStations(station){
+function handleChosenStations(station, marker){
 
     if(!chosenStations.includes(station)){
-        addStation(station);
+        addStation(station, marker);
     }else{
-        removeStationViaButton(station);
+        removeStationViaButton(station, marker);
     }
 }
 
