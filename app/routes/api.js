@@ -22,9 +22,7 @@ router.get('/getStationData', function(req, res, next) {
 /* GET AVG temp over province */
 router.get('/getAverageTempProvince', function(req, res, next) {
     
-    province_id = req["query"]["province_id"];
-
-    province.getAverageTempProvince(req,res,next,province_id);
+    province.getAverageTempProvince(req,res,next);
 });
 
 /* GET weather data */
