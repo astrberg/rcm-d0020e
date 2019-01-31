@@ -12,23 +12,9 @@ module.exports = {
 
 
     // Check connection to MySQL 
-    getAverageTempProvince : function(req, res, next, county_number){
+    getAverageTempProvince : function(req, res, next){
        
         let auth = new authorization.Authorization();
-
-
-        // get current time
-        let stop_time = new Date();
-        let start_time = new Date();
-
-
-        stop_time.setHours(stop_time.getHours() - stop_time.getTimezoneOffset() / 60);
-        start_time.setHours(start_time.getHours() - start_time.getTimezoneOffset() / 60);
-
-
-        // new data is gathered every 15 min, to get the last inserted data we need to check
-        // between time now and time-15min
-        start_time.setMinutes(start_time.getMinutes() - 15);
 
 
         // ssh to database server and then connect to db
@@ -41,22 +27,20 @@ module.exports = {
                                     where w.station_id = s.id) as g order by g.id desc limit 576) as t order by t.county_number asc";
             
                     
-            var values =  [county_number, start_time.toISOString(), stop_time.toISOString()];
-
             client.query(sql, function (err, results) {
                 if (err) throw err
                 
                 mysqlssh.close()
                 
-                var temperatures = [];
+                let temperatures = [];
                 
                 // smalest county number is 2
-                var county = 2;
+                let county = 2;
 
                 // highest county number is 25, loop up to that
                 while(county < 26){
-                    var temporary_temp= 0;
-                    var stations_per_county = 0;
+                    let temporary_temp= 0;
+                    let stations_per_county = 0;
 
                     // loop through the given values and for every element that lies in a specific county
                     for(var i = 0; i < results.length; i++){
@@ -67,7 +51,7 @@ module.exports = {
                         }
                         
                     }
-                    // if there is any stations in a county, add the calculated avg to the list
+                    // if there is any stations in a county, calculated the avg and add to the list
                     if(stations_per_county > 0){
                         temperatures.push([county,temporary_temp/stations_per_county]);
 
