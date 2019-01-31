@@ -3,6 +3,7 @@
  */
 const map = L.map('mapid').setView([62.97519757003264, 15.864257812499998], 5);
 var chosenStations = [];
+var stationsData = [];
 /**
  * The layer for the Leaflet map
  */
@@ -20,9 +21,7 @@ var standardTileLayer = L.TileLayer.boundaryCanvas(mapboxURL, {
 standardTileLayer.addTo(map);
 
 var icon = L.divIcon({
-    className: 'fa fa-map-marker icon-marker',
-    //iconUrl: '../../images/icons8-marker-96.png',
-    //iconSize: [50, 25],
+    className: 'fa fa-map-marker fa-2x',
     iconAnchor: [12, 24],
     popupAnchor: [-3, 0],
 });
@@ -68,11 +67,11 @@ function removeMarkerOnZoom(group){
 
 
 /**
- * Adds a station marker to the map
+ * Adds a station marker with popup to a map layer
  */
 
 var layerGroups = [];
-
+var timer = Date.now();
 function addStationToLayer(station, layerNumber){
     var marker = L.marker([station.lon, station.lat]);
     marker.setIcon(icon);
@@ -83,20 +82,78 @@ function addStationToLayer(station, layerNumber){
     }
 
     layerGroups[layerNumber].addLayer(marker);    
-    
-    marker.bindPopup('<div id = "popupid:' + station.id + '" class="popup" >' + 
-    'Station: ' + station.name + '<br>' +
-    'Län: ' + countyNames[station.county_number] + '<br>');
-    //var weatherdata = getLatestWeatherData(station.id);
-
-    // marker.on('popupopen', function(){
-
-    // });
-    // marker.addTo(map);
-    // '<div class="center"><button id="buttonid:' + station.id +'" onclick="addChosenStation('+station.id+')" class="button" >Lägg till</button></div>');
+    var popupContent = popupContentSetup(station);
+    marker.bindPopup(popupContent);
+    marker.on('click', function(){
+        getLatestWeatherData(station, this);
+    });
     
 }
 
+// returns the popup for a new station marker
+function popupContentSetup(station){
+    var div = document.createElement("div");
+    div.id = "popupid:" + station.id;
+    var center = document.createElement("div");
+    center.className = "center";
+    var button = document.createElement("button");
+    button.id = "buttonid:" + station.id;
+    button.className = "add-button";
+    button.innerText = "Lägg till";
+    button.addEventListener('click', function(){
+        handleChosenStations(station);
+    });
+    center.appendChild(button);
+    var content = document.createElement("P");
+    content.className = "popup-content";
+    content.innerHTML = 
+        'Station: ' + station.name + '<br>' +
+        'Län: ' + countyNames[station.county_number] + '<br>' + 
+        'Lufttemperatur: <br>' +
+        'Vägtemperatur: <br>' +
+        'Luftfuktighet: <br>' +
+        'Vindhastighet: <br>' +
+        'Vindriktning: <br>';
+    div.appendChild(content);
+    div.appendChild(center);
+    return div;
+}
+
+// Adds a station to chosenStations array
+function addStation(station){
+    var button = document.getElementById("buttonid:" + station.id);
+    button.className = "remove-button";
+    button.innerText = "Ta bort";
+    chosenStations.push(station);
+    console.log("Added station: " + station.id + " to chosenStations.");
+    console.log("chosenStations length: " + chosenStations.length);
+
+}
+
+// Removes a station from chosenStations array
+function removeStation(station){
+    var button = document.getElementById("buttonid:" + station.id);
+    button.className = "add-button";
+    button.innerText = "Lägg till";
+    for(var i = 0; i <chosenStations.length; i++){
+        if(chosenStations[i] == station){
+            chosenStations.splice(i,1);
+            console.log("Removed station: " + station.id + " from chosenStations.");
+            console.log("chosenStations length: " + chosenStations.length);
+            return;
+        }
+    }
+}
+
+// Checks if a station is added or removed from chosenStations array
+function handleChosenStations(station){
+
+    if(!chosenStations.includes(station)){
+        addStation(station);
+    }else{
+        removeStation(station);
+    }
+}
 
 function createLayers(stations){
     // add every tenth station to the first layer
@@ -124,36 +181,24 @@ function createLayers(stations){
     map.addLayer(layerGroups[0])
 }
 
-// function displayAverageCountytemp(counties){
-//     for(var i = 0; i< counties.length; i++) {
-//         var data = getAvgCountyWeatherData(counties[i]);
 
-//     }
-
-// }
-
-function addChosenStation(station_id){
-    if(!chosenStations.includes(station_id)){
-        chosenStations.push(station_id);
-        console.log("Added station: " + station_id + " to chosenStations.");
-    }else{
-        console.log("Station is already chosen");
-    }
-
-    
-    
+function displayAverageCountytemp(counties){
+     getAvgCountyWeatherData(counties);
 }
+
+
 var info = L.control();
 
-	info.onAdd = function (map) {
-		this._div = L.DomUtil.create('div', 'info');
-		this.update();
-		return this._div;
-	};
+info.onAdd = function (map) {
+    this._div = L.DomUtil.create('div', 'info');
+    this.update();
+    return this._div;
+};
+
 info.update = function (props) {
-    this._div.innerHTML = '<h4>Sverige medeltemperatur realtid</h4>' +  (props ?
-        '<b>' + props.name + '</b><br />' + props.temperature + ' grader celsius'
-        : 'Hovra över län');
+this._div.innerHTML = '<h4>Sverige medeltemperatur realtid</h4>' +  (props ?
+    '<b>' + props.name + '</b><br />' + ' grader celsius'
+    : 'Hovra över län');
 };
 
 info.addTo(map);
@@ -196,6 +241,7 @@ function highlightFeature(e) {
 
     info.update(layer.feature.properties);
 }
+
 function resetHighlight(e) {
     geojson.resetStyle(e.target);
     info.update();
@@ -213,9 +259,8 @@ function onEachFeature(feature, layer) {
     });
 }
 
-// Adds the Swedish countys to the map
+//Adds the Swedish countys to the map with some css styling
 var geojson = L.geoJson(countyData, {
     style: style,
     onEachFeature: onEachFeature
 }).addTo(map);
-
