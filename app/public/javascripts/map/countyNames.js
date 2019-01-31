@@ -12,12 +12,12 @@ var countyNames = {
     "13": "Hallands län",
     "14": "Västra Götalands län",
     "17": "Värmlands län",
-    "18": "Örebro",
+    "18": "Örebro län",
     "19": "Västmanland",
-    "20": "Dalarna",
-    "21": "Gävleborg",
-    "22": "Västernorrland",
-    "23": "Jämtland",
-    "24": "Västerbotten",
-    "25": "Norrbotten"
+    "20": "Dalarnas län",
+    "21": "Gävleborgs län",
+    "22": "Västernorrlands län",
+    "23": "Jämtlands län",
+    "24": "Västerbottens län",
+    "25": "Norrbottens län"
 }
