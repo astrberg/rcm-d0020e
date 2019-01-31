@@ -8,7 +8,6 @@ function getLatestWeatherData(station, marker) {
 
 function getLatestWeatherDataCallback(station,marker,data){
     var station_id = station.id;
-    console.log(station_id);
     var div = document.createElement("div");
     div.id = "popupid:" + station.id;
     var center = document.createElement("div");

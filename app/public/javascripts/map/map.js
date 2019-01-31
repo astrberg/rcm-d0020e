@@ -98,7 +98,7 @@ function popupContentSetup(station){
     button.className = "add-button";
     button.innerText = "Lägg till";
     button.addEventListener('click', function(){
-        addChosenStation(station_id);
+        handleChosenStations(station);
     });
     center.appendChild(button);
     var content = document.createElement("P");
@@ -123,6 +123,7 @@ function addStation(station){
     button.innerText = "Ta bort";
     chosenStations.push(station);
     console.log("Added station: " + station.id + " to chosenStations.");
+    console.log("chosenStations length: " + chosenStations.length);
 }
 
 // Removes a station from chosenStations array
@@ -132,10 +133,9 @@ function removeStation(station){
     button.innerText = "Lägg till";
     for(var i = 0; i <chosenStations.length; i++){
         if(chosenStations[i] == station){
-            console.log("Size before: " + chosenStations.length);
             chosenStations.splice(i,1);
-            console.log("Size after: " + chosenStations.length);
             console.log("Removed station: " + station.id + " from chosenStations.");
+            console.log("chosenStations length: " + chosenStations.length);
             return;
         }
     }
