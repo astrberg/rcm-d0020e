@@ -4,47 +4,213 @@
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <link rel='stylesheet' href='/stylesheets/graph.css' />
+
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
 
   <style>
 	canvas{
-  	width:500px !important;
-  	height:300px !important;
-	margin: 35px;
-        padding: 35px;
+  	/*width:500px !important;
+  	height:300px !important;*/
+	margin: auto;
+        padding: 20px;
 	}
-	
-	#type1 {
-	float: right;
-	}
-	#type2 {
-	float: left;
-	}
-</style>
+  </style>
 
- <form>
-  <input type="checkbox" name="alt" value="alt1"> Alternativ1<br>
-  <input type="checkbox" name="alt" value="alt2" checked>Alternativ2<br>
-  <input type="submit" value="Submit">
-</form> 
+<div id="slideroptions">
+<p id="output1"></p>
+<div class="slidecontainer1">
+  <input type="range" min="1545230510" max="0" value="1" class="slider" id="myRange1">
+</div>
+
+<p id="output2"></p>
+<div class="slidecontainer2">
+  <input type="range" min="1545230510" max="0" value="1" class="slider" id="myRange2">
+</div>
+
+<button type="button" onclick="rungraphs(starttime,stoptime)">Time intervall</button> 
+</div>
+<div id="divcheckboxes">
+<input type="checkbox" checked=checked id="airtemp"/>Air_temp
+<input type="checkbox" checked=checked id="Road_temp"/>Road_temp
+<input type="checkbox" checked=checked id="Air_humidity"/>Air_humidity
+<input type="checkbox" checked=checked id="Wind_speed"/>Wind_speed
+<input type="checkbox" checked=checked id="current_temp"/>current_temp
+</div>
 
 <div id="type1">
   <canvas id="myChart1"></canvas>
+</div>
+<div id="type2">
   <canvas id="myChart2"></canvas>
 </div>
-
-<div id="type2">
+<div id="type3">
   <canvas id="myChart3"></canvas>
+</div>
+<div id="type4">
   <canvas id="myChart4"></canvas>
-
+</div>
+<div id="type5">
+  <canvas id="myChart5"></canvas>
 </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+  <script src="javascripts/map/stations.js"></script>
+ <script src="javascripts/graph/getWeatherData.js"></script>
+ <script type="text/javascript" src="/javascripts/graph/grafer.js"></script>
 
-  <script type="text/javascript" src="/javascripts/graph/grafer.js"></script>
+
+<script>
+document.getElementById("myRange1").max = Math.floor(Date.now() / 1000);
+document.getElementById("myRange2").max = Math.floor(Date.now() / 1000);
+
+
+var stations = ['SE_STA_VVIS1524','SE_STA_VVIS1525','SE_STA_VVIS1536','SE_STA_VVIS1544','SE_STA_VVIS1557','SE_STA_VVIS2240'];
+
+var starttime='2019-01-20 13:12:12';
+var stoptime='2019-01-23 13:23:20';
+
+async function rungraphs(starttime, stoptime){
+	await cleararrays();
+
+	const canvasclearvar1 = document.getElementById('myChart1').getContext('2d');
+        canvasclearvar1.clearRect(0,0, document.getElementById('myChart1').width, document.getElementById('myChart1').height);
+
+	const canvasclearvar2 = document.getElementById('myChart2').getContext('2d');
+        canvasclearvar2.clearRect(0,0, document.getElementById('myChart2').width, document.getElementById('myChart2').height);
+
+	const canvasclearvar3 = document.getElementById('myChart3').getContext('2d');
+        canvasclearvar3.clearRect(0,0, document.getElementById('myChart3').width, document.getElementById('myChart3').height);
+
+	const canvasclearvar4 = document.getElementById('myChart4').getContext('2d');
+        canvasclearvar4.clearRect(0,0, document.getElementById('myChart4').width, document.getElementById('myChart4').height);
+
+	const canvasclearvar5 = document.getElementById('myChart5').getContext('2d');
+        canvasclearvar5.clearRect(0,0, document.getElementById('myChart5').width, document.getElementById('myChart5').height);
+
+	for(var i = 0; i < stations.length; i++){
+		await getWeatherData(stations[i],starttime,stoptime);
+		await getlatest(stations[i]);
+	}
+	await roadtemp();
+
+	await airtemp();
+
+	await humiditygraph();
+
+	await windspeed();
+
+	await currenttempgraph();
+}
+
+rungraphs(starttime,stoptime);
+
+
+//testfunction
+async function test(){
+await getWeatherData('SE_STA_VVIS2240','2019-01-20 13:12:12','2019-01-23 13:23:20');
+await getWeatherData('SE_STA_VVIS1524','2019-01-20 13:12:12','2019-01-23 13:23:20');
+
+await roadtemp();
+
+await airtemp();
+
+await humiditygraph();
+
+await windspeed();
+
+await getlatest('SE_STA_VVIS1524');
+
+await getlatest('SE_STA_VVIS2240');
+
+await currenttempgraph();
+}
+
+//test();
+
+
+
+$(function () {
+        $("#airtemp").click(function () {
+            if ($(this).is(":checked")) {
+                $("#myChart1").show();
+              
+            } else {
+                $("#myChart1").hide();
+                
+            }
+        });
+    $("#Road_temp").click(function () {
+            if ($(this).is(":checked")) {
+                $("#myChart2").show();
+              
+            } else {
+                $("#myChart2").hide();
+                
+            }
+        });
+    $("#Air_humidity").click(function () {
+            if ($(this).is(":checked")) {
+                $("#myChart3").show();
+              
+            } else {
+                $("#myChart3").hide();
+                
+            }
+        });
+    $("#Wind_speed").click(function () {
+            if ($(this).is(":checked")) {
+                $("#myChart4").show();
+              
+            } else {
+                $("#myChart4").hide();
+                
+            }
+        });
+    $("#current_temp").click(function () {
+            if ($(this).is(":checked")) {
+                $("#myChart5").show();
+              
+            } else {
+                $("#myChart5").hide();
+                
+            }
+        });
+ });
+
+
+//Slider1
+var slider1 = document.getElementById("myRange1");
+var output1 = document.getElementById("output1");
+output1.innerHTML = '2019-01-20 13:12:12'; 
+
+
+slider1.oninput = function() {
+var d1 = new Date(0);
+ d1.setUTCSeconds(this.value);
+  starttime = d1.getFullYear()+"-"+(parseInt(d1.getMonth())+1).toString()+"-"+d1.getDate()+" "+d1.getHours()+":"+d1.getMinutes()+":"+d1.getSeconds();
+  output1.innerHTML = d1;
+} 
+
+//Slider2
+var slider = document.getElementById("myRange2");
+var output = document.getElementById("output2");
+output.innerHTML = '2019-01-30 13:23:20'; 
+
+
+slider.oninput = function() {
+ var d2 = new Date(0);
+  d2.setUTCSeconds(this.value);
+  stoptime = d2.getFullYear()+"-"+(parseInt(d2.getMonth())+1).toString()+"-"+d2.getDate()+" "+d2.getHours()+":"+d2.getMinutes()+":"+d2.getSeconds();
+  output.innerHTML = d2;
+} 
+
+
+</script>
+
+ 
 
   </body>
 </html>

@@ -128,15 +128,29 @@ function addStation(station){
     button.innerText = "Ta bort";
     chosenStations.push(station);
     console.log("Added station: " + station.id + " to chosenStations.");
+    console.log("Added station name: " + station.name + " to chosenStations.") 
     console.log("chosenStations length: " + chosenStations.length);
 
 }
 
 // Removes a station from chosenStations array
-function removeStation(station){
+function removeStationViaButton(station){
     var button = document.getElementById("buttonid:" + station.id);
     button.className = "add-button";
     button.innerText = "Lägg till";
+    
+    removeStation(station);
+}
+
+function removeStationViaList(station, index){
+    console.log("remove box");
+    var test = ".stationBox"+index;
+    console.log(test);
+    $(test).remove();
+    removeStation(station);
+}
+
+function removeStation(station){
     for(var i = 0; i <chosenStations.length; i++){
         if(chosenStations[i] == station){
             chosenStations.splice(i,1);
@@ -153,7 +167,7 @@ function handleChosenStations(station){
     if(!chosenStations.includes(station)){
         addStation(station);
     }else{
-        removeStation(station);
+        removeStationViaButton(station);
     }
 }
 
