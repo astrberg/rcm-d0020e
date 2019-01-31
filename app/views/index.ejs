@@ -40,7 +40,12 @@
     <script src="javascripts/map/map.js"></script>
     <script src="javascripts/map/chosenStations.js"></script>
     <script>
-     getStations();
+    async function main (){
+      await getAvgCountyWeatherData();
+      await drawMap();
+      await getStations(); 
+    }
+    main();
     </script>
   </body>
 </html>

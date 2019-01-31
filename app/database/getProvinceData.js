@@ -21,11 +21,12 @@ module.exports = {
         mysqlssh.connect(auth.ssh, auth.database).then(client => {
             
             // select avg temps from stations in county over the last 15 min
-            var sql = "select * from (\
-                            select * from (\
-                                select w.id, w.air_temperature, s.county_number from weather_data w, station_data s \
-                                    where w.station_id = s.id) as g order by g.id desc limit 576) as t order by t.county_number asc";
-            
+            var sql =  "SELECT * FROM (\
+                            SELECT * FROM (\
+                                SELECT w.id, w.air_temperature, s.county_number FROM weather_data w, station_data s \
+                                WHERE w.station_id = s.id) \
+                            AS g ORDER BY g.id DESC LIMIT 576) \
+                        AS t ORDER BY t.county_number ASC";
                     
             client.query(sql, function (err, results) {
                 if (err) throw err
@@ -35,7 +36,7 @@ module.exports = {
                 let temperatures = [];
                 
                 // smalest county number is 2
-                let county = 2;
+                var county = 0;
 
                 // highest county number is 25, loop up to that
                 while(county < 26){
@@ -51,11 +52,11 @@ module.exports = {
                         }
                         
                     }
-                    // if there is any stations in a county, calculated the avg and add to the list
-                    if(stations_per_county > 0){
-                        temperatures.push([county,temporary_temp/stations_per_county]);
+                    // if there is any stations in a county, add the calculated avg to the list
+                   
+                    temperatures.push([county,temporary_temp/stations_per_county]);
 
-                    }
+                    
 
                     county++;
                 }
