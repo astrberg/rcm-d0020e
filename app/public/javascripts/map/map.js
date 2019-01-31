@@ -178,8 +178,8 @@ function createLayers(stations){
 }
 
 
-function displayAverageCountytemp(counties){
-     getAvgCountyWeatherData(counties);
+async function displayAverageCountytemp(counties){
+    console.log(counties);
 }
 
 
@@ -193,7 +193,7 @@ info.onAdd = function (map) {
 
 info.update = function (props) {
 this._div.innerHTML = '<h4>Sverige medeltemperatur realtid</h4>' +  (props ?
-    '<b>' + props.name + '</b><br />' + ' grader celsius'
+    '<b>' + props.name + '</b><br />' + displayAverageCountytemp(props.countyCode) + ' grader celsius'
     : 'Hovra över län');
 };
 

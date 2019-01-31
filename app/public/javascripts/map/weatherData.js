@@ -41,10 +41,11 @@ function getLatestWeatherDataCallback(station,marker,data){
     
 }
 
-//  function getAvgCountyWeatherData(county_id){
-//      var countyData = null;
-//      $.getJSON('/api/getAverageTempProvince',{county_id}, function(averageCountyWeather) {
-//          countyData = latestCountyData;
-//      });
-//      return countyData;
-//  }
+
+
+ async function getAvgCountyWeatherData(county_id){
+      await $.getJSON('/api/getAverageTempProvince',{county_id}, function(averageCountyWeather) {
+          displayAverageCountytemp(averageCountyWeather);
+      });
+  }
+ 
