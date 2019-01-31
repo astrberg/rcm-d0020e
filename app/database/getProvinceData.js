@@ -21,11 +21,12 @@ module.exports = {
         mysqlssh.connect(auth.ssh, auth.database).then(client => {
             
             // select avg temps from stations in county over the last 15 min
-            var sql = "select * from (\
-                            select * from (\
-                                select w.id, w.air_temperature, s.county_number from weather_data w, station_data s \
-                                    where w.station_id = s.id) as g order by g.id desc limit 576) as t order by t.county_number asc";
-            
+            var sql =  "SELECT * FROM (\
+                            SELECT * FROM (\
+                                SELECT w.id, w.air_temperature, s.county_number FROM weather_data w, station_data s \
+                                WHERE w.station_id = s.id) \
+                            AS g ORDER BY g.id DESC LIMIT 576) \
+                        AS t ORDER BY t.county_number ASC";
                     
             client.query(sql, function (err, results) {
                 if (err) throw err
