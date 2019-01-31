@@ -55,7 +55,11 @@ function generatedataforbar(datatempvar,stationame){
   currentdatatemp.push(dataFirst);
 }
 
+var chart = null;
 function currenttempgraph(weatherdata){
+	if(chart!=null){
+		chart.destroy();
+	}
 	var ctx = document.getElementById('myChart5').getContext('2d');
 	var chart = new Chart(ctx, {
 	    type: 'bar',
@@ -196,9 +200,13 @@ else{
 	}
 }
 
-
+var lineChart1 = null;
 //function to create road_temp graph
 function roadtemp(){
+if(lineChart1!=null){
+lineChart1.destroy();
+}
+
 var speedCanvas = document.getElementById("myChart2");
 Chart.defaults.global.defaultFontFamily = "Lato";
 Chart.defaults.global.defaultFontSize = 18;
@@ -225,18 +233,21 @@ var chartOptions = {
   }
 };
 
-var lineChart = new Chart(speedCanvas, {
+lineChart1 = new Chart(speedCanvas, {
   type: 'line',
   data: speedData,
   options: chartOptions
 });
-lineChart.update();
+lineChart1.update();
 }
 
 
-
+var lineChart2 = null;
 //function to create air_temp graph
 function airtemp(){
+if(lineChart2 != null){
+lineChart2.destroy();
+}
 var speedCanvas = document.getElementById("myChart1");
 Chart.defaults.global.defaultFontFamily = "Lato";
 Chart.defaults.global.defaultFontSize = 18;
@@ -263,17 +274,20 @@ var chartOptions = {
   }
 };
 
-var lineChart = new Chart(speedCanvas, {
+lineChart2 = new Chart(speedCanvas, {
   type: 'line',
   data: speedData,
   options: chartOptions
 });
-lineChart.update();
+lineChart2.update();
 }
 
-
+var lineChart3 = null;
 //function to create humidity graph
 function humiditygraph(){
+if(lineChart3 != null){
+lineChart3.destroy();
+}
 var speedCanvas = document.getElementById("myChart3");
 Chart.defaults.global.defaultFontFamily = "Lato";
 Chart.defaults.global.defaultFontSize = 18;
@@ -300,17 +314,20 @@ var chartOptions = {
   }
 };
 
-var lineChart = new Chart(speedCanvas, {
+lineChart3 = new Chart(speedCanvas, {
   type: 'line',
   data: speedData,
   options: chartOptions
 });
-lineChart.update();
+lineChart3.update();
 }
 
-
+var lineChart4 = null;
 //function to create windspeed graph
 function windspeed(){
+if(lineChart4 != null){
+lineChart4.destroy();
+}
 var speedCanvas = document.getElementById("myChart4");
 Chart.defaults.global.defaultFontFamily = "Lato";
 Chart.defaults.global.defaultFontSize = 18;
@@ -337,12 +354,12 @@ var chartOptions = {
   }
 };
 
-var lineChart = new Chart(speedCanvas, {
+lineChart4 = new Chart(speedCanvas, {
   type: 'line',
   data: speedData,
   options: chartOptions
 });
-lineChart.update();
+lineChart4.update();
 }
 
 

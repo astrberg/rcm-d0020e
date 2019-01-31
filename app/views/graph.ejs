@@ -73,7 +73,23 @@ var starttime='2019-01-20 13:12:12';
 var stoptime='2019-01-23 13:23:20';
 
 async function rungraphs(starttime, stoptime){
-	await cleararrays()
+	await cleararrays();
+
+	const canvasclearvar1 = document.getElementById('myChart1').getContext('2d');
+        canvasclearvar1.clearRect(0,0, document.getElementById('myChart1').width, document.getElementById('myChart1').height);
+
+	const canvasclearvar2 = document.getElementById('myChart2').getContext('2d');
+        canvasclearvar2.clearRect(0,0, document.getElementById('myChart2').width, document.getElementById('myChart2').height);
+
+	const canvasclearvar3 = document.getElementById('myChart3').getContext('2d');
+        canvasclearvar3.clearRect(0,0, document.getElementById('myChart3').width, document.getElementById('myChart3').height);
+
+	const canvasclearvar4 = document.getElementById('myChart4').getContext('2d');
+        canvasclearvar4.clearRect(0,0, document.getElementById('myChart4').width, document.getElementById('myChart4').height);
+
+	const canvasclearvar5 = document.getElementById('myChart5').getContext('2d');
+        canvasclearvar5.clearRect(0,0, document.getElementById('myChart5').width, document.getElementById('myChart5').height);
+
 	for(var i = 0; i < stations.length; i++){
 		await getWeatherData(stations[i],starttime,stoptime);
 		await getlatest(stations[i]);
@@ -87,7 +103,6 @@ async function rungraphs(starttime, stoptime){
 	await windspeed();
 
 	await currenttempgraph();
-
 }
 
 rungraphs(starttime,stoptime);
