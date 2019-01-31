@@ -8,12 +8,10 @@
     <!--Custom styling-->
     <link rel="stylesheet" href="stylesheets/style.css" />
     <link rel="stylesheet" href="stylesheets/map.css" />
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <!--JQuery script-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <!-- Styling script-->
     <script src="https://use.fontawesome.com/440d818026.js">  </script>
-
 
     
 
@@ -24,7 +22,12 @@
 
 
     <div id=map-container class="map-container">
-      <div id="mapid" class="map"></div>
+      <div id="mapid" class="map">
+        <div id="stationList-container">
+      
+        </div>
+        <button id="stationList-button" onclick="displayStationField()" >Show chosen stations</button>
+      </div>
     </div>
     <!--Map scripts-->
     <script src="javascripts/map/countyData.js"></script>
@@ -35,6 +38,7 @@
     <script src="javascripts/map/weatherData.js"></script>
     <script src="javascripts/map/boundaryCanvas.js"></script>
     <script src="javascripts/map/map.js"></script>
+    <script src="javascripts/map/chosenStations.js"></script>
     <script>
      getStations();
     </script>
