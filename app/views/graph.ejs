@@ -4,7 +4,6 @@
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <link rel='stylesheet' href='/stylesheets/graph.css' />
-
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
   </head>
@@ -56,13 +55,15 @@
   <canvas id="myChart5"></canvas>
 </div>
 
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
   <script src="javascripts/map/stations.js"></script>
  <script src="javascripts/graph/getWeatherData.js"></script>
  <script type="text/javascript" src="/javascripts/graph/grafer.js"></script>
-
-
+ 
 <script>
+
+
 document.getElementById("myRange1").max = Math.floor(Date.now() / 1000);
 document.getElementById("myRange2").max = Math.floor(Date.now() / 1000);
 
@@ -73,8 +74,14 @@ var starttime='2019-01-20 13:12:12';
 var stoptime='2019-01-23 13:23:20';
 
 async function rungraphs(starttime, stoptime){
+	var a = new Date(starttime.substring(0,10)+"T"+starttime.substring(11,)+"Z");
+	var b = new Date(stoptime.substring(0,10)+"T"+stoptime.substring(11,)+"Z");
+	if(+a <= +b){
+		
+	//arrayclear
 	await cleararrays();
-
+	
+	//canvasclear
 	const canvasclearvar1 = document.getElementById('myChart1').getContext('2d');
         canvasclearvar1.clearRect(0,0, document.getElementById('myChart1').width, document.getElementById('myChart1').height);
 
@@ -90,10 +97,13 @@ async function rungraphs(starttime, stoptime){
 	const canvasclearvar5 = document.getElementById('myChart5').getContext('2d');
         canvasclearvar5.clearRect(0,0, document.getElementById('myChart5').width, document.getElementById('myChart5').height);
 
+	//functioncalls to get data
 	for(var i = 0; i < stations.length; i++){
 		await getWeatherData(stations[i],starttime,stoptime);
 		await getlatest(stations[i]);
 	}
+	
+	//functions to draw graphs
 	await roadtemp();
 
 	await airtemp();
@@ -104,11 +114,12 @@ async function rungraphs(starttime, stoptime){
 
 	await currenttempgraph();
 }
+}
 
 rungraphs(starttime,stoptime);
 
 
-//testfunction
+//testfunction with 2 stations
 async function test(){
 await getWeatherData('SE_STA_VVIS2240','2019-01-20 13:12:12','2019-01-23 13:23:20');
 await getWeatherData('SE_STA_VVIS1524','2019-01-20 13:12:12','2019-01-23 13:23:20');
@@ -127,7 +138,6 @@ await getlatest('SE_STA_VVIS2240');
 
 await currenttempgraph();
 }
-
 //test();
 
 
@@ -191,7 +201,7 @@ slider1.oninput = function() {
 var d1 = new Date(0);
  d1.setUTCSeconds(this.value);
   starttime = d1.getFullYear()+"-"+(parseInt(d1.getMonth())+1).toString()+"-"+d1.getDate()+" "+d1.getHours()+":"+d1.getMinutes()+":"+d1.getSeconds();
-  output1.innerHTML = d1;
+  output1.innerHTML = starttime;
 } 
 
 //Slider2
@@ -204,7 +214,7 @@ slider.oninput = function() {
  var d2 = new Date(0);
   d2.setUTCSeconds(this.value);
   stoptime = d2.getFullYear()+"-"+(parseInt(d2.getMonth())+1).toString()+"-"+d2.getDate()+" "+d2.getHours()+":"+d2.getMinutes()+":"+d2.getSeconds();
-  output.innerHTML = d2;
+  output.innerHTML = stoptime;
 } 
 
 
