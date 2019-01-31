@@ -126,6 +126,7 @@ function addStation(station){
     button.innerText = "Ta bort";
     chosenStations.push(station);
     console.log("Added station: " + station.id + " to chosenStations.");
+    console.log("Added station name: " + station.name + " to chosenStations.") 
     console.log("chosenStations length: " + chosenStations.length);
 
 }
