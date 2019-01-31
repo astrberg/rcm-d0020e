@@ -16,10 +16,10 @@ function displayStationField(){
 
 // index is the stations index in the list of chosen stations
 function getStationBox(index, name){
-    var stationDiv = `<div class="stationBox"> 
+    var stationDiv = `<div class="stationBox stationBox${index}"> 
                         <div class="stationBox-container">
                             <h3> Station name: '${name}'</h3> 
-                            <button class="removeStation" onclick="removeStation('${index}')" >Remove</button>
+                            <button class="removeStation" onclick="removeStationViaList('${chosenStations[index]}',${index})" >Remove</button>
                         </div>
                       </div>`;
 
@@ -31,12 +31,8 @@ function getStationBox(index, name){
 function addStationsToField(){
     $("#stationList-container").empty();
     
-    // for(var i = 0; i < chosenStations.length(); i++){
-    //     $("#stationList-container").append(getStationBox(chosenStations[i].id, chosenStations[i].name));
-    // }
-
-    for(var i = 0; i < 15; i++){
-        $("#stationList-container").append(getStationBox(i, "WASD"));
+    for(var i = 0; i < chosenStations.length; i++){
+        $("#stationList-container").append(getStationBox(i, chosenStations[i].name));
     }
    
 }
