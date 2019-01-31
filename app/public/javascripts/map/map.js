@@ -20,6 +20,12 @@ var standardTileLayer = L.TileLayer.boundaryCanvas(mapboxURL, {
 });
 standardTileLayer.addTo(map);
 
+var icon = L.divIcon({
+    className: 'fa fa-map-marker fa-2x',
+    iconAnchor: [12, 24],
+    popupAnchor: [-3, 0],
+});
+
 
 /**
  * Restrict the map movement
@@ -68,9 +74,6 @@ var layerGroups = [];
 var timer = Date.now();
 function addStationToLayer(station, layerNumber){
     var marker = L.marker([station.lon, station.lat]);
-    var icon = marker.options.icon;
-    //icon.options.iconSize = [17,15];
-    icon.options.shadowSize = [0,0];
     marker.setIcon(icon);
 
     
@@ -124,6 +127,7 @@ function addStation(station){
     chosenStations.push(station);
     console.log("Added station: " + station.id + " to chosenStations.");
     console.log("chosenStations length: " + chosenStations.length);
+
 }
 
 // Removes a station from chosenStations array
