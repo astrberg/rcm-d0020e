@@ -1,14 +1,15 @@
 
-
-
 function getStations() {
     $.getJSON("/api/getStationData", function(stations) {
 
-        console.log(stations);
 
+
+
+        createLayers(stations);
+        stationsData = stations;
 
     });    
-
-
 }
+
+
 

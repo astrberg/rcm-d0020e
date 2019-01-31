@@ -16,7 +16,11 @@
     "http-errors": "~1.6.2",
     "morgan": "~1.9.0",
     "mysql-ssh": "1.0.6",
+
     "nodemon": "^1.18.9"
+
+    "fs": "0.0.1-security"
+
   },
   "devDependencies": {
     "nodemon": "^1.18.9"
