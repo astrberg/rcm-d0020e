@@ -216,7 +216,6 @@ info.update = function (props) {
 info.addTo(map);
 
 function getColor(d) {
-    d = d[1];
     return  d > 35  ? '#CC0000' :
             d > 30  ? '#FF0000' :
             d > 25 ? '#FF3333' :
@@ -238,13 +237,14 @@ function getColor(d) {
 }
 
 function style(feature) {
+    var avg = averageData[feature.properties.countyCode];
     return {
         weight: 2,
         opacity: 0.2,
         color: 'black',
         dashArray: '3',
         fillOpacity: 0.7,
-        fillColor: getColor(averageData[feature.properties.countyCode])
+        fillColor: getColor(avg[1])
     };
 }
 
@@ -290,4 +290,24 @@ function drawMap() {
         onEachFeature: onEachFeature
     }).addTo(map);
 }
+var legend = L.control({position: 'bottomleft'});
 
+legend.onAdd = function (map) {
+
+    var div = L.DomUtil.create('div', 'info legend'),
+        scales = [35, 30, 25, 20, 15, 10, 5, 0, -5, -10, -15, -20, -25, -30, -35],
+        labels = [];
+    // loop through our density intervals and generate a label with a colored square for each interval
+    for (var i = 0; i < scales.length; i++) {
+        if(i == 0){
+            div.innerHTML +=  '<i style="background:' + getColor(scales[i]) + '"></i>' + scales[i] + '+ <br> ';
+        }else if(i == scales.length -1) {
+            div.innerHTML +=  '<i style="background:' + getColor(scales[i]) + '"></i>' + scales[i] + '- ';
+        }else {
+            div.innerHTML +=  '<i style="background:' + getColor(scales[i]) + '"></i>' + (scales[i]) + '<br>';
+    }
+}
+    return div;
+};
+
+legend.addTo(map);
