@@ -1,53 +1,3 @@
-function graf(weatherdata){
-	var newarray = [];
-	var newarray2 = [];
-	//console.log(weatherdata[0].road_temperature);
-	for(var i = 0; i < weatherdata.length; i++){
-		newarray.push(weatherdata[i].timestamp);
-		newarray2.push(weatherdata[i].road_temperature);
-	}
-
-	var ctx = document.getElementById('myChart1').getContext('2d');
-	var chart = new Chart(ctx, {
-	    type: 'line',
-
-	
-	    data: {
-		labels: newarray,
-		datasets: [{
-		    label: "Temperatur",
-		    backgroundColor: 'rgb(255, 99, 132)',
-		    borderColor: 'rgb(255, 99, 132)',
-		    data: newarray2,
-		}]
-	    },
-
-	
-	    options: {
-		
-		}
-	});
-}
-
-
-function graf1(stations,temparray){
-	var ctx = document.getElementById('myChart2').getContext('2d');
-	var chart = new Chart(ctx, {
-	    type: 'bar',
-	    data: {
-		labels: stations,
-		datasets: [{
-		    label: "graf2",
-		    backgroundColor: 'rgb(255, 99, 132)',
-		    borderColor: 'rgb(255, 99, 132)',
-		     data: temparray,
-		}]
-	    },
-
-	
-	    options: {}
-	});
-}
 
 function graf2(){
 //different colors when data is below 0
@@ -280,7 +230,7 @@ var lineChart = new Chart(speedCanvas, {
   data: speedData,
   options: chartOptions
 });
-
+lineChart.update();
 }
 
 
@@ -318,7 +268,7 @@ var lineChart = new Chart(speedCanvas, {
   data: speedData,
   options: chartOptions
 });
-
+lineChart.update();
 }
 
 
@@ -355,7 +305,7 @@ var lineChart = new Chart(speedCanvas, {
   data: speedData,
   options: chartOptions
 });
-
+lineChart.update();
 }
 
 
@@ -392,8 +342,20 @@ var lineChart = new Chart(speedCanvas, {
   data: speedData,
   options: chartOptions
 });
-
+lineChart.update();
 }
 
-//wind_direction
+
+function cleararrays(){
+	currentdatatemp = [];
+	datagrafwindspeed = [];
+	datagraftimestampwindspeed = [];
+	datagrafhum = [];
+	datagraftimestamphum = [];	
+	datagrafair = [];
+	datagraftimestampair = [];
+	data3graf3 = [];
+	datagraftimestamp = [];		
+}
+
 
