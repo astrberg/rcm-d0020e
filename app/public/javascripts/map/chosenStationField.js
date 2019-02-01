@@ -1,14 +1,11 @@
 
 
 function displayStationField(){
-
-
     var div = $("#stationList-container")
 
     if (div.is(":hidden")) {
         div.show();
         addStationsToField();
-    
     } else {
         
         div.hide();
@@ -40,13 +37,11 @@ function addStationsToField(){
 }
 
 function showStationButton(){
-    var button = $("#stationList-button");
-    button.show();
+    $("#stationList-button").show();
     
 }
 
 function hideStationButton(){
-    var button = $("#stationList-button");
-    button.hide();
-    
+    $("#stationList-button").hide();
+    $("#stationList-container:visible").hide()
 }

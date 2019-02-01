@@ -23,10 +23,9 @@ function removeStationViaButton(station){
 }
 
 function removeStationViaList(station, index){
-    console.log("remove box");
-    var test = ".stationBox"+index;
-    console.log(test);
-    $(test).remove();
+    var stationBox = ".stationBox"+index;
+
+    $(stationBox).remove();
     removeStation(station);
 }
 
