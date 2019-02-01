@@ -33,7 +33,7 @@ var icon = L.divIcon({
  * Restrict the map movement
  */
 var southWest = L.latLng(54.57206165565852,8.61328125),
-    northEast = L.latLng(69.31832006949072, 27.94921875);
+    northEast = L.latLng(73.12494524712693, 32.16796875);
 var bounds = L.latLngBounds(southWest, northEast);
 map.setMaxBounds(bounds);
 map.on('drag', function () {
@@ -197,10 +197,6 @@ function handleChosenStations(station){
     map.addLayer(layerGroups[0])
 }
 
-
-
-
-
 var info = L.control();
 
 info.onAdd = function (map) {
@@ -210,7 +206,7 @@ info.onAdd = function (map) {
 };
 info.update = function (props) {
     this._div.innerHTML = '<h4>Sverige medeltemperatur realtid</h4>' +  (props ?
-        '<b>' + props.name + '</b><br />'   + averageData[props.countyCode][1] + ' grader celsius'
+        '<b>' + props.name + '</b><br />'   + averageData[props.countyCode][1].toFixed(1) + '\xB0C'
         : 'Hovra över län');
 };
 info.addTo(map);
@@ -297,7 +293,6 @@ legend.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'info legend'),
         scales = [35, 30, 25, 20, 15, 10, 5, 0, -5, -10, -15, -20, -25, -30, -35],
         labels = [];
-    // loop through our density intervals and generate a label with a colored square for each interval
     for (var i = 0; i < scales.length; i++) {
         if(i == 0){
             div.innerHTML +=  '<i style="background:' + getColor(scales[i]) + '"></i>' + scales[i] + '+ <br> ';
