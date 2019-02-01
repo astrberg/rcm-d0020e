@@ -25,12 +25,12 @@ standardTileLayer.addTo(map);
 var icon = L.divIcon({
     className: 'fa fa-map-marker fa-2x',
     iconAnchor: [12, 24],
-    popupAnchor: [-3, 0]
+    popupAnchor: [-5, -25]
 });
 var selectedIcon = L.divIcon({
     className: 'fa fa-map-marker fa-3x',
-    iconAnchor: [12, 24],
-    popupAnchor: [-3, 0]
+    iconAnchor: [15, 34],
+    popupAnchor: [-5, -35]
 });
 
 
@@ -130,8 +130,6 @@ function popupContentSetup(station){
 function addStation(station, marker){
     
     marker.setIcon(selectedIcon);
-    // layerGroups[].addLayer(marker);
-    //map.addLayer(layerGroups[0]);
 
     var button = document.getElementById("buttonid:" + station.id);
     button.className = "remove-button";
