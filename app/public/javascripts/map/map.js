@@ -2,8 +2,7 @@
  * The main Leaflet map gets created with a defined view, 'mapid' is a id to a div in index.ejs, the map will be located there
  */
 const map = L.map('mapid').setView([62.97519757003264, 15.864257812499998], 5);
-var chosenStations = [];
-var stationsData = [];
+
 var averageData = [];
 var geoJson;
 /**
@@ -74,7 +73,8 @@ function removeMarkerOnZoom(group){
 
 var layerGroups = [];
 var timer = Date.now();
-  function addStationToLayer(station, layerNumber){
+
+function addStationToLayer(station, layerNumber){
     var marker = L.marker([station.lon, station.lat]);
     marker.setIcon(icon);
 
@@ -96,8 +96,10 @@ var timer = Date.now();
 function popupContentSetup(station){
     var div = document.createElement("div");
     div.id = "popupid:" + station.id;
+    
     var center = document.createElement("div");
     center.className = "center";
+    
     var button = document.createElement("button");
     button.id = "buttonid:" + station.id;
     button.className = "add-button";
@@ -105,7 +107,9 @@ function popupContentSetup(station){
     button.addEventListener('click', function(){
          handleChosenStations(station);
     });
+
     center.appendChild(button);
+    
     var content = document.createElement("P");
     content.className = "popup-content";
     content.innerHTML = 
@@ -118,58 +122,11 @@ function popupContentSetup(station){
         'Vindriktning: <br>';
     div.appendChild(content);
     div.appendChild(center);
+    
     return div;
 }
 
-// Adds a station to chosenStations array
-function addStation(station){
-    var button = document.getElementById("buttonid:" + station.id);
-    button.className = "remove-button";
-    button.innerText = "Ta bort";
-    chosenStations.push(station);
-    console.log("Added station: " + station.id + " to chosenStations.");
-    console.log("Added station name: " + station.name + " to chosenStations.") 
-    console.log("chosenStations length: " + chosenStations.length);
 
-}
-
-// Removes a station from chosenStations array
-function removeStationViaButton(station){
-    var button = document.getElementById("buttonid:" + station.id);
-    button.className = "add-button";
-    button.innerText = "Lägg till";
-    
-    removeStation(station);
-}
-
-function removeStationViaList(station, index){
-    console.log("remove box");
-    var test = ".stationBox"+index;
-    console.log(test);
-    $(test).remove();
-    removeStation(station);
-}
-
-function removeStation(station){
-    for(var i = 0; i <chosenStations.length; i++){
-        if(chosenStations[i] == station){
-            chosenStations.splice(i,1);
-            console.log("Removed station: " + station.id + " from chosenStations.");
-            console.log("chosenStations length: " + chosenStations.length);
-            return;
-        }
-    }
-}
-
-// Checks if a station is added or removed from chosenStations array
-function handleChosenStations(station){
-
-    if(!chosenStations.includes(station)){
-        addStation(station);
-    }else{
-        removeStationViaButton(station);
-    }
-}
 
   function createLayers(stations){
     // add every tenth station to the first layer
