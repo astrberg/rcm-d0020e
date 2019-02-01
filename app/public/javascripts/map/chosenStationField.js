@@ -18,22 +18,17 @@ function getStationBox(index, name){
     var stationDiv = `<div class="stationBox stationBox${index}"> 
                         <div class="stationBox-container">
                             <h3> Station name: '${name}'</h3> 
-                            <button class="removeStation" onclick="removeStationViaList('${chosenStations[index]}',${index})" >Remove</button>
+                            <button class="removeStation" onclick="removeStation(${index})" >Remove</button>
                         </div>
                       </div>`;
 
     return stationDiv;
 }
 
-
-
-function addStationsToField(){
-    $("#stationList-container").empty();
+function appendStationToField(index){
+    let container = $("#stationList-container");
     
-    for(var i = 0; i < chosenStations.length; i++){
-        $("#stationList-container").append(getStationBox(i, chosenStations[i].name));
-    }
-   
+    container.append(getStationBox(index, chosenStations[index].name));
 }
 
 function showStationButton(){

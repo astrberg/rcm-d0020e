@@ -18,29 +18,47 @@ function removeStationViaButton(station){
     var button = document.getElementById("buttonid:" + station.id);
     button.className = "add-button";
     button.innerText = "Lägg till";
-    
-    removeStation(station);
-}
 
-function removeStationViaList(station, index){
-    var stationBox = ".stationBox"+index;
 
-    $(stationBox).remove();
-    removeStation(station);
-}
+    let index = 0;
 
-function removeStation(station){
-    for(var i = 0; i <chosenStations.length; i++){
+    // find the clicked station in the list of chosen stations
+    for(var i = 0; i < chosenStations.length; i++){
         if(chosenStations[i] == station){
-            chosenStations.splice(i,1);
-            console.log("Removed station: " + station.id + " from chosenStations.");
-            console.log("chosenStations length: " + chosenStations.length);
+            removeStation(i);
             break;
-            
+        }
+    }
+}
+
+// gets a station and the index of the station in the chosenStation list
+function removeStation(index){
+    var stationBox = ".stationBox"+index;
+    
+    // remove the station box from the field container
+    $(stationBox).remove();
+
+    // remove the station from the list
+    removeStationFromList(index);
+}
+
+function removeStationFromList(index){
+
+    chosenStations[index] = null;
+    
+    let emptyList = true;
+
+    // check if the list only contains null elements
+    for(var i = 0; i < chosenStations.length; i++){
+        if(chosenStations[i] != null){
+            test = false;
         }
     }
 
-    if(chosenStations.length === 0){
+    // if only null elements exist the list is considered empty
+    // empty the list and hide the button
+    if(test){
+        chosenStations = [];
         hideStationButton();
     }
 }
@@ -52,10 +70,10 @@ function addStation(station){
     button.className = "remove-button";
     button.innerText = "Ta bort";
     chosenStations.push(station);
-    showStationButton("");
-    console.log("Added station: " + station.id + " to chosenStations.");
-    console.log("Added station name: " + station.name + " to chosenStations.") 
-    console.log("chosenStations length: " + chosenStations.length);
+    showStationButton();
+
+    // add the station to the field if the field is open
+    appendStationToField(chosenStations.length-1);
 
 }
 
