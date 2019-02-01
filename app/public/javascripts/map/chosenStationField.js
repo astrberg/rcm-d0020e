@@ -5,7 +5,6 @@ function displayStationField(){
 
     if (div.is(":hidden")) {
         div.show();
-        addStationsToField();
     } else {
         
         div.hide();

@@ -11,7 +11,10 @@ async function getStations() {
     });    
 }
 
-
+function emptyList(){
+    chosenStations = [];
+    hideStationButton();
+}
 
 // Removes a station from chosenStations array
 function removeStationViaButton(station){
@@ -46,22 +49,22 @@ function removeStationFromList(index){
 
     chosenStations[index] = null;
     
-    let emptyList = true;
+    let isEmptyList = true;
 
     // check if the list only contains null elements
     for(var i = 0; i < chosenStations.length; i++){
         if(chosenStations[i] != null){
-            test = false;
+            isEmptyList = false;
         }
     }
 
     // if only null elements exist the list is considered empty
     // empty the list and hide the button
-    if(test){
-        chosenStations = [];
-        hideStationButton();
+    if(isEmptyList){
+        emptyList();
     }
 }
+
 
 
 // Adds a station to chosenStations array
