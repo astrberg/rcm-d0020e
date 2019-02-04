@@ -63,7 +63,7 @@ function generatedataforbar(typeofgraph,datatempvar,stationame){
 	}
 	if (typeofgraph=="current_hum"){
 		currentairhum.push(dataFirst);
-		}
+	}
 
 }
 
@@ -73,7 +73,7 @@ function currenttempgraph(weatherdata){
 		chart.destroy();
 	}
 	var ctx = document.getElementById('myChart5').getContext('2d');
-	var chart = new Chart(ctx, {
+	chart = new Chart(ctx, {
 	    type: 'bar',
 	    data: {
 		//labels: stations,
@@ -84,7 +84,7 @@ function currenttempgraph(weatherdata){
 	    options: {
 			title:{
 	display:true,
-	text: "Current_temp"}
+	text: "Current_airtemp"}
 	}
 	});
 }
@@ -114,7 +114,7 @@ function currentroadtempgraph(weatherdata){
 	    options: {
 			title:{
 	display:true,
-	text: "Current_road"}
+	text: "Current_roadtemp"}
 	}
 	});
 }
