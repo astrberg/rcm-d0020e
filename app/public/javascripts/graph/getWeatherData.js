@@ -23,7 +23,9 @@ async function getlatest(station_id) {
     //station_id = 'SE_STA_VVIS2240';
 	
     await $.getJSON("/api/getLatestWeatherData", {station_id}, function(weatherData) {
-    databarchartcurrent(weatherData);
+    	databarchartcurrent(weatherData);
+    	databarchartroadcurrent(weatherData);
+    	databarcharthumcurrent(weatherData);
     
     //console.log(weatherData);
 	

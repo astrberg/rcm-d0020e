@@ -37,6 +37,8 @@
 <input type="checkbox" checked=checked id="Air_humidity"/>Air_humidity
 <input type="checkbox" checked=checked id="Wind_speed"/>Wind_speed
 <input type="checkbox" checked=checked id="current_temp"/>current_temp
+<input type="checkbox" checked=checked id="current_road_temp"/>current_road_temp
+<input type="checkbox" checked=checked id="current_hum"/>current_hum
 </div>
 
 <div id="type1">
@@ -53,6 +55,12 @@
 </div>
 <div id="type5">
   <canvas id="myChart5"></canvas>
+</div>
+<div id="type6">
+  <canvas id="myChart6"></canvas>
+</div>
+<div id="type7">
+  <canvas id="myChart7"></canvas>
 </div>
 
 
@@ -96,6 +104,12 @@ async function rungraphs(starttime, stoptime){
 	const canvasclearvar5 = document.getElementById('myChart5').getContext('2d');
         canvasclearvar5.clearRect(0,0, document.getElementById('myChart5').width, document.getElementById('myChart5').height);
 
+	const canvasclearvar6 = document.getElementById('myChart6').getContext('2d');
+		canvasclearvar6.clearRect(0,0, document.getElementById('myChart6').width, document.getElementById('myChart5').height);
+
+	const canvasclearvar7 = document.getElementById('myChart7').getContext('2d');
+		canvasclearvar7.clearRect(0,0, document.getElementById('myChart7').width, document.getElementById('myChart5').height);
+
 	//functioncalls to get data
 	for(var i = 0; i < stations.length; i++){
 		await getWeatherData(stations[i],starttime,stoptime);
@@ -112,6 +126,10 @@ async function rungraphs(starttime, stoptime){
 	await windspeed();
 
 	await currenttempgraph();
+
+	await currentroadtempgraph();
+
+	await currenthumgraph();
 }
 }
 
@@ -136,6 +154,8 @@ await getlatest('SE_STA_VVIS1524');
 await getlatest('SE_STA_VVIS2240');
 
 await currenttempgraph();
+
+
 }
 //test();
 
@@ -187,6 +207,24 @@ $(function () {
                 
             }
         });
+	$("#current_road_temp").click(function () {
+		    if ($(this).is(":checked")) {
+		        $("#myChart6").show();
+		      
+		    } else {
+		        $("#myChart6").hide();
+		        
+		    }
+		});
+	$("#current_hum").click(function () {
+		    if ($(this).is(":checked")) {
+		        $("#myChart7").show();
+		      
+		    } else {
+		        $("#myChart7").hide();
+		        
+		    }
+		});
  });
 
 
@@ -199,10 +237,19 @@ output1.innerHTML = '2019-01-20 13:12:12';
 slider1.oninput = function() {
 var d1 = new Date(0);
  d1.setUTCSeconds(this.value);
-if(d1.getMonth()>=9){
-  starttime = d1.getFullYear()+"-"+(parseInt(d1.getMonth())+1).toString()+"-"+d1.getDate()+" "+d1.getHours()+":"+d1.getMinutes()+":"+d1.getSeconds();
-}else{
+ if(d1.getMonth()<=9 && d1.getDate()>=9){
   starttime = d1.getFullYear()+"-"+0+(parseInt(d1.getMonth())+1).toString()+"-"+d1.getDate()+" "+d1.getHours()+":"+d1.getMinutes()+":"+d1.getSeconds();
+}
+
+if(d1.getDate()<=9 && d1.getMonth()>=9){
+  starttime = d1.getFullYear()+"-"+(parseInt(d1.getMonth())+1).toString()+"-"+0+d1.getDate()+" "+d1.getHours()+":"+d1.getMinutes()+":"+d1.getSeconds();
+}
+
+if(d1.getDate()<=9 && d1.getMonth()<=9){
+  starttime = d1.getFullYear()+"-"+0+(parseInt(d1.getMonth())+1).toString()+"-"+0+d1.getDate()+" "+d1.getHours()+":"+d1.getMinutes()+":"+d1.getSeconds();
+}
+if (d1.getDate()>=9 && d1.getMonth()>=9){
+starttime = d1.getFullYear()+"-"+(parseInt(d1.getMonth())+1).toString()+"-"+d1.getDate()+" "+d1.getHours()+":"+d1.getMinutes()+":"+d1.getSeconds();
 }
   output1.innerHTML = starttime;
 } 
@@ -216,14 +263,23 @@ output.innerHTML = '2019-01-30 13:23:20';
 slider.oninput = function() {
  var d2 = new Date(0);
   d2.setUTCSeconds(this.value);
- if(d2.getMonth()>=9){
-stoptime = d2.getFullYear()+"-"+(parseInt(d2.getMonth())+1).toString()+"-"+d2.getDate()+" "+d2.getHours()+":"+d2.getMinutes()+":"+d2.getSeconds();
-}else{
+ if(d2.getMonth()<=9 && d2.getDate()>=9){
   stoptime = d2.getFullYear()+"-"+0+(parseInt(d2.getMonth())+1).toString()+"-"+d2.getDate()+" "+d2.getHours()+":"+d2.getMinutes()+":"+d2.getSeconds();
 }
-  output.innerHTML = stoptime;
-} 
 
+if(d2.getDate()<=9 && d2.getMonth()>=9){
+  stoptime = d2.getFullYear()+"-"+(parseInt(d2.getMonth())+1).toString()+"-"+0+d2.getDate()+" "+d2.getHours()+":"+d2.getMinutes()+":"+d2.getSeconds();
+}
+
+if(d2.getDate()<=9 && d2.getMonth()<=9){
+  stoptime = d2.getFullYear()+"-"+0+(parseInt(d2.getMonth())+1).toString()+"-"+0+d2.getDate()+" "+d2.getHours()+":"+d2.getMinutes()+":"+d2.getSeconds();
+}
+if (d2.getDate()>=9 && d2.getMonth()>=9){
+stoptime = d2.getFullYear()+"-"+(parseInt(d2.getMonth())+1).toString()+"-"+d2.getDate()+" "+d2.getHours()+":"+d2.getMinutes()+":"+d2.getSeconds();
+}
+  output.innerHTML = stoptime;
+
+} 
 
 </script>
 
