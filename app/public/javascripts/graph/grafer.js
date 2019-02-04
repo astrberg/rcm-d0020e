@@ -1,6 +1,5 @@
-
-function graf2(){
 //different colors when data is below 0
+function graf2(){
 	var pointBackgroundColors = [];
 	var ctx = document.getElementById('myChart3').getContext('2d');
 	var myChart = new Chart(ctx, {
@@ -36,14 +35,6 @@ function graf2(){
 	myChart.update();
 }
 	
-//current data air temp
-function databarchartcurrent(weatherdata){
-	var typeofgraph = "current_air";
-	var stationame = weatherdata[0].station_id;
-	var datatempvar= weatherdata[0].air_temperature;
-	generatedataforbar(typeofgraph,datatempvar,stationame);
-}
-
 var currentdatawind = [];
 var currentdatatemp = [];
 var currentroadtemp = [];
@@ -69,6 +60,13 @@ function generatedataforbar(typeofgraph,datatempvar,stationame){
 	}
 
 }
+//current data air temp
+function databarchartcurrent(weatherdata){
+	var typeofgraph = "current_air";
+	var stationame = weatherdata[0].station_id;
+	var datatempvar= weatherdata[0].air_temperature;
+	generatedataforbar(typeofgraph,datatempvar,stationame);
+}
 
 var chart = null;
 function currenttempgraph(weatherdata){
@@ -83,7 +81,6 @@ function currenttempgraph(weatherdata){
 		datasets: currentdatatemp
 	    },
 
-	
 	    options: {
 			title:{
 	display:true,
@@ -157,7 +154,7 @@ function currentroadtempgraph(weatherdata){
 
 
 
-//current data air hum
+//current data air humidity
 function databarcharthumcurrent(weatherdata){
 	var typeofgraph = "current_hum";
 	var stationame = weatherdata[0].station_id;
