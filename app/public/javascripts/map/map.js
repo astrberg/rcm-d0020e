@@ -286,6 +286,7 @@ function drawMap() {
         onEachFeature: onEachFeature
     }).addTo(map);
 }
+//Draw functionality
 var drawnItems = new L.FeatureGroup();
 map.addLayer(drawnItems);
 
@@ -318,7 +319,6 @@ map.on(L.Draw.Event.CREATED, function (e) {
   var layer = e.layer;
 
   // Do whatever else you need to. (save to db, add to map etc)
-
   drawnItems.addLayer(layer);
 });
 
