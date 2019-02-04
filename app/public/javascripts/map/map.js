@@ -67,25 +67,8 @@ function removeMarkerOnZoom(group){
     
 }
 
-
-/**
- * Adds a station marker with popup to a map layer
- */
-
-var layerGroups = [];
-var timer = Date.now();
-  function addStationToLayer(station, layerNumber){
-    var marker = L.marker([station.lon, station.lat]);
-    marker.setIcon(icon);
-
-    
-    if(!layerGroups[layerNumber]) {
-        layerGroups[layerNumber] = new L.layerGroup();
-    }
-
-    layerGroups[layerNumber].addLayer(marker);    
-    //var popupContent = popupContentSetup(station);
-
+// Popup content
+function addPopup(station, marker) {
     var div = document.createElement("table-data");
     div.id = "popupid:" + station.id;
     div.innerHTML = 
@@ -98,48 +81,55 @@ var timer = Date.now();
             '<tr> <td>Vindhastighet: </td><td></td></tr>' +
             '<tr> <td>Vindriktning: </td><td></td></tr>' +
     '</table>';
-    marker.bindPopup(div);
 
-   
-    marker.on('click', async function(){
-        await getLatestWeatherData(station, this);
-        let dataText = [" \xB0C", " \xB0C", " %", " m/s", ""];
-        let data = ["air_temperature", "road_temperature", "air_humidity", "wind_speed", "wind_direction"];
-        for(let i = 0; i < 5; i++) {
-            document.getElementById("marker-data").rows[i + 2].cells[1].innerHTML = latestWeatherData[0][data[i]] + dataText[i];
-        }
-
-    });
-    
-}
-
-// returns the popup for a new station marker
-function popupContentSetup(station){
-    var div = document.createElement("div");
-    div.id = "popupid:" + station.id;
-    var center = document.createElement("div");
-    center.className = "center";
+    // Button
     var button = document.createElement("button");
     button.id = "buttonid:" + station.id;
     button.className = "add-button";
     button.innerText = "Lägg till";
     button.addEventListener('click', function(){
-         handleChosenStations(station);
+        handleChosenStations(station);
     });
-    center.appendChild(button);
-    var content = document.createElement("P");
-    content.className = "popup-content";
-    content.innerHTML = 
-        'Station: ' + station.name + '<br>' +
-        'Län: ' + countyNames[station.county_number] + '<br>' + 
-        'Lufttemperatur: <br>' +
-        'Vägtemperatur: <br>' +
-        'Luftfuktighet: <br>' +
-        'Vindhastighet: <br>' +
-        'Vindriktning: <br>';
-    div.appendChild(content);
-    div.appendChild(center);
-    return div;
+    div.appendChild(button);
+    marker.bindPopup(div);
+}
+
+
+/**
+ * Adds a station marker with popup content to a map layer
+ */
+var layerGroups = [];
+var timer = Date.now();
+function addStationToLayer(station, layerNumber){
+    var marker = L.marker([station.lon, station.lat]);
+    marker.setIcon(icon);
+
+
+    if(!layerGroups[layerNumber]) {
+        layerGroups[layerNumber] = new L.layerGroup();
+    }
+
+    layerGroups[layerNumber].addLayer(marker);    
+    
+
+    // Add popup content
+    addPopup(station, marker);
+   
+
+    marker.on('click', async function(){
+        // Wait for weather data
+        await getLatestWeatherData(station.id);
+        let dataText = [" \xB0C", " \xB0C", " %", " m/s", ""];
+        let data = ["air_temperature", "road_temperature", "air_humidity", "wind_speed", "wind_direction"];
+        let markerDiv = document.getElementById("marker-data");
+
+        for(let i = 0; i < 5; i++) {
+            markerDiv.rows[i + 2].cells[1].innerHTML = latestWeatherData[0][data[i]] + dataText[i];
+        }
+        
+
+    });
+
 }
 
 // Adds a station to chosenStations array
