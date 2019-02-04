@@ -84,10 +84,31 @@ var timer = Date.now();
     }
 
     layerGroups[layerNumber].addLayer(marker);    
-    var popupContent = popupContentSetup(station);
-    marker.bindPopup(popupContent);
+    //var popupContent = popupContentSetup(station);
+
+    var div = document.createElement("table-data");
+    div.id = "popupid:" + station.id;
+    div.innerHTML = 
+    '<table id = "marker-data" >' +
+            '<tr> <td> Station </td><td>' + station.name +'</td></tr>' + 
+            '<tr> <td> Län: </td><td>' + countyNames[station.county_number] + '</td></tr>' + 
+            '<tr> <td>Lufttemperatur: </td><td></td></tr>' +
+            '<tr> <td>Vägtemperatur: </td><td></td></tr>' +
+            '<tr> <td>Luftfuktighet: </td><td></td></tr>' +
+            '<tr> <td>Vindhastighet: </td><td></td></tr>' +
+            '<tr> <td>Vindriktning: </td><td></td></tr>' +
+    '</table>';
+    marker.bindPopup(div);
+
+   
     marker.on('click', async function(){
         await getLatestWeatherData(station, this);
+        let dataText = [" \xB0C", " \xB0C", " %", " m/s", ""];
+        let data = ["air_temperature", "road_temperature", "air_humidity", "wind_speed", "wind_direction"];
+        for(let i = 0; i < 5; i++) {
+            document.getElementById("marker-data").rows[i + 2].cells[1].innerHTML = latestWeatherData[0][data[i]] + dataText[i];
+        }
+
     });
     
 }
