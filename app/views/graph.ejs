@@ -43,9 +43,10 @@
 <input type="checkbox" checked=checked id="Road_temp"/>Road_temp
 <input type="checkbox" checked=checked id="Air_humidity"/>Air_humidity
 <input type="checkbox" checked=checked id="Wind_speed"/>Wind_speed
-<input type="checkbox" checked=checked id="current_temp"/>current_temp
-<input type="checkbox" checked=checked id="current_road_temp"/>current_road_temp
-<input type="checkbox" checked=checked id="current_hum"/>current_hum
+<input type="checkbox" checked=checked id="current_temp"/>Current_air_temp
+<input type="checkbox" checked=checked id="current_road_temp"/>Current_road_temp
+<input type="checkbox" checked=checked id="current_hum"/>Current_air_humidity
+<input type="checkbox" checked=checked id="current_windspeed"/>Current_wind_speed
 </div>
 
 <div id="type1">
@@ -68,6 +69,9 @@
 </div>
 <div id="type7">
   <canvas id="myChart7"></canvas>
+</div>
+<div id="type8">
+  <canvas id="myChart8"></canvas>
 </div>
 
 
@@ -117,6 +121,9 @@ async function rungraphs(starttime, stoptime){
 	const canvasclearvar7 = document.getElementById('myChart7').getContext('2d');
 		canvasclearvar7.clearRect(0,0, document.getElementById('myChart7').width, document.getElementById('myChart5').height);
 
+	const canvasclearvar8 = document.getElementById('myChart8').getContext('2d');
+		canvasclearvar8.clearRect(0,0, document.getElementById('myChart8').width, document.getElementById('myChart8').height);
+
 	//functioncalls to get data
 	for(var i = 0; i < stations.length; i++){
 		await getWeatherData(stations[i],starttime,stoptime);
@@ -137,6 +144,8 @@ async function rungraphs(starttime, stoptime){
 	await currentroadtempgraph();
 
 	await currenthumgraph();
+
+	await currentwindspeedgraph();
 }
 }
 
@@ -231,7 +240,16 @@ $(function () {
 		        $("#myChart7").hide();
 		        
 		    }
-		});
+	});
+	$("#current_windspeed").click(function () {
+		    if ($(this).is(":checked")) {
+		        $("#myChart8").show();
+		      
+		    } else {
+		        $("#myChart8").hide();
+		        
+		    }
+	});
  });
 
 

@@ -44,7 +44,7 @@ function databarchartcurrent(weatherdata){
 	generatedataforbar(typeofgraph,datatempvar,stationame);
 }
 
-
+var currentdatawind = [];
 var currentdatatemp = [];
 var currentroadtemp = [];
 var currentairhum = [];
@@ -63,6 +63,9 @@ function generatedataforbar(typeofgraph,datatempvar,stationame){
 	}
 	if (typeofgraph=="current_hum"){
 		currentairhum.push(dataFirst);
+	}
+	if (typeofgraph=="current_windspeed"){
+		currentdatawind.push(dataFirst);
 	}
 
 }
@@ -88,6 +91,39 @@ function currenttempgraph(weatherdata){
 	}
 	});
 }
+
+
+//current data windspeed 
+function databarchartwindcurrent(weatherdata){
+	var typeofgraph = "current_windspeed";
+	var stationame = weatherdata[0].station_id;
+	var datatempvar= weatherdata[0].wind_speed;
+	generatedataforbar(typeofgraph,datatempvar,stationame);
+}
+
+var chart6 = null;
+function currentwindspeedgraph(weatherdata){
+	if(chart6!=null){
+		chart6.destroy();
+	}
+	var ctx = document.getElementById('myChart8').getContext('2d');
+	chart6 = new Chart(ctx, {
+	    type: 'bar',
+	    data: {
+		//labels: stations,
+		datasets: currentdatawind
+	    },
+
+	
+	    options: {
+			title:{
+	display:true,
+	text: "Current_windspeed"}
+	}
+	});
+}
+
+
 
 //current data road temp
 function databarchartroadcurrent(weatherdata){
@@ -452,6 +488,7 @@ function cleararrays(){
 	datagraftimestamp = [];	
  	currentroadtemp = [];
 	currentairhum = [];	
+	currentdatawind = [];
 }
 
 

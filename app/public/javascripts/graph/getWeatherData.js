@@ -26,6 +26,7 @@ async function getlatest(station_id) {
     	databarchartcurrent(weatherData);
     	databarchartroadcurrent(weatherData);
     	databarcharthumcurrent(weatherData);
+    	databarchartwindcurrent(weatherData);
     
     //console.log(weatherData);
 	
