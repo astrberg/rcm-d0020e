@@ -98,6 +98,36 @@ function addPopup(station, marker) {
     marker.bindPopup(div);
 }
 
+function windDirection(data) {
+    if(data == 'north') {
+      return '&nbsp; <i class="fa fa-long-arrow-down"></i> <br>';
+    }
+    else if(data == 'south') {
+      return '&nbsp; <i class="fa fa-long-arrow-up"></i> <br>';
+    }
+    else if(data == 'east') {
+      return '&nbsp; <i class="fa fa-long-arrow-left"></i> <br>';
+    }
+    else if(data == 'west') {
+      return '&nbsp; <i class="fa fa-long-arrow-right"></i> <br>';
+    }
+    else if(data == 'northEast') { //southWest
+      return '&nbsp; <i class="fa fa-long-arrow-down" style="transform: rotate(45deg)"></i> <br>';
+    }
+    else if(data == 'northWest') { //southEast
+      return '&nbsp; <i class="fa fa-long-arrow-right" style="transform: rotate(45deg)"></i> <br>';
+    }
+    else if(data == 'southEast') { //northWest
+      return '&nbsp; <i class="fa fa-long-arrow-up" style="transform: rotate(45deg)"></i> <br>';
+    }
+    else if(data == 'southWest') { //northEast
+      return '&nbsp; <i class="fa fa-long-arrow-left" style="transform: rotate(45deg)"></i> <br>';
+    }
+    
+
+}
+
+
 
 /**
  * Adds a station marker with popup content to a map layer
@@ -126,10 +156,11 @@ function addStationToLayer(station, layerNumber){
         let data = ["air_temperature", "road_temperature", "air_humidity", "wind_speed", "wind_direction"];
         let markerDiv = document.getElementById("marker-data");
         if(markerDiv != null) {
-        for(let i = 0; i < 5; i++) {
+        for(let i = 0; i < 4; i++) {
             markerDiv.rows[i + 2].cells[1].innerHTML = latestWeatherData[0][data[i]] + dataText[i];
         }
-    }
+        markerDiv.rows[6].cells[1].innerHTML =  windDirection(latestWeatherData[0][data[4]]);
+    }   
         
 
     });
@@ -304,7 +335,6 @@ function onEachFeature(feature, layer) {
 }
 
 //Adds the Swedish countys to the map with some css styling
-
 function drawMap() {
     geojson = L.geoJson(countyData, {
         style: style,
