@@ -1,7 +1,7 @@
 const mysqlssh = require('mysql-ssh');
 const authorization = require('./authorization');
 
-
+let mutex = 0;
 
 /* Functions in the DB class that is usable by other files */
 module.exports = {
@@ -13,7 +13,7 @@ module.exports = {
 
     // get latest inserted weather from given station
     getLatestWeatherData : function(req, res, next, station_id){
-       
+        mutex++;
 
         let auth = new authorization.Authorization();
 
@@ -33,10 +33,16 @@ module.exports = {
                 // JSON parses timestamp to UTC+0 and we live in UTC+1
                 current_time.setHours(current_time.getHours() - current_time.getTimezoneOffset() / 60);
                 
-                mysqlssh.close()
+                
                 
                 // send data back to client
                 res.send(results);
+                mutex--;
+
+                if(mutex == 0){
+                    mysqlssh.close()
+
+                }
             })
 
         }).catch(err => {

@@ -122,10 +122,11 @@ function addStationToLayer(station, layerNumber){
         let dataText = [" \xB0C", " \xB0C", " %", " m/s", ""];
         let data = ["air_temperature", "road_temperature", "air_humidity", "wind_speed", "wind_direction"];
         let markerDiv = document.getElementById("marker-data");
-
+        if(markerDiv != null) {
         for(let i = 0; i < 5; i++) {
             markerDiv.rows[i + 2].cells[1].innerHTML = latestWeatherData[0][data[i]] + dataText[i];
         }
+    }
         
 
     });
