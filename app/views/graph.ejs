@@ -4,7 +4,6 @@
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <link rel='stylesheet' href='/stylesheets/graph.css' />
-
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
   </head>
@@ -17,14 +16,21 @@
 	margin: auto;
         padding: 20px;
 	}
+	
+	#divcheckboxes{
+	}
+
   </style>
 
+<p>Sliders för att justera tidsintervallet för graferna.</p>
+<p>Starttime</p>
 <div id="slideroptions">
 <p id="output1"></p>
 <div class="slidecontainer1">
   <input type="range" min="1545230510" max="0" value="1" class="slider" id="myRange1">
 </div>
 
+<p>Stoptime</p>
 <p id="output2"></p>
 <div class="slidecontainer2">
   <input type="range" min="1545230510" max="0" value="1" class="slider" id="myRange2">
@@ -37,7 +43,10 @@
 <input type="checkbox" checked=checked id="Road_temp"/>Road_temp
 <input type="checkbox" checked=checked id="Air_humidity"/>Air_humidity
 <input type="checkbox" checked=checked id="Wind_speed"/>Wind_speed
-<input type="checkbox" checked=checked id="current_temp"/>current_temp
+<input type="checkbox" checked=checked id="current_temp"/>Current_air_temp
+<input type="checkbox" checked=checked id="current_road_temp"/>Current_road_temp
+<input type="checkbox" checked=checked id="current_hum"/>Current_air_humidity
+<input type="checkbox" checked=checked id="current_windspeed"/>Current_wind_speed
 </div>
 
 <div id="type1">
@@ -55,14 +64,25 @@
 <div id="type5">
   <canvas id="myChart5"></canvas>
 </div>
+<div id="type6">
+  <canvas id="myChart6"></canvas>
+</div>
+<div id="type7">
+  <canvas id="myChart7"></canvas>
+</div>
+<div id="type8">
+  <canvas id="myChart8"></canvas>
+</div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
-  <script src="javascripts/map/stations.js"></script>
+
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+ <script src="javascripts/map/stations.js"></script>
  <script src="javascripts/graph/getWeatherData.js"></script>
  <script type="text/javascript" src="/javascripts/graph/grafer.js"></script>
-
-
+ 
 <script>
+
+
 document.getElementById("myRange1").max = Math.floor(Date.now() / 1000);
 document.getElementById("myRange2").max = Math.floor(Date.now() / 1000);
 
@@ -73,8 +93,13 @@ var starttime='2019-01-20 13:12:12';
 var stoptime='2019-01-23 13:23:20';
 
 async function rungraphs(starttime, stoptime){
+	var a = new Date(starttime.substring(0,10)+"T"+starttime.substring(11,)+"Z");
+	var b = new Date(stoptime.substring(0,10)+"T"+stoptime.substring(11,)+"Z");
+	if(+a < +b){
+	//arrayclear
 	await cleararrays();
-
+	
+	//canvasclear
 	const canvasclearvar1 = document.getElementById('myChart1').getContext('2d');
         canvasclearvar1.clearRect(0,0, document.getElementById('myChart1').width, document.getElementById('myChart1').height);
 
@@ -90,10 +115,22 @@ async function rungraphs(starttime, stoptime){
 	const canvasclearvar5 = document.getElementById('myChart5').getContext('2d');
         canvasclearvar5.clearRect(0,0, document.getElementById('myChart5').width, document.getElementById('myChart5').height);
 
+	const canvasclearvar6 = document.getElementById('myChart6').getContext('2d');
+		canvasclearvar6.clearRect(0,0, document.getElementById('myChart6').width, document.getElementById('myChart5').height);
+
+	const canvasclearvar7 = document.getElementById('myChart7').getContext('2d');
+		canvasclearvar7.clearRect(0,0, document.getElementById('myChart7').width, document.getElementById('myChart5').height);
+
+	const canvasclearvar8 = document.getElementById('myChart8').getContext('2d');
+		canvasclearvar8.clearRect(0,0, document.getElementById('myChart8').width, document.getElementById('myChart8').height);
+
+	//functioncalls to get data
 	for(var i = 0; i < stations.length; i++){
 		await getWeatherData(stations[i],starttime,stoptime);
 		await getlatest(stations[i]);
 	}
+	
+	//functions to draw graphs
 	await roadtemp();
 
 	await airtemp();
@@ -103,12 +140,19 @@ async function rungraphs(starttime, stoptime){
 	await windspeed();
 
 	await currenttempgraph();
+
+	await currentroadtempgraph();
+
+	await currenthumgraph();
+
+	await currentwindspeedgraph();
+}
 }
 
 rungraphs(starttime,stoptime);
 
 
-//testfunction
+//testfunction with 2 stations
 async function test(){
 await getWeatherData('SE_STA_VVIS2240','2019-01-20 13:12:12','2019-01-23 13:23:20');
 await getWeatherData('SE_STA_VVIS1524','2019-01-20 13:12:12','2019-01-23 13:23:20');
@@ -126,8 +170,9 @@ await getlatest('SE_STA_VVIS1524');
 await getlatest('SE_STA_VVIS2240');
 
 await currenttempgraph();
-}
 
+
+}
 //test();
 
 
@@ -178,6 +223,33 @@ $(function () {
                 
             }
         });
+	$("#current_road_temp").click(function () {
+		    if ($(this).is(":checked")) {
+		        $("#myChart6").show();
+		      
+		    } else {
+		        $("#myChart6").hide();
+		        
+		    }
+		});
+	$("#current_hum").click(function () {
+		    if ($(this).is(":checked")) {
+		        $("#myChart7").show();
+		      
+		    } else {
+		        $("#myChart7").hide();
+		        
+		    }
+	});
+	$("#current_windspeed").click(function () {
+		    if ($(this).is(":checked")) {
+		        $("#myChart8").show();
+		      
+		    } else {
+		        $("#myChart8").hide();
+		        
+		    }
+	});
  });
 
 
@@ -190,8 +262,21 @@ output1.innerHTML = '2019-01-20 13:12:12';
 slider1.oninput = function() {
 var d1 = new Date(0);
  d1.setUTCSeconds(this.value);
-  starttime = d1.getFullYear()+"-"+(parseInt(d1.getMonth())+1).toString()+"-"+d1.getDate()+" "+d1.getHours()+":"+d1.getMinutes()+":"+d1.getSeconds();
-  output1.innerHTML = d1;
+ if(d1.getMonth()<=9 && d1.getDate()>=9){
+  starttime = d1.getFullYear()+"-"+0+(parseInt(d1.getMonth())+1).toString()+"-"+d1.getDate()+" "+d1.getHours()+":"+d1.getMinutes()+":"+d1.getSeconds();
+}
+
+if(d1.getDate()<=9 && d1.getMonth()>=9){
+  starttime = d1.getFullYear()+"-"+(parseInt(d1.getMonth())+1).toString()+"-"+0+d1.getDate()+" "+d1.getHours()+":"+d1.getMinutes()+":"+d1.getSeconds();
+}
+
+if(d1.getDate()<=9 && d1.getMonth()<=9){
+  starttime = d1.getFullYear()+"-"+0+(parseInt(d1.getMonth())+1).toString()+"-"+0+d1.getDate()+" "+d1.getHours()+":"+d1.getMinutes()+":"+d1.getSeconds();
+}
+if (d1.getDate()>=9 && d1.getMonth()>=9){
+starttime = d1.getFullYear()+"-"+(parseInt(d1.getMonth())+1).toString()+"-"+d1.getDate()+" "+d1.getHours()+":"+d1.getMinutes()+":"+d1.getSeconds();
+}
+  output1.innerHTML = starttime;
 } 
 
 //Slider2
@@ -203,10 +288,23 @@ output.innerHTML = '2019-01-30 13:23:20';
 slider.oninput = function() {
  var d2 = new Date(0);
   d2.setUTCSeconds(this.value);
-  stoptime = d2.getFullYear()+"-"+(parseInt(d2.getMonth())+1).toString()+"-"+d2.getDate()+" "+d2.getHours()+":"+d2.getMinutes()+":"+d2.getSeconds();
-  output.innerHTML = d2;
-} 
+ if(d2.getMonth()<=9 && d2.getDate()>=9){
+  stoptime = d2.getFullYear()+"-"+0+(parseInt(d2.getMonth())+1).toString()+"-"+d2.getDate()+" "+d2.getHours()+":"+d2.getMinutes()+":"+d2.getSeconds();
+}
 
+if(d2.getDate()<=9 && d2.getMonth()>=9){
+  stoptime = d2.getFullYear()+"-"+(parseInt(d2.getMonth())+1).toString()+"-"+0+d2.getDate()+" "+d2.getHours()+":"+d2.getMinutes()+":"+d2.getSeconds();
+}
+
+if(d2.getDate()<=9 && d2.getMonth()<=9){
+  stoptime = d2.getFullYear()+"-"+0+(parseInt(d2.getMonth())+1).toString()+"-"+0+d2.getDate()+" "+d2.getHours()+":"+d2.getMinutes()+":"+d2.getSeconds();
+}
+if (d2.getDate()>=9 && d2.getMonth()>=9){
+stoptime = d2.getFullYear()+"-"+(parseInt(d2.getMonth())+1).toString()+"-"+d2.getDate()+" "+d2.getHours()+":"+d2.getMinutes()+":"+d2.getSeconds();
+}
+  output.innerHTML = stoptime;
+
+} 
 
 </script>
 
