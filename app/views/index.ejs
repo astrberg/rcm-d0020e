@@ -31,6 +31,8 @@
         <button id="stationList-button" onclick="displayStationField()" >Show chosen stations</button>
       </div>
     </div>
+
+
     <!--Map scripts-->
     <script src="javascripts/map/countyData.js"></script>
     <script src="javascripts/map/countyNames.js"></script>
@@ -39,8 +41,11 @@
     <script src="javascripts/graph/getWeatherData.js"></script>
     <script src="javascripts/map/weatherData.js"></script>
     <script src="javascripts/map/boundaryCanvas.js"></script>
+    <script src="javascripts/map/markers.js"></script>
     <script src="javascripts/map/map.js"></script>
     <script src="javascripts/map/chosenStationField.js"></script>
+    <script src="javascripts/map/stationPopup.js"></script>
+
     <script>
     async function main (){
       await getAvgCountyWeatherData();
