@@ -1,6 +1,5 @@
-
-function graf2(){
 //different colors when data is below 0
+function graf2(){
 	var pointBackgroundColors = [];
 	var ctx = document.getElementById('myChart3').getContext('2d');
 	var myChart = new Chart(ctx, {
@@ -36,23 +35,37 @@ function graf2(){
 	myChart.update();
 }
 	
-//current data air temp
-function databarchartcurrent(weatherdata){
-	var stationame = weatherdata[0].station_id;
-	var datatempvar= weatherdata[0].air_temperature;
-	generatedataforbar(datatempvar,stationame)
-}
-
-
+var currentdatawind = [];
 var currentdatatemp = [];
-function generatedataforbar(datatempvar,stationame){
+var currentroadtemp = [];
+var currentairhum = [];
+function generatedataforbar(typeofgraph,datatempvar,stationame){
     var dataFirst = {
     label: stationame,
     backgroundColor: colornamelist[stationnamelist.indexOf(stationame)],
     borderColor: colornamelist[stationnamelist.indexOf(stationame)],
     data: [datatempvar]
   };
-  currentdatatemp.push(dataFirst);
+	if(typeofgraph=="current_air"){
+		currentdatatemp.push(dataFirst);
+	}
+	if (typeofgraph=="current_road"){
+		currentroadtemp.push(dataFirst);
+	}
+	if (typeofgraph=="current_hum"){
+		currentairhum.push(dataFirst);
+	}
+	if (typeofgraph=="current_windspeed"){
+		currentdatawind.push(dataFirst);
+	}
+
+}
+//current data air temp
+function databarchartcurrent(weatherdata){
+	var typeofgraph = "current_air";
+	var stationame = weatherdata[0].station_id;
+	var datatempvar= weatherdata[0].air_temperature;
+	generatedataforbar(typeofgraph,datatempvar,stationame);
 }
 
 var chart = null;
@@ -61,15 +74,112 @@ function currenttempgraph(weatherdata){
 		chart.destroy();
 	}
 	var ctx = document.getElementById('myChart5').getContext('2d');
-	var chart = new Chart(ctx, {
+	chart = new Chart(ctx, {
 	    type: 'bar',
 	    data: {
 		//labels: stations,
 		datasets: currentdatatemp
 	    },
 
+	    options: {
+			title:{
+	display:true,
+	text: "Current_airtemp"}
+	}
+	});
+}
+
+
+//current data windspeed 
+function databarchartwindcurrent(weatherdata){
+	var typeofgraph = "current_windspeed";
+	var stationame = weatherdata[0].station_id;
+	var datatempvar= weatherdata[0].wind_speed;
+	generatedataforbar(typeofgraph,datatempvar,stationame);
+}
+
+var chart6 = null;
+function currentwindspeedgraph(weatherdata){
+	if(chart6!=null){
+		chart6.destroy();
+	}
+	var ctx = document.getElementById('myChart8').getContext('2d');
+	chart6 = new Chart(ctx, {
+	    type: 'bar',
+	    data: {
+		//labels: stations,
+		datasets: currentdatawind
+	    },
+
 	
-	    options: {}
+	    options: {
+			title:{
+	display:true,
+	text: "Current_windspeed"}
+	}
+	});
+}
+
+
+
+//current data road temp
+function databarchartroadcurrent(weatherdata){
+	var typeofgraph = "current_road";
+	var stationame = weatherdata[0].station_id;
+	var datatempvar= weatherdata[0].road_temperature;
+	generatedataforbar(typeofgraph,datatempvar,stationame);
+}
+
+var chart1 = null;
+function currentroadtempgraph(weatherdata){
+	if(chart1!=null){
+		chart1.destroy();
+	}
+	var ctx = document.getElementById('myChart6').getContext('2d');
+	chart1 = new Chart(ctx, {
+	    type: 'bar',
+	    data: {
+		//labels: stations,
+		datasets: currentroadtemp
+	    },
+
+	
+	    options: {
+			title:{
+	display:true,
+	text: "Current_roadtemp"}
+	}
+	});
+}
+
+
+
+//current data air humidity
+function databarcharthumcurrent(weatherdata){
+	var typeofgraph = "current_hum";
+	var stationame = weatherdata[0].station_id;
+	var datatempvar= weatherdata[0].air_humidity;
+	generatedataforbar(typeofgraph,datatempvar,stationame);
+}
+var chart2 = null;
+function currenthumgraph(weatherdata){
+	if(chart2!=null){
+		chart2.destroy();
+	}
+	var ctx = document.getElementById('myChart7').getContext('2d');
+	chart2 = new Chart(ctx, {
+	    type: 'bar',
+	    data: {
+		//labels: stations,
+		datasets: currentairhum
+	    },
+
+	
+	    options: {
+			title:{
+	display:true,
+	text: "Current_humidity"}
+	}
 	});
 }
 
@@ -372,7 +482,10 @@ function cleararrays(){
 	datagrafair = [];
 	datagraftimestampair = [];
 	data3graf3 = [];
-	datagraftimestamp = [];		
+	datagraftimestamp = [];	
+ 	currentroadtemp = [];
+	currentairhum = [];	
+	currentdatawind = [];
 }
 
 
