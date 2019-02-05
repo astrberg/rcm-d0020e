@@ -123,11 +123,31 @@ function windDirection(data) {
     else if(data == 'southWest') { //northEast
       return '&nbsp; <i class="fa fa-long-arrow-left" style="transform: rotate(45deg)"></i> <br>';
     }
-    
-
 }
 
+function changeButtonState(station, newState){
+    var button = document.getElementById("buttonid:" + station.id);
 
+    if(button != null){
+        if(newState == "remove"){
+            changeButtonText(button, "remove-button", "Ta bort");
+        
+        }else if(newState == "add"){
+            changeButtonText(button, "add-button", "Lägg till");
+        
+        }else if(chosenStations.includes(station)){
+            changeButtonText(button, "remove-button", "Ta bort");
+        
+        }else{
+            changeButtonText(button, "add-button", "Lägg till");
+        }
+    }
+}
+
+function changeButtonText(button, classText, buttonText){
+    button.className = classText;
+    button.innerText = buttonText;
+}
 
 /**
  * Adds a station marker with popup content to a map layer
@@ -151,6 +171,8 @@ function addStationToLayer(station, layerNumber){
    
 
     marker.on('click', async function(){
+        changeButtonState(station);
+        
         // Wait for weather data
         await getLatestWeatherData(station.id);
         let dataText = [" \xB0C", " \xB0C", " %", " m/s", ""];
