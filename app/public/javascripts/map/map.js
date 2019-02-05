@@ -104,6 +104,7 @@ function addPopup(station, marker) {
  */
 var layerGroups = [];
 var timer = Date.now();
+
 function addStationToLayer(station, layerNumber){
     var marker = L.marker([station.lon, station.lat]);
     marker.setIcon(icon);
@@ -137,66 +138,9 @@ function addStationToLayer(station, layerNumber){
 
 }
 
-// Adds a station to chosenStations array
-function addStation(station, marker){
-    
-    marker.setIcon(selectedIcon);
-
-    var button = document.getElementById("buttonid:" + station.id);
-    button.className = "remove-button";
-    button.innerText = "Ta bort";
-    chosenStations.push(station);
-    console.log("Added station: " + station.id + " to chosenStations.");
-    console.log("Added station name: " + station.name + " to chosenStations.") 
-    console.log("chosenStations length: " + chosenStations.length);
-
-}
-
-// Removes a station from chosenStations array
-function removeStationViaButton(station, marker){
-    marker.setIcon(icon);
-
-    var button = document.getElementById("buttonid:" + station.id);
-    button.className = "add-button";
-    button.innerText = "Lägg till";
-    
-    removeStation(station);
-}
-
-function removeStationViaList(station, index){
-    console.log("remove box");
-    var test = ".stationBox"+index;
-    console.log(test);
-    $(test).remove();
-    removeStation(station);
-}
-
-function removeStation(station){
-    for(var i = 0; i <chosenStations.length; i++){
-        if(chosenStations[i] == station){
-            chosenStations.splice(i,1);
-            console.log("Removed station: " + station.id + " from chosenStations.");
-            console.log("Added station name: " + station.name + " to chosenStations.");
-            console.log("chosenStations length: " + chosenStations.length);
-            return;
-        }
-    }
-}
-
-// Checks if a station is added or removed from chosenStations array
-function handleChosenStations(station, marker){
-
-    if(!chosenStations.includes(station)){
-        addStation(station, marker);
-    }else{
-        removeStationViaButton(station, marker);
-    }
-}
-
-    
 
 
-  function createLayers(stations){
+function createLayers(stations){
     // add every tenth station to the first layer
     for(var i = 0; i< stations.length; i+=10){
         addStationToLayer(stations[i], 0);
