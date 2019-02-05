@@ -30,7 +30,7 @@ function appendStationToField(index){
     container.append(getStationBox(index, chosenStations[index].name));
 }
 
-function showStationButton(){
+function showStationFieldButton(){
     $("#stationList-button").show();
     
 }
