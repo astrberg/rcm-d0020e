@@ -21,6 +21,7 @@ var standardTileLayer = L.TileLayer.boundaryCanvas(mapboxURL, {
 });
 standardTileLayer.addTo(map);
 
+
 var icon = L.divIcon({
     className: 'fa fa-map-marker fa-2x',
     iconAnchor: [12, 24],
@@ -32,12 +33,11 @@ var selectedIcon = L.divIcon({
     popupAnchor: [-5, -35]
 });
 
-
 /**
  * Restrict the map movement
  */
-var southWest = L.latLng(54.57206165565852,8.61328125),
-    northEast = L.latLng(69.31832006949072, 27.94921875);
+var southWest = L.latLng(54,9),
+    northEast = L.latLng(72, 32);
 var bounds = L.latLngBounds(southWest, northEast);
 map.setMaxBounds(bounds);
 map.on('drag', function () {
@@ -216,10 +216,6 @@ function handleChosenStations(station, marker){
     map.addLayer(layerGroups[0])
 }
 
-
-
-
-
 var info = L.control();
 
 info.onAdd = function (map) {
@@ -228,14 +224,13 @@ info.onAdd = function (map) {
     return this._div;
 };
 info.update = function (props) {
-    this._div.innerHTML = '<h4>Sverige medeltemperatur realtid</h4>' +  (props ?
-        '<b>' + props.name + '</b><br />'   + averageData[props.countyCode][1] + ' grader celsius'
+    this._div.innerHTML = '<h4>Sverige medeltemperatur per län</h4>' +  (props ?
+        '<b>' + props.name + '</b><br />'   + averageData[props.countyCode][1].toFixed(1) + '\xB0C'
         : 'Hovra över län');
 };
 info.addTo(map);
 
 function getColor(d) {
-    d = d[1];
     return  d > 35  ? '#CC0000' :
             d > 30  ? '#FF0000' :
             d > 25 ? '#FF3333' :
@@ -257,13 +252,14 @@ function getColor(d) {
 }
 
 function style(feature) {
+    var avg = averageData[feature.properties.countyCode];
     return {
         weight: 2,
         opacity: 0.2,
         color: 'black',
         dashArray: '3',
         fillOpacity: 0.7,
-        fillColor: getColor(averageData[feature.properties.countyCode])
+        fillColor: getColor(avg[1])
     };
 }
 
@@ -309,4 +305,59 @@ function drawMap() {
         onEachFeature: onEachFeature
     }).addTo(map);
 }
+//Draw functionality
+var drawnItems = new L.FeatureGroup();
+map.addLayer(drawnItems);
+
+// Initialise the draw control and pass it the FeatureGroup of editable layers
+var drawControl = new L.Control.Draw({
+    draw : {
+        polyline : false,
+        marker : false,
+        circlemarker : false,
+        polygon : false,
+        rectangle : {
+            shapeOptions: {
+                color: 'purple'
+               },
+        },
+        circle : {
+            shapeOptions: {
+                color: 'purple'
+               },
+        },
+    },
+  edit: {
+    featureGroup: drawnItems
+  }
+});
+map.addControl(drawControl);
+
+map.on(L.Draw.Event.CREATED, function (e) {
+  var type = e.layerType
+  var layer = e.layer;
+
+  // Do whatever else you need to. (save to db, add to map etc)
+  drawnItems.addLayer(layer);
+});
+
+var legend = L.control({position: 'bottomleft'});
+
+legend.onAdd = function (map) {
+
+    var div = L.DomUtil.create('div', 'info legend'),
+        scales = [35, 30, 25, 20, 15, 10, 5, 0, -5, -10, -15, -20, -25, -30, -35],
+        labels = [];
+    for (var i = 0; i < scales.length; i++) {
+        if(i == 0){
+            div.innerHTML +=  '<i style="background:' + getColor(scales[i]) + '"></i>' + scales[i] + '+ <br> ';
+        }else if(i == scales.length -1) {
+            div.innerHTML +=  '<i style="background:' + getColor(scales[i]) + '"></i>' + scales[i] + '- ';
+        }else {
+            div.innerHTML +=  '<i style="background:' + getColor(scales[i]) + '"></i>' + (scales[i]) + '<br>';
+    }
+}
+    return div;
+};
+legend.addTo(map);
 
