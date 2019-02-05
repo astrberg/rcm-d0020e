@@ -16,14 +16,21 @@
 	margin: auto;
         padding: 20px;
 	}
+	
+	#divcheckboxes{
+	}
+
   </style>
 
+<p>Sliders för att justera tidsintervallet för graferna.</p>
+<p>Starttime</p>
 <div id="slideroptions">
 <p id="output1"></p>
 <div class="slidecontainer1">
   <input type="range" min="1545230510" max="0" value="1" class="slider" id="myRange1">
 </div>
 
+<p>Stoptime</p>
 <p id="output2"></p>
 <div class="slidecontainer2">
   <input type="range" min="1545230510" max="0" value="1" class="slider" id="myRange2">
@@ -36,9 +43,10 @@
 <input type="checkbox" checked=checked id="Road_temp"/>Road_temp
 <input type="checkbox" checked=checked id="Air_humidity"/>Air_humidity
 <input type="checkbox" checked=checked id="Wind_speed"/>Wind_speed
-<input type="checkbox" checked=checked id="current_temp"/>current_temp
-<input type="checkbox" checked=checked id="current_road_temp"/>current_road_temp
-<input type="checkbox" checked=checked id="current_hum"/>current_hum
+<input type="checkbox" checked=checked id="current_temp"/>Current_air_temp
+<input type="checkbox" checked=checked id="current_road_temp"/>Current_road_temp
+<input type="checkbox" checked=checked id="current_hum"/>Current_air_humidity
+<input type="checkbox" checked=checked id="current_windspeed"/>Current_wind_speed
 </div>
 
 <div id="type1">
@@ -62,10 +70,13 @@
 <div id="type7">
   <canvas id="myChart7"></canvas>
 </div>
+<div id="type8">
+  <canvas id="myChart8"></canvas>
+</div>
 
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
-  <script src="javascripts/map/stations.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+ <script src="javascripts/map/stations.js"></script>
  <script src="javascripts/graph/getWeatherData.js"></script>
  <script type="text/javascript" src="/javascripts/graph/grafer.js"></script>
  
@@ -110,6 +121,9 @@ async function rungraphs(starttime, stoptime){
 	const canvasclearvar7 = document.getElementById('myChart7').getContext('2d');
 		canvasclearvar7.clearRect(0,0, document.getElementById('myChart7').width, document.getElementById('myChart5').height);
 
+	const canvasclearvar8 = document.getElementById('myChart8').getContext('2d');
+		canvasclearvar8.clearRect(0,0, document.getElementById('myChart8').width, document.getElementById('myChart8').height);
+
 	//functioncalls to get data
 	for(var i = 0; i < stations.length; i++){
 		await getWeatherData(stations[i],starttime,stoptime);
@@ -130,6 +144,8 @@ async function rungraphs(starttime, stoptime){
 	await currentroadtempgraph();
 
 	await currenthumgraph();
+
+	await currentwindspeedgraph();
 }
 }
 
@@ -224,7 +240,16 @@ $(function () {
 		        $("#myChart7").hide();
 		        
 		    }
-		});
+	});
+	$("#current_windspeed").click(function () {
+		    if ($(this).is(":checked")) {
+		        $("#myChart8").show();
+		      
+		    } else {
+		        $("#myChart8").hide();
+		        
+		    }
+	});
  });
 
 
