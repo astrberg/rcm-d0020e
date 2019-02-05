@@ -22,7 +22,7 @@ async function getLatestWeatherData(station, marker) {
         button.innerText = "Ta bort";
     }
     button.addEventListener('click', function(){
-        handleChosenStations(station);
+        handleChosenStations(station, marker);
     });
     center.appendChild(button);
     var content = document.createElement("P");

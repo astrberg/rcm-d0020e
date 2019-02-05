@@ -24,7 +24,12 @@ standardTileLayer.addTo(map);
 var icon = L.divIcon({
     className: 'fa fa-map-marker fa-2x',
     iconAnchor: [12, 24],
-    popupAnchor: [-3, 0],
+    popupAnchor: [-5, -25]
+});
+var selectedIcon = L.divIcon({
+    className: 'fa fa-map-marker fa-3x',
+    iconAnchor: [15, 34],
+    popupAnchor: [-5, -35]
 });
 
 
@@ -122,10 +127,67 @@ function popupContentSetup(station){
         'Vindriktning: <br>';
     div.appendChild(content);
     div.appendChild(center);
-    
+
     return div;
 }
 
+// Adds a station to chosenStations array
+function addStation(station, marker){
+    
+    marker.setIcon(selectedIcon);
+
+    var button = document.getElementById("buttonid:" + station.id);
+    button.className = "remove-button";
+    button.innerText = "Ta bort";
+    chosenStations.push(station);
+    console.log("Added station: " + station.id + " to chosenStations.");
+    console.log("Added station name: " + station.name + " to chosenStations.") 
+    console.log("chosenStations length: " + chosenStations.length);
+
+}
+
+// Removes a station from chosenStations array
+function removeStationViaButton(station, marker){
+    marker.setIcon(icon);
+
+    var button = document.getElementById("buttonid:" + station.id);
+    button.className = "add-button";
+    button.innerText = "Lägg till";
+    
+    removeStation(station);
+}
+
+function removeStationViaList(station, index){
+    console.log("remove box");
+    var test = ".stationBox"+index;
+    console.log(test);
+    $(test).remove();
+    removeStation(station);
+}
+
+function removeStation(station){
+    for(var i = 0; i <chosenStations.length; i++){
+        if(chosenStations[i] == station){
+            chosenStations.splice(i,1);
+            console.log("Removed station: " + station.id + " from chosenStations.");
+            console.log("Added station name: " + station.name + " to chosenStations.");
+            console.log("chosenStations length: " + chosenStations.length);
+            return;
+        }
+    }
+}
+
+// Checks if a station is added or removed from chosenStations array
+function handleChosenStations(station, marker){
+
+    if(!chosenStations.includes(station)){
+        addStation(station, marker);
+    }else{
+        removeStationViaButton(station, marker);
+    }
+}
+
+    
 
 
   function createLayers(stations){
