@@ -71,64 +71,70 @@ function removeMarkerOnZoom(group){
     
 }
 
-
-/**
- * Adds a station marker with popup to a map layer
- */
-
-var layerGroups = [];
-var timer = Date.now();
-
-function addStationToLayer(station, layerNumber){
-    var marker = L.marker([station.lon, station.lat]);
-    marker.setIcon(icon);
-
-    
-    if(!layerGroups[layerNumber]) {
-        layerGroups[layerNumber] = new L.layerGroup();
-    }
-
-    layerGroups[layerNumber].addLayer(marker);    
-    var popupContent = popupContentSetup(station);
-    marker.bindPopup(popupContent);
-    marker.on('click', async function(){
-        await getLatestWeatherData(station, this);
-    });
-    
-}
-
-// returns the popup for a new station marker
-function popupContentSetup(station){
-    var div = document.createElement("div");
+// Popup content
+function addPopup(station, marker) {
+    var div = document.createElement("table-data");
     div.id = "popupid:" + station.id;
-    
-    var center = document.createElement("div");
-    center.className = "center";
-    
+    div.innerHTML = 
+    '<table id = "marker-data" >' +
+            '<tr> <td> Station </td><td>' + station.name +'</td></tr>' + 
+            '<tr> <td> Län: </td><td>' + countyNames[station.county_number] + '</td></tr>' + 
+            '<tr> <td>Lufttemperatur: </td><td></td></tr>' +
+            '<tr> <td>Vägtemperatur: </td><td></td></tr>' +
+            '<tr> <td>Luftfuktighet: </td><td></td></tr>' +
+            '<tr> <td>Vindhastighet: </td><td></td></tr>' +
+            '<tr> <td>Vindriktning: </td><td></td></tr>' +
+    '</table>';
+
+    // Button
     var button = document.createElement("button");
     button.id = "buttonid:" + station.id;
     button.className = "add-button";
     button.innerText = "Lägg till";
     button.addEventListener('click', function(){
-         handleChosenStations(station);
+        handleChosenStations(station);
+    });
+    div.appendChild(button);
+    marker.bindPopup(div);
+}
+
+
+/**
+ * Adds a station marker with popup content to a map layer
+ */
+var layerGroups = [];
+var timer = Date.now();
+function addStationToLayer(station, layerNumber){
+    var marker = L.marker([station.lon, station.lat]);
+    marker.setIcon(icon);
+
+
+    if(!layerGroups[layerNumber]) {
+        layerGroups[layerNumber] = new L.layerGroup();
+    }
+
+    layerGroups[layerNumber].addLayer(marker);    
+    
+    // Add popup content
+    addPopup(station, marker);
+   
+
+    marker.on('click', async function(){
+        // Wait for weather data
+        await getLatestWeatherData(station.id);
+        let dataText = [" \xB0C", " \xB0C", " %", " m/s", ""];
+        let data = ["air_temperature", "road_temperature", "air_humidity", "wind_speed", "wind_direction"];
+        let markerDiv = document.getElementById("marker-data");
+        if(markerDiv != null) {
+        for(let i = 0; i < 5; i++) {
+            markerDiv.rows[i + 2].cells[1].innerHTML = latestWeatherData[0][data[i]] + dataText[i];
+        }
+    }
+        
+
     });
 
-    center.appendChild(button);
-    
-    var content = document.createElement("P");
-    content.className = "popup-content";
-    content.innerHTML = 
-        'Station: ' + station.name + '<br>' +
-        'Län: ' + countyNames[station.county_number] + '<br>' + 
-        'Lufttemperatur: <br>' +
-        'Vägtemperatur: <br>' +
-        'Luftfuktighet: <br>' +
-        'Vindhastighet: <br>' +
-        'Vindriktning: <br>';
-    div.appendChild(content);
-    div.appendChild(center);
 
-    return div;
 }
 
 // Adds a station to chosenStations array
