@@ -120,3 +120,43 @@
     color: white;
 
 }
+
+#search-container{
+    margin-left: 5%;
+    margin-right: 10%;
+    margin-top: 10px;
+    width: 30%;
+    float: left;
+    position: relative; 
+    z-index: 500;
+    display: block;
+}
+#searchbar{
+    width: 100%;
+    float:left;
+    height: 40px;
+    display: block;
+    border: 1px solid black;
+    border-radius: 4px;
+    padding-left: 10px;
+    
+}
+
+#suggestion-field{
+    background: transparent;
+    margin-top: 50px;
+    margin-left: 5px;
+    display: block;
+    height: 300px;
+    overflow-y: scroll;
+}
+
+.suggestion-box{
+    margin-top: 5px;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    border: 1px black solid;
+    border-radius: 3px;
+    background: lightblue;
+}
