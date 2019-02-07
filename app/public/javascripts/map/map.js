@@ -157,13 +157,40 @@ var drawControl = new L.Control.Draw({
 });
 map.addControl(drawControl);
 
-map.on(L.Draw.Event.CREATED, function (e) {
-  var type = e.layerType
-  var layer = e.layer;
 
-  // Do whatever else you need to. (save to db, add to map etc)
-  drawnItems.addLayer(layer);
+map.on(L.Draw.Event.CREATED, function (event) {
+    var layer = event.layer;
+    var type = event.layerType;
+
+    if(type == 'circle') {
+        var radius = layer.getRadius();
+        var circleCenter = layer.getLatLng();
+
+        //console.log(radius);
+    }
+    if(type == 'rectangle') {
+        var lat_lngs = [layer._latlngs[0],layer._latlngs[2]];
+        getLayerByZoom(map.getZoom(), lat_lngs);
+        
+    }
+
+    // Do whatever else you need to. (save to db, add to map etc)
+    drawnItems.addLayer(layer);
 });
+
+function getLayerByZoom(zoom, lat_lngs) {
+    for(var i = 0; i <= zoom-5; i++) {
+        let layer_group = layerGroups[i];
+        layer_group.eachLayer(function(layer_elem){
+            if(L.latLngBounds(lat_lngs).contains(layer_elem.getLatLng())){
+                if(layer_elem instanceof L.Marker) {
+                    //console.log(layer_elem._popup.id);
+                    console.log(layer_elem._popup._content.id);
+                }
+            }
+         });
+    }
+}
 
 var legend = L.control({position: 'bottomleft'});
 
