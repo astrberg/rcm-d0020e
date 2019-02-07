@@ -41,6 +41,10 @@ function hideStationButton(){
     $("#stationList-container:visible").hide()
 }
 
+/** 
+ * Zoom and pan the map to a specific station in choosenStation array
+ * @param {number} index to a specific station in choosenStation array
+ */ 
 function zoomToStation(index){
     var latlng = L.latLng(chosenStations[index].lon, chosenStations[index].lat);
     map.flyTo(latlng, 9,{
