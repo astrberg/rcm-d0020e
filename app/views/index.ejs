@@ -20,8 +20,7 @@
 
   </head>
   <body>
-    <a href="/graph">Graph page</a>
-
+    <button type="button" onclick="openewgraphtab()">Generera grafer i ny tab</button> 
 
     <div id=map-container class="map-container">
       <div id="mapid" class="map"> 	
@@ -53,6 +52,11 @@
       await getStations(); 
     }
     main();
+
+    function openewgraphtab(){
+	var w = window.open("http://127.0.0.1:3000/graph");
+	}
+	
     </script>
   </body>
 </html>
