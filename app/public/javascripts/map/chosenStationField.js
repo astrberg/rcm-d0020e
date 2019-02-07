@@ -1,4 +1,9 @@
-
+// lock and unlock map dragging when hovering over suggestion-field
+$("#stationList-container").mouseenter( function(){
+    map.dragging.disable();
+}).mouseleave(function(){
+    map.dragging.enable();
+});
 
 function displayStationField(){
     var div = $("#stationList-container")
@@ -32,12 +37,12 @@ function appendStationToField(index){
 }
 
 function showStationFieldButton(){
-    $("#stationList-button").show();
+    $("#stationList-buttons").show();
     
 }
 
 function hideStationButton(){
-    $("#stationList-button").hide();
+    $("#stationList-buttons").hide();
     $("#stationList-container:visible").hide()
 }
 
