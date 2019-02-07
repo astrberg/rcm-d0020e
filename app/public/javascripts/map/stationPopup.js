@@ -20,7 +20,8 @@ function addPopup(station, marker) {
     button.className = "add-button";
     button.innerText = "Lägg till";
     button.addEventListener('click', function(){
-        handleChosenStations(station, marker, button);
+        handleChosenStations(station, marker);
+
     });
     div.appendChild(button);
     marker.bindPopup(div);

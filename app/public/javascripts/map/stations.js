@@ -27,33 +27,36 @@ function findIndexOfStation(station){
 }
 
 
-function removeStation(station, marker, button){
+function removeStation(stationId){
     
     // remove the station box from the field container
-    //$(".stationBox"+index).remove();
+    $(stationId).remove();
         
     // change the "remove" button to a "add" button
     // changeButtonState(chosenStations[index], "add");
 
-    // remove the station from the list
-    //chosenStations[index] = null;
-    button.className = "add-button";
-    button.innerText = "Lägg till";
-
-    let isEmptyList = true;
-
-    // check if the list only contains null elements
-    for(var i = 0; i < chosenStations.length; i++){
-        if(chosenStations[i] != null){
-            isEmptyList = false;
-        }
+    // find station and corresponding marker, station index + 1...
+    let index = chosenStations.findIndex(x => x.id === stationId);
+    let marker = chosenStations[index + 2];
+    marker.setIcon(icon);
+    if(index != undefined) {
+        // remove station and marker from choosenstations
+        chosenStations.splice(index, 1);
+        chosenStations.splice(index, 1);
     }
 
-    // if only null elements exist the list is considered empty
-    // empty the list and hide the button
-    if(isEmptyList){
-        emptyList();
-    }
+    console.log(chosenStations);
+
+}
+
+function addStationBox(station){
+    var stationBox = `<div id='${station.id}' class="station-box">
+                            <h3> Station name: '${station.name}'</h3> 
+                            <button class="remove-button" onclick="removeStation(${station.id})" >Ta bort</button>
+                      </div>`;
+    // $("station-box").on('click', removeStation.bind(this, marker));
+    $("#station-list").append(stationBox);
+    
 }
 
 
@@ -61,37 +64,31 @@ function removeStation(station, marker, button){
 // Adds a station to chosenStations array
 function addStation(station, marker){
 
-    marker.setIcon(selectedIcon);
-
-    chosenStations.push(station);
-
-    // change the "add" button to a "remove" button
-    // changeButtonState(station, "remove");
-    // button.className = "remove-button";
-    // button.innerText = "Ta bort";
-
-    showStationFieldButton(); 
+    addStationBox(station, marker);
 
 
-    // add the station to the field if the field is open
-    // appendStationToField(chosenStations.length-1);
+    chosenStations.push(station, marker);
+
+    console.log(chosenStations);
+
+    
 
 }
 
 
 
 // Checks if a station is added or removed from chosenStations array
-function handleChosenStations(station, marker, button){
+function handleChosenStations(station, marker){
     // marker.setIcon(icon);
 
     if(!chosenStations.includes(station)){
         addStation(station, marker);
-        addStationBox(button);
+        marker.setIcon(selectedIcon);
+
     }else{
         //let index = findIndexOfStation(station);
         removeStation(station, marker);
         marker.setIcon(icon);
-
 
     }
 
