@@ -1,6 +1,6 @@
 
 
-async function getWeatherData(station_id, start_time, stop_time) {
+async function getWeatherData(station_id, start_time, stop_time,station_name) {
 
      //station_id = 'SE_STA_VVIS2240';
      //start_time = '2019-01-20 13:12:12';
@@ -10,23 +10,23 @@ async function getWeatherData(station_id, start_time, stop_time) {
 
 	
 	//console.log(weatherData);
-	datamultieplegraf(weatherData);
-	datamultieplegrafair(weatherData);
-	datamultieplegrafhumidity(weatherData);
-	datamultieplegrafwinspeed(weatherData);
+	datamultieplegraf(weatherData,station_name);
+	datamultieplegrafair(weatherData,station_name);
+	datamultieplegrafhumidity(weatherData,station_name);
+	datamultieplegrafwinspeed(weatherData,station_name);
     });	
 }
 	
 
-async function getlatest(station_id) {
+async function getlatest(station_id,station_name) {
 
     //station_id = 'SE_STA_VVIS2240';
 	
     await $.getJSON("/api/getLatestWeatherData", {station_id}, function(weatherData) {
-    	databarchartcurrent(weatherData);
-    	databarchartroadcurrent(weatherData);
-    	databarcharthumcurrent(weatherData);
-    	databarchartwindcurrent(weatherData);
+    	databarchartcurrent(weatherData,station_name);
+    	databarchartroadcurrent(weatherData,station_name);
+    	databarcharthumcurrent(weatherData,station_name);
+    	databarchartwindcurrent(weatherData,station_name);
     
     //console.log(weatherData);
 	
