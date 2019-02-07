@@ -37,5 +37,6 @@ function showStationFieldButton(){
 
 function hideStationButton(){
     $("#stationList-button").hide();
-    $("#stationList-container:visible").hide()
+    $("#stationList-container:visible").hide();
+    $("#stationList-container").empty();
 }

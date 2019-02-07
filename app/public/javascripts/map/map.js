@@ -152,43 +152,88 @@ var drawControl = new L.Control.Draw({
         },
     },
   edit: {
-    featureGroup: drawnItems
+    featureGroup: drawnItems,
+    edit : true
   }
 });
 map.addControl(drawControl);
 
+//TODO: Edit now empties list for both rectangle and circle, needs a separate list for both types
+map.on(L.Draw.Event.EDITED, function (event) {
+    emptyList();
+    var layers = event.layers;
+    layers.eachLayer(function (layer) {
+        if(layer instanceof L.Rectangle) {
+            var lat_lngs = [layer._latlngs[0],layer._latlngs[2]];
+            getStationbyDrawRect(lat_lngs);
+        }else if(layer instanceof L.Circle) {
+            getStationbyDrawCircle(layer);
+        }
+    });
+});
+
+map.on(L.Draw.Event.DELETED, function (event) {
+    emptyList();
+});
+    
+       
 
 map.on(L.Draw.Event.CREATED, function (event) {
     var layer = event.layer;
     var type = event.layerType;
 
     if(type == 'circle') {
-        var radius = layer.getRadius();
-        var circleCenter = layer.getLatLng();
-
-        //console.log(radius);
+        getStationbyDrawCircle(layer);
     }
     if(type == 'rectangle') {
         var lat_lngs = [layer._latlngs[0],layer._latlngs[2]];
-        getLayerByZoom(map.getZoom(), lat_lngs);
+        getStationbyDrawRect(lat_lngs);
         
     }
 
-    // Do whatever else you need to. (save to db, add to map etc)
     drawnItems.addLayer(layer);
 });
 
-function getLayerByZoom(zoom, lat_lngs) {
-    for(var i = 0; i <= zoom-5; i++) {
+function getStationbyDrawRect(lat_lngs) {
+    for(var i = 0; i < layerGroups.length; i++) {
         let layer_group = layerGroups[i];
         layer_group.eachLayer(function(layer_elem){
             if(L.latLngBounds(lat_lngs).contains(layer_elem.getLatLng())){
                 if(layer_elem instanceof L.Marker) {
-                    //console.log(layer_elem._popup.id);
-                    console.log(layer_elem._popup._content.id);
+                    let contentID = layer_elem._popup._content.id;
+                    contentID = contentID.split(':');
+                    let stationID = contentID[1];
+                    var stations = stationByID(stationID);
+                    addStation(stations);
                 }
             }
          });
+    }
+}
+function getStationbyDrawCircle(circleLayer) {
+    var radius = circleLayer.getRadius();
+    var circleCenter = circleLayer.getLatLng();
+    for(var i = 0; i < layerGroups.length; i++) {
+        let layer_group = layerGroups[i];
+        layer_group.eachLayer(function(layer_elem){
+            if(Math.abs(circleCenter.distanceTo(layer_elem.getLatLng())) <= radius){
+                if(layer_elem instanceof L.Marker) {
+                    let contentID = layer_elem._popup._content.id;
+                    contentID = contentID.split(':');
+                    let stationID = contentID[1];
+                    var stations = stationByID(stationID);
+                    addStation(stations);
+                }
+            }
+         });
+    }
+
+}
+function stationByID(stationID) {
+    for(var i = 0; i < stationsData.length; i++) {
+        if(stationsData[i].id == stationID) {
+            return stationsData[i];
+        }
     }
 }
 
