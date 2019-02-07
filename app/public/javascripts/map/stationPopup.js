@@ -20,7 +20,7 @@ function addPopup(station, marker) {
     button.className = "add-button";
     button.innerText = "Lägg till";
     button.addEventListener('click', function(){
-        handleChosenStations(station);
+        handleChosenStations(station, marker, button);
     });
     div.appendChild(button);
     marker.bindPopup(div);
@@ -55,19 +55,22 @@ function windDirection(data) {
 
 function changeButtonState(station, newState){
     var button = document.getElementById("buttonid:" + station.id);
-
+    
     if(button != null){
         if(newState == "remove"){
             changeButtonText(button, "remove-button", "Ta bort");
         
         }else if(newState == "add"){
-            changeButtonText(button, "add-button", "Lägg till");
+            // changeButtonText(button, "add-button", "Lägg till");
+
         
         }else if(chosenStations.includes(station)){
-            changeButtonText(button, "remove-button", "Ta bort");
+            // changeButtonText(button, "remove-button", "Ta bort");
+
         
         }else{
-            changeButtonText(button, "add-button", "Lägg till");
+            // changeButtonText(button, "add-button", "Lägg till");
+
         }
     }
 }

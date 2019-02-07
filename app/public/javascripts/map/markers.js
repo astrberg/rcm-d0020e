@@ -52,7 +52,7 @@ function addStationToLayer(station, layerNumber){
    
 
     marker.on('click', async function(){
-        changeButtonState(station);
+        changeButtonState(station, marker);
         
         // Wait for weather data
         await getLatestWeatherData(station.id);

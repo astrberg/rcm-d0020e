@@ -27,17 +27,18 @@ function findIndexOfStation(station){
 }
 
 
-function removeStation(index){
-
+function removeStation(station, marker, button){
+    
     // remove the station box from the field container
-    $(".stationBox"+index).remove();
+    //$(".stationBox"+index).remove();
         
     // change the "remove" button to a "add" button
-    changeButtonState(chosenStations[index], "add");
+    // changeButtonState(chosenStations[index], "add");
 
     // remove the station from the list
-    chosenStations[index] = null;
-    
+    //chosenStations[index] = null;
+    button.className = "add-button";
+    button.innerText = "Lägg till";
 
     let isEmptyList = true;
 
@@ -58,28 +59,40 @@ function removeStation(index){
 
 
 // Adds a station to chosenStations array
-function addStation(station){
+function addStation(station, marker){
+
+    marker.setIcon(selectedIcon);
 
     chosenStations.push(station);
 
     // change the "add" button to a "remove" button
-    changeButtonState(station, "remove");
+    // changeButtonState(station, "remove");
+    // button.className = "remove-button";
+    // button.innerText = "Ta bort";
 
-    showStationFieldButton();
+    showStationFieldButton(); 
+
 
     // add the station to the field if the field is open
-    appendStationToField(chosenStations.length-1);
+    // appendStationToField(chosenStations.length-1);
 
 }
 
 
 
 // Checks if a station is added or removed from chosenStations array
-function handleChosenStations(station){
+function handleChosenStations(station, marker, button){
+    // marker.setIcon(icon);
+
     if(!chosenStations.includes(station)){
-        addStation(station);
+        addStation(station, marker);
+        addStationBox(button);
     }else{
-        let index = findIndexOfStation(station);
-        removeStation(index);
+        //let index = findIndexOfStation(station);
+        removeStation(station, marker);
+        marker.setIcon(icon);
+
+
     }
+
 }
