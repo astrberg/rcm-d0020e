@@ -1,4 +1,5 @@
 //different colors when data is below 0
+//Not used
 function graf2(){
 	var pointBackgroundColors = [];
 	var ctx = document.getElementById('myChart3').getContext('2d');
@@ -39,6 +40,7 @@ var currentdatawind = [];
 var currentdatatemp = [];
 var currentroadtemp = [];
 var currentairhum = [];
+//Generats variables for the stations used as data for the current bar graphs. 
 function generatedataforbar(typeofgraph,datatempvar,stationame){
     var dataFirst = {
     label: stationame,
@@ -61,9 +63,9 @@ function generatedataforbar(typeofgraph,datatempvar,stationame){
 
 }
 //current data air temp
-function databarchartcurrent(weatherdata){
+function databarchartcurrent(weatherdata,station_name){
 	var typeofgraph = "current_air";
-	var stationame = weatherdata[0].station_id;
+	var stationame = station_name;
 	var datatempvar= weatherdata[0].air_temperature;
 	generatedataforbar(typeofgraph,datatempvar,stationame);
 }
@@ -91,9 +93,9 @@ function currenttempgraph(weatherdata){
 
 
 //current data windspeed 
-function databarchartwindcurrent(weatherdata){
+function databarchartwindcurrent(weatherdata,station_name){
 	var typeofgraph = "current_windspeed";
-	var stationame = weatherdata[0].station_id;
+	var stationame = station_name;
 	var datatempvar= weatherdata[0].wind_speed;
 	generatedataforbar(typeofgraph,datatempvar,stationame);
 }
@@ -123,9 +125,9 @@ function currentwindspeedgraph(weatherdata){
 
 
 //current data road temp
-function databarchartroadcurrent(weatherdata){
+function databarchartroadcurrent(weatherdata,station_name){
 	var typeofgraph = "current_road";
-	var stationame = weatherdata[0].station_id;
+	var stationame = station_name;
 	var datatempvar= weatherdata[0].road_temperature;
 	generatedataforbar(typeofgraph,datatempvar,stationame);
 }
@@ -155,9 +157,9 @@ function currentroadtempgraph(weatherdata){
 
 
 //current data air humidity
-function databarcharthumcurrent(weatherdata){
+function databarcharthumcurrent(weatherdata,station_name){
 	var typeofgraph = "current_hum";
-	var stationame = weatherdata[0].station_id;
+	var stationame = station_name;
 	var datatempvar= weatherdata[0].air_humidity;
 	generatedataforbar(typeofgraph,datatempvar,stationame);
 }
@@ -188,10 +190,10 @@ function currenthumgraph(weatherdata){
 //multiple lines in the graph
 var datagrafwindspeed = [];
 var datagraftimestampwindspeed = [];	
-function datamultieplegrafwinspeed(weatherdata){
+function datamultieplegrafwinspeed(weatherdata,station_name){
 	var datagrafwindspeed = [];
 	var valuegraph = "windspeed"
-	var stationame = weatherdata[0].station_id;
+	var stationame = station_name;
 	for(var i = 0; i < weatherdata.length; i++){
 		datagrafwindspeed.push(weatherdata[i].wind_speed);
 	if(datagraftimestampwindspeed.length < weatherdata.length){
@@ -205,10 +207,10 @@ function datamultieplegrafwinspeed(weatherdata){
 //multiple lines in the graph
 var datagrafhum = [];
 var datagraftimestamphum = [];	
-function datamultieplegrafhumidity(weatherdata){
+function datamultieplegrafhumidity(weatherdata,station_name){
 	var datagrafhum = [];
 	var valuegraph = "humidity"
-	var stationame = weatherdata[0].station_id;
+	var stationame = station_name;
 	for(var i = 0; i < weatherdata.length; i++){
 		datagrafhum.push(weatherdata[i].air_humidity);
 		if(datagraftimestamphum.length < weatherdata.length){
@@ -223,10 +225,10 @@ function datamultieplegrafhumidity(weatherdata){
 //multiple lines in the graph
 var datagrafair = [];
 var datagraftimestampair = [];	
-function datamultieplegrafair(weatherdata){
+function datamultieplegrafair(weatherdata,station_name){
 	var datagrafairtemp = [];
 	var valuegraph = "airtemp"
-	var stationame = weatherdata[0].station_id;
+	var stationame = station_name;
 	for(var i = 0; i < weatherdata.length; i++){
 		datagrafairtemp.push(weatherdata[i].air_temperature);
 		if(datagraftimestampair.length < weatherdata.length){
@@ -241,10 +243,10 @@ function datamultieplegrafair(weatherdata){
 //multiple lines in the graph
 var data3graf3 = [];
 var datagraftimestamp = [];	
-function datamultieplegraf(weatherdata){
+function datamultieplegraf(weatherdata,station_name){
 	var datagrafroadtemp = [];
 	var valuegraph = "roadtemp"
-	var stationame = weatherdata[0].station_id;
+	var stationame = station_name;
 	for(var i = 0; i < weatherdata.length; i++){
 		datagrafroadtemp.push(weatherdata[i].road_temperature);
 		if(datagraftimestamp.length < weatherdata.length){
@@ -254,8 +256,11 @@ function datamultieplegraf(weatherdata){
 	generatedata(valuegraph, datagrafroadtemp,stationame)
 }
 
+
+//Lists to match the color of the stations in the graphs
 var stationnamelist = [];
 var colornamelist = [];
+//Generats variables for the stations used as data for the graphs. 
 function generatedata(value, datagraf, stationame){
     if(stationnamelist.includes(stationame)){
 	    var dataFirst = {
@@ -473,6 +478,7 @@ lineChart4.update();
 }
 
 
+//clear all the arrays
 function cleararrays(){
 	currentdatatemp = [];
 	datagrafwindspeed = [];

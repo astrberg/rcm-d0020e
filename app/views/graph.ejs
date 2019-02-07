@@ -16,10 +16,6 @@
 	margin: auto;
         padding: 20px;
 	}
-	
-	#divcheckboxes{
-	}
-
   </style>
 
 <p>Sliders för att justera tidsintervallet för graferna.</p>
@@ -83,14 +79,22 @@
 <script>
 
 
+var stationsarrayid = [];
+var stationname = [];
+var thechosendata = window.opener.chosenStations;
+for(var i=0;i<thechosendata.length;i++){
+	stationsarrayid.push(thechosendata[i].id);
+	stationname.push(thechosendata[i].name);
+}
+
+
 document.getElementById("myRange1").max = Math.floor(Date.now() / 1000);
 document.getElementById("myRange2").max = Math.floor(Date.now() / 1000);
 
 
-var stations = ['SE_STA_VVIS1524','SE_STA_VVIS1525','SE_STA_VVIS1536','SE_STA_VVIS1544','SE_STA_VVIS1557','SE_STA_VVIS2240'];
-
 var starttime='2019-01-20 13:12:12';
 var stoptime='2019-01-23 13:23:20';
+
 
 async function rungraphs(starttime, stoptime){
 	var a = new Date(starttime.substring(0,10)+"T"+starttime.substring(11,)+"Z");
@@ -116,18 +120,18 @@ async function rungraphs(starttime, stoptime){
         canvasclearvar5.clearRect(0,0, document.getElementById('myChart5').width, document.getElementById('myChart5').height);
 
 	const canvasclearvar6 = document.getElementById('myChart6').getContext('2d');
-		canvasclearvar6.clearRect(0,0, document.getElementById('myChart6').width, document.getElementById('myChart5').height);
+		canvasclearvar6.clearRect(0,0, document.getElementById('myChart6').width, document.getElementById('myChart6').height);
 
 	const canvasclearvar7 = document.getElementById('myChart7').getContext('2d');
-		canvasclearvar7.clearRect(0,0, document.getElementById('myChart7').width, document.getElementById('myChart5').height);
+		canvasclearvar7.clearRect(0,0, document.getElementById('myChart7').width, document.getElementById('myChart7').height);
 
 	const canvasclearvar8 = document.getElementById('myChart8').getContext('2d');
 		canvasclearvar8.clearRect(0,0, document.getElementById('myChart8').width, document.getElementById('myChart8').height);
 
 	//functioncalls to get data
-	for(var i = 0; i < stations.length; i++){
-		await getWeatherData(stations[i],starttime,stoptime);
-		await getlatest(stations[i]);
+	for(var i = 0; i < stationsarrayid.length; i++){
+		await getWeatherData(stationsarrayid[i],starttime,stoptime,stationname[i]);
+		await getlatest(stationsarrayid[i],stationname[i]);
 	}
 	
 	//functions to draw graphs
@@ -150,31 +154,6 @@ async function rungraphs(starttime, stoptime){
 }
 
 rungraphs(starttime,stoptime);
-
-
-//testfunction with 2 stations
-async function test(){
-await getWeatherData('SE_STA_VVIS2240','2019-01-20 13:12:12','2019-01-23 13:23:20');
-await getWeatherData('SE_STA_VVIS1524','2019-01-20 13:12:12','2019-01-23 13:23:20');
-
-await roadtemp();
-
-await airtemp();
-
-await humiditygraph();
-
-await windspeed();
-
-await getlatest('SE_STA_VVIS1524');
-
-await getlatest('SE_STA_VVIS2240');
-
-await currenttempgraph();
-
-
-}
-//test();
-
 
 
 $(function () {
@@ -223,7 +202,7 @@ $(function () {
                 
             }
         });
-	$("#current_road_temp").click(function () {
+    $("#current_road_temp").click(function () {
 		    if ($(this).is(":checked")) {
 		        $("#myChart6").show();
 		      
@@ -232,7 +211,7 @@ $(function () {
 		        
 		    }
 		});
-	$("#current_hum").click(function () {
+    $("#current_hum").click(function () {
 		    if ($(this).is(":checked")) {
 		        $("#myChart7").show();
 		      
@@ -241,7 +220,7 @@ $(function () {
 		        
 		    }
 	});
-	$("#current_windspeed").click(function () {
+   $("#current_windspeed").click(function () {
 		    if ($(this).is(":checked")) {
 		        $("#myChart8").show();
 		      
