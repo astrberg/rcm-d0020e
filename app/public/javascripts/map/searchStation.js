@@ -1,11 +1,46 @@
 
+// remove suggestion-field when clicking outside
+$("body").mousedown(function(e){
+
+    var suggestionField = $("#suggestion-field");
+
+    // if the target of the click isn't the suggestionField nor a descendant of the suggestionField
+    if (!suggestionField.is(e.target) && suggestionField.has(e.target).length === 0) 
+    {
+        suggestionField.empty();
+        suggestionField.hide();
+    }
+    
+})
 
 $("#searchbar").keyup(function(){
     searchbarHandler();
+}).mouseup(function(){
+    searchbarHandler();
 });
 
-function getSuggestionBox(name){
-    let suggestionBox = `<div class="suggestion-box"> ${name} </div>`;
+
+// lock and unlock map dragging when hovering over suggestion-field
+$("#suggestion-field").mouseenter( function(){
+    map.dragging.disable();
+}).mouseleave(function(){
+    map.dragging.enable();
+});
+
+
+
+$("#suggestion-field").on("click", ".suggestion-box", function(){
+    // get the index saved as id
+    index = $(this).attr("id");
+
+    // TODO fly to station
+    console.log(index);
+});
+
+function getSuggestionBox(name, index){
+    let suggestionBox = `<div class="suggestion-box" id="${index}"> 
+                            <div>${name}</div>
+                        </div>`;
     return suggestionBox;
 } 
 
@@ -18,16 +53,13 @@ function searchbarHandler(){
     let suggestionField = $("#suggestion-field");
 
     suggestionField.empty();
+    suggestionField.show();
 
+    // append the suggestionfield with the station name and the index in the stationData list
     for(var i = 0; i < foundStations.length; i++){
-        if(i >= 10){
-            //break;
-        }
-        suggestionField.append(getSuggestionBox(foundStations[i].name));
+        
+        suggestionField.append(getSuggestionBox(foundStations[i][0].name, foundStations[i][1]));
     }
-
-
-    console.log(foundStations.length);
 }
 
 
@@ -38,13 +70,12 @@ function searchStation(name){
     // create regex
     var regex = new RegExp(name.toUpperCase());
     
-    console.log(regex);
-
     for(let i = 0; i < stationsData.length; i++){
         
-        // execute regex, if string is found in name, add the station to the found stations
+        // execute regex, if string is found in name, add the station and the index 
+        // of the station to the found stations
         if(regex.exec(stationsData[i].name.toUpperCase())){
-            foundStations.push(stationsData[i]);
+            foundStations.push([stationsData[i], i]);
         }
     }
 
