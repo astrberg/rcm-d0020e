@@ -18,7 +18,7 @@ function getStationBox(index, name){
                         <div class="stationBox-container">
                             <h3> Station name: '${name}'</h3> 
                             <button class="removeStation" onclick="removeStation(${index})">Remove</button>
-                            <button class="removeStation" onclick="zoomToStation(${index})">Visa station</button>
+                            <button class="removeStation" onclick="zoomToChosenStation(${index})">Visa station</button>
                         </div>
                       </div>`;
 
@@ -41,12 +41,18 @@ function hideStationButton(){
     $("#stationList-container:visible").hide()
 }
 
+function zoomToChosenStation(index){
+    let i = findIndexOfStation(chosenStations[index]);
+
+    zoomToStation(i);
+}
+
 /** 
- * Zoom and pan the map to a specific station in choosenStation array
- * @param {number} index to a specific station in choosenStation array
+ * Zoom and pan the map to a specific station in stationData array
+ * @param {number} index to a specific station in stationData array
  */ 
 function zoomToStation(index){
-    var latlng = L.latLng(chosenStations[index].lon, chosenStations[index].lat);
+    var latlng = L.latLng(stationsData[index].lon, stationsData[index].lat);
     map.flyTo(latlng, 9,{
         animate: true,
         duration: 2
