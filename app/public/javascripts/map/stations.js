@@ -17,10 +17,22 @@ function emptyList(){
 }
 
 // Removes a station from chosenStations array
+function findIndexOfChosenStation(station){
+    // find the clicked station in the list of chosen stations
+    for(let i = 0; i < chosenStations.length; i++){
+
+        if(chosenStations[i] === station){
+            return i;
+        }
+    }  
+}
+
+// Removes a station from stationsData array
 function findIndexOfStation(station){
     // find the clicked station in the list of chosen stations
-    for(var i = 0; i < chosenStations.length; i++){
-        if(chosenStations[i] == station){
+    for(let i = 0; i < stationsData.length; i++){
+
+        if(stationsData[i] === station){
             return i;
         }
     }  
@@ -79,7 +91,7 @@ function handleChosenStations(station){
     if(!chosenStations.includes(station)){
         addStation(station);
     }else{
-        let index = findIndexOfStation(station);
+        let index = findIndexOfChosenStation(station);
         removeStation(index);
     }
 }
