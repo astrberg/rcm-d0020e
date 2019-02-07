@@ -1,4 +1,5 @@
 //different colors when data is below 0
+//Not used
 function graf2(){
 	var pointBackgroundColors = [];
 	var ctx = document.getElementById('myChart3').getContext('2d');
@@ -39,6 +40,7 @@ var currentdatawind = [];
 var currentdatatemp = [];
 var currentroadtemp = [];
 var currentairhum = [];
+//Generats variables for the stations used as data for the current bar graphs. 
 function generatedataforbar(typeofgraph,datatempvar,stationame){
     var dataFirst = {
     label: stationame,
@@ -254,8 +256,11 @@ function datamultieplegraf(weatherdata,station_name){
 	generatedata(valuegraph, datagrafroadtemp,stationame)
 }
 
+
+//Lists to match the color of the stations in the graphs
 var stationnamelist = [];
 var colornamelist = [];
+//Generats variables for the stations used as data for the graphs. 
 function generatedata(value, datagraf, stationame){
     if(stationnamelist.includes(stationame)){
 	    var dataFirst = {
@@ -473,6 +478,7 @@ lineChart4.update();
 }
 
 
+//clear all the arrays
 function cleararrays(){
 	currentdatatemp = [];
 	datagrafwindspeed = [];
