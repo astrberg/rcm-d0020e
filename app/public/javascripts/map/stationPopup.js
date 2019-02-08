@@ -1,10 +1,33 @@
 
 // Popup content
 function addPopup(station, marker) {
-    var div = document.createElement("table-data");
-    div.id = "popupid:" + station.id;
-    div.innerHTML = 
-    '<table id = "marker-data" >' +
+    // var div = document.createElement("table-data");
+    // div.id = "popupid:" + station.id;
+    // div.innerHTML = 
+    // '<table id = "marker-data" >' +
+    //         '<tr> <td> Station </td><td>' + station.name +'</td></tr>' + 
+    //         '<tr> <td> Län: </td><td>' + countyNames[station.county_number] + '</td></tr>' + 
+    //         '<tr> <td>Lufttemperatur: </td><td></td></tr>' +
+    //         '<tr> <td>Vägtemperatur: </td><td></td></tr>' +
+    //         '<tr> <td>Luftfuktighet: </td><td></td></tr>' +
+    //         '<tr> <td>Vindhastighet: </td><td></td></tr>' +
+    //         '<tr> <td>Vindriktning: </td><td></td></tr>' +
+    // '</table>';
+    
+    // Button
+    // var button = document.createElement("button");
+    // button.id = station.id;
+    // button.className = "add-button";
+    // button.innerText = "Lägg till";
+    // button.addEventListener('click', function(){
+    //     handleChosenStations(station, marker, button);
+
+
+    // });
+    // div.appendChild(button);
+    var popUpContent = document.createElement("table-data");
+    popUpContent.innerHTML  = 
+          '<table id = "marker-data" >' +
             '<tr> <td> Station </td><td>' + station.name +'</td></tr>' + 
             '<tr> <td> Län: </td><td>' + countyNames[station.county_number] + '</td></tr>' + 
             '<tr> <td>Lufttemperatur: </td><td></td></tr>' +
@@ -13,18 +36,20 @@ function addPopup(station, marker) {
             '<tr> <td>Vindhastighet: </td><td></td></tr>' +
             '<tr> <td>Vindriktning: </td><td></td></tr>' +
     '</table>';
-
-    // Button
-    var button = document.createElement("button");
-    button.id = "buttonid:" + station.id;
+    button.id = station.id;
     button.className = "add-button";
     button.innerText = "Lägg till";
-    button.addEventListener('click', function(){
-        handleChosenStations(station, marker);
+    button.addEventListener("click" , handleChosenStations(station, marker));
 
-    });
-    div.appendChild(button);
-    marker.bindPopup(div);
+    // var button =  $('<button/>', {
+    //   class: "add-button",
+    //   text: "Lägg till",
+    //   // id: station.id,
+    //   click: function () {  handleChosenStations(station, marker, button) }
+    //   });   
+      
+   marker.bindPopup(popUpContent + button);
+
 }
 
 function windDirection(data) {
