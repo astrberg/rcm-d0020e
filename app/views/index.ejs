@@ -23,15 +23,13 @@
     <button type="button" onclick="openewgraphtab()">Generera grafer i ny tab</button> 
 
     <div id=map-container class="map-container">
-      <div id="mapid" class="map"></div></div>
-      <h1>hello</h1>
-
-      <div id="station-list">
-        <!-- <div id="station-box"> -->
-          <!-- <button class="add-button"></button> -->
-        <!-- </div> -->
+      <div id="mapid" class="map">
+      <!-- Station field to the right and button -->
+      <div id="station-list"></div>
+      <button id="stationlist-button" onclick="updateStationField()"></button>
       </div>
-
+    </div>
+      
 
     <!--Map scripts-->
     <script src="javascripts/map/countyData.js"></script>

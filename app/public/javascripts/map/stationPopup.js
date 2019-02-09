@@ -25,8 +25,8 @@ function addPopup(station, marker) {
 
     // });
     // div.appendChild(button);
-    var popUpContent = document.createElement("table-data");
-    popUpContent.innerHTML  = 
+    var popupContent = document.createElement("table-data");
+    popupContent.innerHTML  = 
           '<table id = "marker-data" >' +
             '<tr> <td> Station </td><td>' + station.name +'</td></tr>' + 
             '<tr> <td> Län: </td><td>' + countyNames[station.county_number] + '</td></tr>' + 
@@ -36,20 +36,20 @@ function addPopup(station, marker) {
             '<tr> <td>Vindhastighet: </td><td></td></tr>' +
             '<tr> <td>Vindriktning: </td><td></td></tr>' +
     '</table>';
+    var button = document.createElement("button");
     button.id = station.id;
     button.className = "add-button";
     button.innerText = "Lägg till";
-    button.addEventListener("click" , handleChosenStations(station, marker));
-
-    // var button =  $('<button/>', {
-    //   class: "add-button",
-    //   text: "Lägg till",
-    //   // id: station.id,
-    //   click: function () {  handleChosenStations(station, marker, button) }
-    //   });   
+    button.addEventListener("click" , function() {
+         handleChosenStations(station, marker, this);
       
-   marker.bindPopup(popUpContent + button);
+    });
+    popupContent.appendChild(button);
 
+    var popup = L.popup()
+    .setContent(popupContent);
+
+  marker.bindPopup(popup).openPopup();
 }
 
 function windDirection(data) {

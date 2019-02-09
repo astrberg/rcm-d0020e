@@ -1,32 +1,34 @@
+function addStationBox(station, marker, button){
+    const stationBox = `<div id='${station.id}' class="station-box">
+                            <h3> Station name: '${station.name}'</h3> 
+                      </div>`;
+    const buttonList = $('<button/>', {
+        class: "remove-button",
+        text: "Ta bort",
+        click: function () { removeStation(station, marker, button) }
+    });
+    const $stationList = $("#station-list");
+    $stationList.append($(stationBox).append(buttonList));
+}
 
+function updateStationField(){
+    const div = $("#station-list")
 
-// function displayStationField(){
-//     var div = $("#stationList-container")
+    if (div.is(":hidden")) {
+        $("#stationlist-button").text("Göm valda stationer")
+        div.show();
+    } else {
+        $("#stationlist-button").text("Visa valda stationer")
+        div.hide();
+    }
+}
 
-//     if (div.is(":hidden")) {
-//         div.show();
-//     } else {
-        
-//         div.hide();
-//     }
-// }
-
-
-// index is the stations index in the list of chosen stations
-
-
-// function appendStationToField(index){
-//     let container = $("#stationList-container");
+function showStationFieldButton(){
+    $("#stationlist-button").show();
     
-//     container.append(getStationBox(index, chosenStations[index].name));
-// }
+}
 
-// function showStationFieldButton(){
-//     $("#stationList-button").show();
-    
-// }
-
-// function hideStationButton(){
-//     $("#stationList-button").hide();
-//     $("#stationList-container:visible").hide()
-// }
+function hideStationButton(){
+    $("#stationlist-button").hide();
+    $("#station-list:visible").hide()
+}
