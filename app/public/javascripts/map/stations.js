@@ -12,7 +12,6 @@ async function getStations() {
 }
 
 function removeStation(station, marker, button){
-    
 
     const i = chosenStations.findIndex(x => x.id === station.id);
 
@@ -59,5 +58,6 @@ function handleChosenStations(station, marker, button){
 
     } else {
         removeStation(station, marker, button);
+
     }
 }

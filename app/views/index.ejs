@@ -20,10 +20,18 @@
 
   </head>
   <body>
+
     <button type="button" onclick="openewgraphtab()">Generera grafer i ny tab</button> 
+
 
     <div id=map-container class="map-container">
       <div id="mapid" class="map">
+      <!-- Search bar -->
+        <div id="search-container">
+          <input type="text" id="searchbar">
+            <div id="suggestion-field">
+            </div>
+        </div>
       <!-- Station field to the right and button -->
       <div id="station-list"></div>
       <button id="stationlist-button" onclick="updateStationField()"></button>
@@ -43,6 +51,7 @@
     <script src="javascripts/map/map.js"></script>
     <script src="javascripts/map/chosenStationField.js"></script>
     <script src="javascripts/map/stationPopup.js"></script>
+    <script src="javascripts/map/searchStation.js"></script>
 
     <script>
     async function main (){
