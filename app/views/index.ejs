@@ -20,14 +20,28 @@
 
   </head>
   <body>
+
     <button type="button" onclick="openewgraphtab()">Generera grafer i ny tab</button> 
+
 
     <div id=map-container class="map-container">
       <div id="mapid" class="map"> 	
+        <div id="search-container">
+            <input type="text" id="searchbar">
+            <div id="suggestion-field">
+
+            </div>
+        </div>
+
         <div id="stationList-container">
             
         </div>
-        <button id="stationList-button" onclick="displayStationField()" >Show chosen stations</button>
+        <div id="stationList-buttons">
+          <button class="stationList-button" onclick="emptyList()" >Ta bort stationer</button>
+          <button class="stationList-button" onclick="displayStationField()" >Visa stationer</button>
+        
+        </div>
+        
       </div>
     </div>
 
@@ -44,6 +58,7 @@
     <script src="javascripts/map/map.js"></script>
     <script src="javascripts/map/chosenStationField.js"></script>
     <script src="javascripts/map/stationPopup.js"></script>
+    <script src="javascripts/map/searchStation.js"></script>
 
     <script>
     async function main (){
