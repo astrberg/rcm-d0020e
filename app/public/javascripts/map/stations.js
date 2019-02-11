@@ -13,7 +13,7 @@ async function getStations() {
 
 function emptyList(){
     chosenStations = [];
-    hideStationButton();
+    $("#stationList-container").empty();
 }
 
 // Removes a station from chosenStations array
@@ -64,6 +64,7 @@ function removeStation(index){
     // empty the list and hide the button
     if(isEmptyList){
         emptyList();
+        hideStationButton();
     }
 }
 
