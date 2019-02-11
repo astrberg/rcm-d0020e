@@ -1,10 +1,33 @@
 
 // Popup content
 function addPopup(station, marker) {
-    var div = document.createElement("table-data");
-    div.id = "popupid:" + station.id;
-    div.innerHTML = 
-    '<table id = "marker-data" >' +
+    // var div = document.createElement("table-data");
+    // div.id = "popupid:" + station.id;
+    // div.innerHTML = 
+    // '<table id = "marker-data" >' +
+    //         '<tr> <td> Station </td><td>' + station.name +'</td></tr>' + 
+    //         '<tr> <td> Län: </td><td>' + countyNames[station.county_number] + '</td></tr>' + 
+    //         '<tr> <td>Lufttemperatur: </td><td></td></tr>' +
+    //         '<tr> <td>Vägtemperatur: </td><td></td></tr>' +
+    //         '<tr> <td>Luftfuktighet: </td><td></td></tr>' +
+    //         '<tr> <td>Vindhastighet: </td><td></td></tr>' +
+    //         '<tr> <td>Vindriktning: </td><td></td></tr>' +
+    // '</table>';
+    
+    // Button
+    // var button = document.createElement("button");
+    // button.id = station.id;
+    // button.className = "add-button";
+    // button.innerText = "Lägg till";
+    // button.addEventListener('click', function(){
+    //     handleChosenStations(station, marker, button);
+
+
+    // });
+    // div.appendChild(button);
+    var popupContent = document.createElement("table-data");
+    popupContent.innerHTML  = 
+          '<table id = "marker-data" >' +
             '<tr> <td> Station </td><td>' + station.name +'</td></tr>' + 
             '<tr> <td> Län: </td><td>' + countyNames[station.county_number] + '</td></tr>' + 
             '<tr> <td>Lufttemperatur: </td><td></td></tr>' +
@@ -13,17 +36,20 @@ function addPopup(station, marker) {
             '<tr> <td>Vindhastighet: </td><td></td></tr>' +
             '<tr> <td>Vindriktning: </td><td></td></tr>' +
     '</table>';
-
-    // Button
     var button = document.createElement("button");
-    button.id = "buttonid:" + station.id;
+    button.id = station.id;
     button.className = "add-button";
     button.innerText = "Lägg till";
-    button.addEventListener('click', function(){
-        handleChosenStations(station);
+    button.addEventListener("click" , function() {
+         handleChosenStations(station, marker, this);
+      
     });
-    div.appendChild(button);
-    marker.bindPopup(div);
+    popupContent.appendChild(button);
+
+    var popup = L.popup()
+    .setContent(popupContent);
+
+  marker.bindPopup(popup).openPopup();
 }
 
 function windDirection(data) {
@@ -55,19 +81,22 @@ function windDirection(data) {
 
 function changeButtonState(station, newState){
     var button = document.getElementById("buttonid:" + station.id);
-
+    
     if(button != null){
         if(newState == "remove"){
             changeButtonText(button, "remove-button", "Ta bort");
         
         }else if(newState == "add"){
-            changeButtonText(button, "add-button", "Lägg till");
+            // changeButtonText(button, "add-button", "Lägg till");
+
         
         }else if(chosenStations.includes(station)){
-            changeButtonText(button, "remove-button", "Ta bort");
+            // changeButtonText(button, "remove-button", "Ta bort");
+
         
         }else{
-            changeButtonText(button, "add-button", "Lägg till");
+            // changeButtonText(button, "add-button", "Lägg till");
+
         }
     }
 }

@@ -25,26 +25,19 @@
 
 
     <div id=map-container class="map-container">
-      <div id="mapid" class="map"> 	
+      <div id="mapid" class="map">
+      <!-- Search bar -->
         <div id="search-container">
-            <input type="text" id="searchbar">
+          <input type="text" id="searchbar">
             <div id="suggestion-field">
-
             </div>
         </div>
-
-        <div id="stationList-container">
-            
-        </div>
-        <div id="stationList-buttons">
-          <button class="stationList-button" onclick="emptyList()" >Ta bort stationer</button>
-          <button class="stationList-button" onclick="displayStationField()" >Visa stationer</button>
-        
-        </div>
-        
+      <!-- Station field to the right and button -->
+      <div id="station-list"></div>
+      <button id="stationlist-button" onclick="updateStationField()"></button>
       </div>
     </div>
-
+      
 
     <!--Map scripts-->
     <script src="javascripts/map/countyData.js"></script>

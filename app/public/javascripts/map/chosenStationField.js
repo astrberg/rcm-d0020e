@@ -1,52 +1,44 @@
 // lock and unlock map dragging when hovering over suggestion-field
-$("#stationList-container").mouseenter( function(){
+$("#station-list").mouseenter( function(){
     map.dragging.disable();
 }).mouseleave(function(){
     map.dragging.enable();
 });
 
-function displayStationField(){
-    var div = $("#stationList-container")
+
+function addStationBox(station, marker, button){
+    const stationBox = `<div id='${station.id}' class="station-box">
+                            <h3> Station name: '${station.name}'</h3> 
+                      </div>`;
+    const buttonList = $('<button/>', {
+        class: "remove-button",
+        text: "Ta bort",
+        click: function () { removeStation(station, marker, button) }
+    });
+    const $stationList = $("#station-list");
+    $stationList.append($(stationBox).append(buttonList));
+}
+
+function updateStationField(){
+    const div = $("#station-list")
 
     if (div.is(":hidden")) {
+        $("#stationlist-button").text("Göm valda stationer")
         div.show();
     } else {
-        
+        $("#stationlist-button").text("Visa valda stationer")
         div.hide();
     }
 }
 
-
-// index is the stations index in the list of chosen stations
-function getStationBox(index, name){
-    var stationDiv = `<div class="stationBox stationBox${index}"> 
-                        <div class="stationBox-container">
-                            <h3> Station name: '${name}'</h3> 
-                            <button class="removeStation" onclick="removeStation(${index})">Remove</button>
-                            <button class="removeStation" onclick="zoomToChosenStation(${index})">Visa station</button>
-                        </div>
-                      </div>`;
-
-    return stationDiv;
-}
-
-function appendStationToField(index){
-    let container = $("#stationList-container");
-    
-    container.append(getStationBox(index, chosenStations[index].name));
-}
-
 function showStationFieldButton(){
-    $("#stationList-buttons").show();
+    $("#stationlist-button").show();
     
 }
 
 function hideStationButton(){
-    $("#stationList-button").hide();
-    $("#stationList-container:visible").hide();
-    $("#stationList-container").empty();
-    $("#stationList-buttons").hide();
-    $("#stationList-container:visible").hide()
+    $("#stationlist-button").hide();
+    $("#station-list:visible").hide();
 }
 
 function zoomToChosenStation(index){

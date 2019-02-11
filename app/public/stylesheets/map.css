@@ -55,23 +55,11 @@
     color: white;
 }
 
-
-#stationList-container{
-    background: transparent;
-    /* min-height: 100vw; */
-    height: 85%;
-    min-width: 20vw;
-    display: none;
-    float: right;
-    position: relative; 
+#stationlist-button{
+    color: black;
+    position: absolute; 
     z-index: 499;
-    margin-top: 9%;
-    margin-bottom: 9%;
-    overflow-y: scroll;
-
-}
-
-#stationList-buttons{
+    
     display: none;
     height: 20%;
     width: 20%;
@@ -80,8 +68,7 @@
 
     bottom: -75%;
 
-}
-
+  /* check where thos os used */
 .stationList-button{
     color: black;
     height: 50%;
@@ -97,21 +84,6 @@
     
 }
 
-.stationBox{
-    /* padding-top: 5px; */
-    background: transparent;
-    color: black;
-}
-
-.stationBox-container{
-    padding-top: 3px;
-    padding-bottom: 5px;
-    margin-bottom: 10px;
-    padding-left: 10px;
-    border: 1px solid black;
-    border-radius: 3px;
-    background: lightblue;
-}
 .remove-button {
     background-color: white;
     border: 2px solid red;
@@ -132,6 +104,25 @@
     color: white;
 
 }
+
+#station-list {
+    height: 85%;
+    min-width: 20vw;
+    display: none;
+    float: right;
+    position: relative; 
+    z-index: 499;
+    margin-top: 9%;
+    margin-bottom: 9%;
+    overflow-y: scroll;
+
+}
+
+#station-box {
+    padding-top: 5px; 
+    background: transparent; 
+    color: black;
+    
 
 #search-container{
     margin-left: 5%;
