@@ -45,6 +45,13 @@ function addStation(station, marker, button){
 
 }
 
+
+function removeAllStations() {
+    // DO YOU SEE THIS SHIT! NEEEEEEEEEEEEEEEEEEETH
+    $(".remove-button").click();
+    chosenStations = [];
+
+}
 // Checks if a station is added or removed from chosenStations array
 function handleChosenStations(station, marker, button){
     // Toggle field

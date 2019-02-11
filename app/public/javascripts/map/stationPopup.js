@@ -1,30 +1,6 @@
 
 // Popup content
 function addPopup(station, marker) {
-    // var div = document.createElement("table-data");
-    // div.id = "popupid:" + station.id;
-    // div.innerHTML = 
-    // '<table id = "marker-data" >' +
-    //         '<tr> <td> Station </td><td>' + station.name +'</td></tr>' + 
-    //         '<tr> <td> Län: </td><td>' + countyNames[station.county_number] + '</td></tr>' + 
-    //         '<tr> <td>Lufttemperatur: </td><td></td></tr>' +
-    //         '<tr> <td>Vägtemperatur: </td><td></td></tr>' +
-    //         '<tr> <td>Luftfuktighet: </td><td></td></tr>' +
-    //         '<tr> <td>Vindhastighet: </td><td></td></tr>' +
-    //         '<tr> <td>Vindriktning: </td><td></td></tr>' +
-    // '</table>';
-    
-    // Button
-    // var button = document.createElement("button");
-    // button.id = station.id;
-    // button.className = "add-button";
-    // button.innerText = "Lägg till";
-    // button.addEventListener('click', function(){
-    //     handleChosenStations(station, marker, button);
-
-
-    // });
-    // div.appendChild(button);
     var popupContent = document.createElement("table-data");
     popupContent.innerHTML  = 
           '<table id = "marker-data" >' +
@@ -36,6 +12,8 @@ function addPopup(station, marker) {
             '<tr> <td>Vindhastighet: </td><td></td></tr>' +
             '<tr> <td>Vindriktning: </td><td></td></tr>' +
     '</table>';
+
+    // Leaflet require DOM therefor Jquery is not used
     var button = document.createElement("button");
     button.id = station.id;
     button.className = "add-button";
@@ -46,10 +24,10 @@ function addPopup(station, marker) {
     });
     popupContent.appendChild(button);
 
-    var popup = L.popup()
-    .setContent(popupContent);
+    // var popup = L.popup()
+    // .setContent(button);
 
-  marker.bindPopup(popup).openPopup();
+  marker.bindPopup(popupContent).openPopup();
 }
 
 function windDirection(data) {
@@ -77,31 +55,4 @@ function windDirection(data) {
     else if(data == 'southWest') { //northEast
       return '&nbsp; <i class="fa fa-long-arrow-left" style="transform: rotate(45deg)"></i> <br>';
     }
-}
-
-function changeButtonState(station, newState){
-    var button = document.getElementById("buttonid:" + station.id);
-    
-    if(button != null){
-        if(newState == "remove"){
-            changeButtonText(button, "remove-button", "Ta bort");
-        
-        }else if(newState == "add"){
-            // changeButtonText(button, "add-button", "Lägg till");
-
-        
-        }else if(chosenStations.includes(station)){
-            // changeButtonText(button, "remove-button", "Ta bort");
-
-        
-        }else{
-            // changeButtonText(button, "add-button", "Lägg till");
-
-        }
-    }
-}
-
-function changeButtonText(button, classText, buttonText){
-    button.className = classText;
-    button.innerText = buttonText;
 }

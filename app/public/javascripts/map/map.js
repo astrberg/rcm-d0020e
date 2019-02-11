@@ -160,7 +160,7 @@ map.addControl(drawControl);
 
 //TODO: Edit now empties list for both rectangle and circle, needs a separate list for both types
 map.on(L.Draw.Event.EDITED, function (event) {
-    emptyList();
+    removeAllStations();
     var layers = event.layers;
     layers.eachLayer(function (layer) {
         if(layer instanceof L.Rectangle) {
@@ -173,7 +173,7 @@ map.on(L.Draw.Event.EDITED, function (event) {
 });
 
 map.on(L.Draw.Event.DELETED, function (event) {
-    emptyList();
+    removeAllStations();
 });
     
        

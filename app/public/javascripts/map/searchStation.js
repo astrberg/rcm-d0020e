@@ -33,7 +33,7 @@ $("#suggestion-field").on("click", ".suggestion-box", function(){
     // get the index saved as id
     index = $(this).attr("id");
 
-    zoomToStation(index);
+    zoomToStation(stationsData[index]);
 });
 
 function getSuggestionBox(name, index){
