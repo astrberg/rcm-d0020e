@@ -61,11 +61,11 @@
     z-index: 499;
     
     display: none;
-    height: 20%;
-    width: 20%;
+    height: 10%;
+    width: 10%;
     float: right; 
 
-    bottom: -75%;
+    top: 85%;
 }
 
 
