@@ -206,7 +206,6 @@ function getStationbyDrawRect(lat_lngs) {
                     var station = stationByID(stationID);
                     if(!(chosenStations.find(x => x.id === station.id))) {
                         var button = document.createElement("button");
-                        button.id = stationID;
                         button.addEventListener("click" , function() {
                             handleChosenStations(station, marker, this);
                         
