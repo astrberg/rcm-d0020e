@@ -200,17 +200,16 @@ function getStationbyDrawRect(lat_lngs) {
         layer_group.eachLayer(function(layer_elem){
             if(L.latLngBounds(lat_lngs).contains(layer_elem.getLatLng())){
                 if(layer_elem instanceof L.Marker) {
-                    let contentID = layer_elem._popup._content.id;
-                    contentID = contentID.split(':');
-                    let stationID = contentID[1];
+                    let stationID = layer_elem._popup._content.lastChild.id;
+                    var button = layer_elem._popup._content.lastChild;
                     var station = stationByID(stationID);
                     if(!(chosenStations.find(x => x.id === station.id))) {
-                        var button = document.createElement("button");
                         button.addEventListener("click" , function() {
-                            handleChosenStations(station, marker, this);
+                            handleChosenStations(station, marker, stationID);
                         
                         });
                         addStation(station, layer_elem, button);
+                        showStationBar();
                 
                     }
                 }
@@ -226,11 +225,18 @@ function getStationbyDrawCircle(circleLayer) {
         layer_group.eachLayer(function(layer_elem){
             if(Math.abs(circleCenter.distanceTo(layer_elem.getLatLng())) <= radius){
                 if(layer_elem instanceof L.Marker) {
-                    let contentID = layer_elem._popup._content.id;
-                    contentID = contentID.split(':');
-                    let stationID = contentID[1];
-                    var stations = stationByID(stationID);
-                    addStation(stations);
+                    let stationID = layer_elem._popup._content.lastChild.id;
+                    var button = layer_elem._popup._content.lastChild;
+                    var station = stationByID(stationID);
+                    if(!(chosenStations.find(x => x.id === station.id))) {
+                        button.addEventListener("click" , function() {
+                            handleChosenStations(station, marker, stationID);
+                        
+                        });
+                        addStation(station, layer_elem, button);
+                        showStationBar();
+                
+                    }
                 }
             }
          });
