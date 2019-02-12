@@ -203,10 +203,17 @@ function getStationbyDrawRect(lat_lngs) {
                     let contentID = layer_elem._popup._content.id;
                     contentID = contentID.split(':');
                     let stationID = contentID[1];
-                    console.log(stationID);
-
-                    var stations = stationByID(stationID);
-                    // addStation(stations);
+                    var station = stationByID(stationID);
+                    if(!(chosenStations.find(x => x.id === station.id))) {
+                        var button = document.createElement("button");
+                        button.id = stationID;
+                        button.addEventListener("click" , function() {
+                            handleChosenStations(station, marker, this);
+                        
+                        });
+                        addStation(station, layer_elem, button);
+                
+                    }
                 }
             }
          });
