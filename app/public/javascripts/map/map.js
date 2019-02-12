@@ -59,7 +59,7 @@ function getColor(d) {
     return  d > 35  ? '#CC0000' :
             d > 30  ? '#FF0000' :
             d > 25 ? '#FF3333' :
-            d > 20  ? '#CC6600' :
+            d > 20  ? '#FF6666' :
             d > 15   ? '#FF8000' :
             d > 10   ? '#FF9933' :
             d > 5   ? '#FFB266' :
@@ -71,7 +71,7 @@ function getColor(d) {
             d > -15  ? '#3399FF' :
             d > -20   ? '#0080FF' :
             d > -25   ? '#0066CC' :
-            d > -30   ? '#3333FF' :
+            d > -30   ? '#004C99FF' :
             d > -35   ? '#0000FF' :
                         '#000099';
 }
@@ -176,8 +176,6 @@ map.on(L.Draw.Event.DELETED, function (event) {
     removeAllStations();
 });
     
-       
-
 map.on(L.Draw.Event.CREATED, function (event) {
     var layer = event.layer;
     var type = event.layerType;
@@ -200,17 +198,16 @@ function getStationbyDrawRect(lat_lngs) {
         layer_group.eachLayer(function(layer_elem){
             if(L.latLngBounds(lat_lngs).contains(layer_elem.getLatLng())){
                 if(layer_elem instanceof L.Marker) {
+                    //StationID and button from the marker object
                     let stationID = layer_elem._popup._content.lastChild.id;
                     var button = layer_elem._popup._content.lastChild;
                     var station = stationByID(stationID);
                     if(!(chosenStations.find(x => x.id === station.id))) {
                         button.addEventListener("click" , function() {
-                            handleChosenStations(station, marker, stationID);
-                        
+                            handleChosenStations(station, marker, stationID);  
                         });
                         addStation(station, layer_elem, button);
-                        showStationBar();
-                
+                        showStationBar();                
                     }
                 }
             }
@@ -225,17 +222,16 @@ function getStationbyDrawCircle(circleLayer) {
         layer_group.eachLayer(function(layer_elem){
             if(Math.abs(circleCenter.distanceTo(layer_elem.getLatLng())) <= radius){
                 if(layer_elem instanceof L.Marker) {
+                    //StationID and button from the marker object
                     let stationID = layer_elem._popup._content.lastChild.id;
                     var button = layer_elem._popup._content.lastChild;
                     var station = stationByID(stationID);
                     if(!(chosenStations.find(x => x.id === station.id))) {
                         button.addEventListener("click" , function() {
                             handleChosenStations(station, marker, stationID);
-                        
                         });
                         addStation(station, layer_elem, button);
-                        showStationBar();
-                
+                        showStationBar();              
                     }
                 }
             }
