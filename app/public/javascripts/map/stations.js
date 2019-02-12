@@ -48,7 +48,7 @@ function addStation(station, marker, button){
 
 function removeAllStations() {
     // DO YOU SEE THIS SHIT! NEEEEEEEEEEEEEEEEEEETH
-    $(".remove-button").click();
+    $("#station-list .remove-button").click();
     chosenStations = [];
 
 }
@@ -56,7 +56,6 @@ function removeAllStations() {
 function handleChosenStations(station, marker, button){
     // Toggle field
     if(chosenStations.length === 0) {
-        updateStationField();
         showStationFieldButton();
 
     }
