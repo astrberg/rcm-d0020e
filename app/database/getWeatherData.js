@@ -53,6 +53,8 @@ module.exports = {
     // get weather data from given station
     getWeatherData : function(req, res, next, station_id, start_time, stop_time){
        
+        mutex++;
+
         let auth = new authorization.Authorization();
 
         // ssh to database server and then connect to db
@@ -74,7 +76,13 @@ module.exports = {
 
                     current_time.setHours(current_time.getHours() - current_time.getTimezoneOffset() / 60);
                 });
-                mysqlssh.close()
+
+                mutex--;
+
+                if(mutex == 0){
+                    mysqlssh.close()
+
+                }
                 
                 // send data back to client
                 res.send(results);
@@ -86,7 +94,9 @@ module.exports = {
     },
     // get avarage weather data from given station
     getAverageWeatherData : function(req, res, next, station_id, start_time, stop_time){
-       
+        
+        mutex++;
+
         let auth = new authorization.Authorization();
 
         // ssh to database server and then connect to db
@@ -101,7 +111,12 @@ module.exports = {
             client.query(sql, values, function (err, results) {
                 if (err) throw err
 
-                mysqlssh.close()
+                mutex--;
+
+                if(mutex == 0){
+                    mysqlssh.close()
+
+                }
                 
                 // send data back to client
                 res.send(results);
