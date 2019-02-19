@@ -1,5 +1,6 @@
 const mysqlssh = require('mysql-ssh');
 const authorization = require('./authorization');
+var async = require("async");
 
 let mutex = 0;
 
@@ -16,35 +17,43 @@ module.exports = {
         mutex++;
 
         let auth = new authorization.Authorization();
-
+        let weather_data = [];
         // ssh to database server and then connect to db
         mysqlssh.connect(auth.ssh, auth.database).then(client => {
-            
-            // get latest row of station weather data
             const sql = "SELECT * FROM weather_data WHERE station_id = ? ORDER BY id DESC LIMIT 1";
-            const values =  [[station_id]];
 
-            client.query(sql, [values], function (err, results) {
-                if (err) throw err
-                
-                let current_time = results[0].timestamp;
+            // do a async loop through the station_id list
+            async.each(station_id, function(id, callback){
 
-                // convert fetched timestamp to correct timezone. 
-                // JSON parses timestamp to UTC+0 and we live in UTC+1
-                current_time.setHours(current_time.getHours() - current_time.getTimezoneOffset() / 60);
-                
-                
-                
-                // send data back to client
-                res.send(results);
+                // get latest row of station weather data
+                const values =  [[id]];
+
+                client.query(sql, [values], function (err, results) {
+                    if (err) throw err
+                    
+                    
+                    let current_time = results[0].timestamp;
+
+                    // convert fetched timestamp to correct timezone. 
+                    // JSON parses timestamp to UTC+0 and we live in UTC+1
+                    current_time.setHours(current_time.getHours() - current_time.getTimezoneOffset() / 60);
+                    
+                    
+                    
+                    weather_data.push(results);
+                    callback();
+                    
+                })
+            },function(callback){
+                // when async functions are done send data back
+                res.send(weather_data);
                 mutex--;
-
+        
                 if(mutex == 0){
                     mysqlssh.close()
 
                 }
-            })
-
+            });
         }).catch(err => {
             console.log(err)
         })
@@ -63,30 +72,48 @@ module.exports = {
             
             // get weather data between to given timestamps
             var sql = "SELECT * FROM weather_data WHERE station_id = ? AND timestamp BETWEEN ? AND ?";
-            var values =  [station_id,start_time, stop_time];
             
-            client.query(sql, values, function (err, results) {
-                if (err) throw err
+            let weather_data = [];
 
-                // convert fetched timestamp to correct timezone. 
-                // JSON parses timestamp to UTC+0 and we live in UTC+1
-                results.forEach (result =>{
 
-                    let current_time = result.timestamp;
+            // do a async loop through the station_id list
+            async.each(station_id, function(id, callback){
 
-                    current_time.setHours(current_time.getHours() - current_time.getTimezoneOffset() / 60);
-                });
+                var values =  [id,start_time, stop_time];
 
+                client.query(sql, values, function (err, results) {
+                    if (err) throw err
+    
+                    // convert fetched timestamp to correct timezone. 
+                    // JSON parses timestamp to UTC+0 and we live in UTC+1
+                    results.forEach (result =>{
+    
+                        let current_time = result.timestamp;
+    
+                        current_time.setHours(current_time.getHours() - current_time.getTimezoneOffset() / 60);
+                    });
+    
+                    
+                    // add the data of the station to the list 
+                    weather_data.push(results);
+
+                    // callback to make the async stuff work
+                    callback();
+                    
+                })
+
+                
+            },function(callback){
+                // when async functions are done send data back
+                res.send(weather_data);
                 mutex--;
-
+        
                 if(mutex == 0){
                     mysqlssh.close()
 
                 }
-                
-                // send data back to client
-                res.send(results);
-            })
+            });
+            
 
         }).catch(err => {
             console.log(err)

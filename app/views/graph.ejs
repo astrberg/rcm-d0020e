@@ -128,11 +128,10 @@ async function rungraphs(starttime, stoptime){
 	const canvasclearvar8 = document.getElementById('myChart8').getContext('2d');
 		canvasclearvar8.clearRect(0,0, document.getElementById('myChart8').width, document.getElementById('myChart8').height);
 
-	//functioncalls to get data
-	for(var i = 0; i < stationsarrayid.length; i++){
-		await getWeatherData(stationsarrayid[i],starttime,stoptime,stationname[i]);
-		await getlatest(stationsarrayid[i],stationname[i]);
-	}
+    //functioncalls to get data
+    await getWeatherData(stationsarrayid,starttime,stoptime,"wasd");
+    await getlatest(stationsarrayid,"wasd");
+
 	
 	//functions to draw graphs
 	await roadtemp();
