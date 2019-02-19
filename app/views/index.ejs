@@ -31,10 +31,13 @@
             <div id="suggestion-field">
             </div>
         </div>
-      <!-- Station field to the right and button -->
-      <div id="station-list"></div>
-      <button id="remove-all-button" onclick="removeAllStations()">Ta bort alla valda stationer</button>
-      <button id="stationlist-button" onclick="updateStationField()">Visa valda stationer</button>
+        <!-- Station field to the right and button -->
+        <div id="station-list"></div>
+        
+        <div id="button-container">
+          <button id="remove-all-button" onclick="removeAllStations()">Ta bort alla valda stationer</button>
+          <button id="stationlist-button" onclick="updateStationField()">Visa valda stationer</button>
+        </div>
       </div>
     </div>
       
@@ -54,17 +57,17 @@
     <script src="javascripts/map/searchStation.js"></script>
 
     <script>
-    async function main (){
-      await getAvgCountyWeatherData();
-      await drawMap();
-      await getStations(); 
-    }
-    main();
+      async function main (){
+        await getAvgCountyWeatherData();
+        await drawMap();
+        await getStations(); 
+      }
+      main();
 
-    function openewgraphtab(){
-	var w = window.open("http://127.0.0.1:3000/graph");
-	}
-	
+      function openewgraphtab(){
+        var w = window.open("/graph");
+      }
+    
     </script>
   </body>
 </html>
