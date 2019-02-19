@@ -57,24 +57,24 @@ info.update = function (props) {
 info.addTo(map);
 
 function getColor(d) {
-    return  d > 35  ? '#CC0000' :
-            d > 30  ? '#FF0000' :
-            d > 25 ? '#FF3333' :
-            d > 20  ? '#FF6666' :
-            d > 15   ? '#FF8000' :
-            d > 10   ? '#FF9933' :
-            d > 5   ? '#FFB266' :
-            d > 0  ? '#FFCC99' :
+    return  d > 35  ? '#990000' :
+            d > 30  ? '#CC0000' :
+            d > 25 ? '#FF0000' :
+            d > 20  ? '#FF3333' :
+            d > 15   ? '#FF6666' :
+            d > 10   ? '#FF9999' :
+            d > 5   ? '#FFCCCC' :
+            d > 0  ? '#FFDCDC' :
 
 
-            d > -5  ? '#99DDFF' :
-            d > -10 ? '#66CDFF' :
-            d > -15  ? '#3399FF' :
-            d > -20   ? '#0080FF' :
-            d > -25   ? '#0066CC' :
-            d > -30   ? '#004C99FF' :
-            d > -35   ? '#0000FF' :
-                        '#000099';
+            d > -5  ? '#CCE5FF' :
+            d > -10 ? '#99CCFF' :
+            d > -15  ? '#66B2FF' :
+            d > -20   ? '#3399FF' :
+            d > -25   ? '#0080FF' :
+            d > -30   ? '#0066CC' :
+            d > -35   ? '#004C99' :
+                        '#003366';
 }
 
 function style(feature) {
@@ -161,8 +161,6 @@ map.addControl(drawControl);
  
 //TODO: Edit now empties list for both rectangle and circle, needs a separate list for both types
 map.on(L.Draw.Event.EDITED, function (event) {
-    console.log(markedStations, "marked");
-    console.log(chosenStations, "chosen");
     var layers = event.layers;
     layers.eachLayer(function (layer) {
         if(layer instanceof L.Rectangle) {
@@ -195,8 +193,11 @@ map.on(L.Draw.Event.CREATED, function (event) {
 
     drawnItems.addLayer(layer);
 });
+var lats = [];
 function removeStationsOutsideRect(lat_lngs) {
     var temp = [];
+    lats.push(lat_lngs)
+    console.log(lats);
     for(var i = 0; i < layerGroups.length; i++) {
         let layer_group = layerGroups[i];
         layer_group.eachLayer(function(layer_elem){
