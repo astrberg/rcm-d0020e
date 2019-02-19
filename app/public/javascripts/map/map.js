@@ -4,6 +4,7 @@
 const map = L.map('mapid').setView([62.97519757003264, 15.864257812499998], 5);
 
 var averageData = [];
+var markedStations = [];
 var geoJson;
 /**
  * The layer for the Leaflet map
@@ -157,14 +158,16 @@ var drawControl = new L.Control.Draw({
   }
 });
 map.addControl(drawControl);
-
+ 
 //TODO: Edit now empties list for both rectangle and circle, needs a separate list for both types
 map.on(L.Draw.Event.EDITED, function (event) {
-    removeAllStations();
+    console.log(markedStations, "marked");
+    console.log(chosenStations, "chosen");
     var layers = event.layers;
     layers.eachLayer(function (layer) {
         if(layer instanceof L.Rectangle) {
             var lat_lngs = [layer._latlngs[0],layer._latlngs[2]];
+            removeStationsOutsideRect(lat_lngs);
             getStationbyDrawRect(lat_lngs);
         }else if(layer instanceof L.Circle) {
             getStationbyDrawCircle(layer);
@@ -174,6 +177,7 @@ map.on(L.Draw.Event.EDITED, function (event) {
 
 map.on(L.Draw.Event.DELETED, function (event) {
     removeAllStations();
+    markedStations = [];
 });
     
 map.on(L.Draw.Event.CREATED, function (event) {
@@ -191,6 +195,32 @@ map.on(L.Draw.Event.CREATED, function (event) {
 
     drawnItems.addLayer(layer);
 });
+function removeStationsOutsideRect(lat_lngs) {
+    var temp = [];
+    for(var i = 0; i < layerGroups.length; i++) {
+        let layer_group = layerGroups[i];
+        layer_group.eachLayer(function(layer_elem){
+            if(L.latLngBounds(lat_lngs).contains(layer_elem.getLatLng())){
+                if(layer_elem instanceof L.Marker) {
+                    if(markedStations.includes(layer_elem)) {
+                        temp.push(layer_elem);
+                        markedStations.pop(layer_elem);
+                        
+                    }
+                }
+            }
+        });
+    }
+    for(var i = 0; i < markedStations.length; i++) {
+        let layer_elem = markedStations[i];
+        let stationID = layer_elem._popup._content.lastChild.id;
+        var button = layer_elem._popup._content.lastChild;
+        var station = stationByID(stationID);
+        removeStation(station, layer_elem, button);
+    }
+    markedStations = temp;
+
+}
 
 function getStationbyDrawRect(lat_lngs) {
     for(var i = 0; i < layerGroups.length; i++) {
@@ -202,12 +232,19 @@ function getStationbyDrawRect(lat_lngs) {
                     let stationID = layer_elem._popup._content.lastChild.id;
                     var button = layer_elem._popup._content.lastChild;
                     var station = stationByID(stationID);
-                    if(!(chosenStations.find(x => x.id === station.id))) {
-                        button.addEventListener("click" , function() {
-                            handleChosenStations(station, marker, stationID);  
-                        });
+                    if(markedStations.length > 0) {
+                        if(!markedStations.includes(layer_elem)) {
+                            markedStations.push(layer_elem);
+                            addStation(station, layer_elem, button);
+                            showStationBar();
+
+                        } else {
+                            console.log("already in");
+                        }    
+                    } else {
+                        markedStations.push(layer_elem);
                         addStation(station, layer_elem, button);
-                        showStationBar();                
+                        showStationBar();
                     }
                 }
             }
