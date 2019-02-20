@@ -129,8 +129,8 @@ async function rungraphs(starttime, stoptime){
 		canvasclearvar8.clearRect(0,0, document.getElementById('myChart8').width, document.getElementById('myChart8').height);
 
     //functioncalls to get data
-    await getWeatherData(stationsarrayid,starttime,stoptime,"wasd");
-    await getlatest(stationsarrayid,"wasd");
+    await getWeatherData(stationsarrayid,starttime,stoptime,stationname);
+    await getlatest(stationsarrayid,stationname);
 
 	
 	//functions to draw graphs
