@@ -14,24 +14,18 @@ function addPopup(station, marker) {
     '</table>';
 
     // Leaflet require DOM therefor Jquery is not used
-    var button = document.createElement("button");
-    var iTag = document.createElement("I");
-    iTag.className = "fa fa-plus fa-2x";
-    iTag.innerText = "Lägg till"
+    var button = document.createElement("div");
     button.id = station.id;
-    button.className = "button";
-    // button.innerText = "Lägg till";
+    button.className = "add-button";
+    button.innerText = "Lägg till";
     button.addEventListener("click" , function() {
          handleChosenStations(station, marker, this);
       
     });
-    button.appendChild(iTag);
+
     popupContent.appendChild(button);
 
-    // var popup = L.popup()
-    // .setContent(button);
-
-  marker.bindPopup(popupContent).openPopup();
+    marker.bindPopup(popupContent).openPopup();
 }
 
 function windDirection(data) {

@@ -32,43 +32,57 @@
         opacity: 0.7; 
     }
 
-.popup-content {
-    font: 16px "Lucida Grande", Helvetica, Arial, sans-serif;
-    color: blue; 
-}
-
 .button {
+
+
+    display: inline-block;
+    border-radius: 4px;
+    background-color: #BEBEBE;
     border: none;
+    text-align: center;
+    padding: 10px;
+    width: 90%;
     cursor: pointer;
-    width: 100%;
-    background-color: transparent;
+    margin-top: 5px;
+}
+.button:hover {
+    background-color: gray;
 }
 
-.button:hover {
-    color: black;
-}
 
 .add-button {
-    background-color: white;
-    border: 2px solid #4CAF50;
-    color: black;
-    padding: 8px 16px;
-    text-decoration: none;
     display: inline-block;
-    font-size: 14px;
-    margin: auto auto;
-    width: 100%;
-    -webkit-transition-duration: 0.4s; /* Safari */
-    transition-duration: 0.4s;
+    border-radius: 4px;
+    background-color: #98cf3f;
+    border: none;
+    text-align: center;
+    padding: 10px;
+    width: 90%;
     cursor: pointer;
-  }
-
+    margin-top: 5px;
+    
+}
 .add-button:hover {
-    background-color: #4CAF50; /* Green */
-    color: white;
+    background-color: #92B558;   
 }
 
-#stationlist-button, #remove-all-button {
+.remove-button {
+    display: inline-block;
+    border-radius: 4px;
+    background-color: #d53939;
+    border: none;
+    text-align: center;
+    padding: 10px;
+    width: 90%;
+    cursor: pointer;
+    margin-top: 5px;
+}
+.remove-button:hover {
+    background-color: #c74848;
+}
+
+
+#graph-button, #stationlist-button, #remove-all-button {
     color: black;
     position: relative; 
     z-index: 499;
@@ -80,29 +94,6 @@
 
     top: 85%;
 }
-
-
-.remove-button {
-    background-color: white;
-    border: 2px solid red;
-    color: black;
-    padding: 8px 16px;
-    margin: auto auto;
-    width: 100%;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 14px;
-    -webkit-transition-duration: 0.4s; /* Safari */
-    transition-duration: 0.4s;
-    cursor: pointer;
-  }
-
-.remove-button:hover {
-    background-color: red; /* Green */
-    color: white;
-
-}
-
 
 #station-list {
     height: 85%;

@@ -17,12 +17,12 @@ function addStationBox(station, marker, button){
         click: function () { removeStation(station, marker, button) }
     });
     const buttonGoToStation = $('<button/>', {
-        // class: "remove-button",
+        class: "button",
         text: "Gå till station",
         click: function () { zoomToStation(station) }
     });
     const $stationList = $("#station-list");
-    $stationList.append($(stationBox).append(buttonList, buttonGoToStation));
+    $stationList.append($(stationBox).append(buttonGoToStation, buttonList));
 }
 
 function updateStationField(){
@@ -40,12 +40,14 @@ function updateStationField(){
 function showStationFieldButton(){
     $("#stationlist-button").show();
     $("#remove-all-button").show();
+    $("#graph-button").show();
     
 }
 
 function hideStationButton(){
     $("#stationlist-button").hide();
     $("#remove-all-button").hide();
+    $("#graph-button").hide();
     $("#station-list:visible").hide();
 }
 
