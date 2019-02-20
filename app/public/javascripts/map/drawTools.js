@@ -27,7 +27,7 @@ var drawControl = new L.Control.Draw({
 });
 map.addControl(drawControl);
  
-//TODO: Edit now empties list for both rectangle and circle, needs a separate list for both types
+//Event for editing all drawn items, runs on "save"
 map.on(L.Draw.Event.EDITED, function (event) {
     var layers = event.layers;
     
@@ -35,7 +35,7 @@ map.on(L.Draw.Event.EDITED, function (event) {
         removeStationsOutsideDrawnItem();
     });
 });
-
+//Event for deleting one or all drawn items.
 map.on(L.Draw.Event.DELETED, function (event) {
     removeMarkedStations();
     drawnCircleLayers = [];
@@ -43,6 +43,8 @@ map.on(L.Draw.Event.DELETED, function (event) {
 });
 var drawnRectLayers = []; 
 var drawnCircleLayers = [];  
+
+//Event for creating drawn items.
 map.on(L.Draw.Event.CREATED, function (event) {
     var layer = event.layer;
     var type = event.layerType;
@@ -61,6 +63,7 @@ map.on(L.Draw.Event.CREATED, function (event) {
 
     drawnItems.addLayer(layer);
 });
+//Removes stations marked by drawnItems only
 function removeMarkedStations(){
     for(var i = 0; i < markedStations.length; i++){
         let stationId = markedStations[i]._popup._content.lastChild.id;
@@ -70,7 +73,9 @@ function removeMarkedStations(){
     }
     markedStations = [];
 }
-//TODO: BROKEN
+//Loops through all layergroups and each layer within them. 
+//If the courners of a drawn rectangle contains the lats and longs of a marker, add that marker to markedStations and chosenStations
+//Checks the circle center and the radius, if it contains the lats and longs of a marker, add that marker to markedStations and chosenStations
 function removeStationsOutsideDrawnItem() {
     removeMarkedStations();
     for(var i = 0; i < layerGroups.length; i++) {
@@ -93,7 +98,7 @@ function removeStationsOutsideDrawnItem() {
         });
     }
 }
-
+//Called with create event, if the courners of a drawn rectangle contains any markers, add them to markedStations and chosenStations
 function getStationbyDrawRect(lat_lngs) {
     for(var i = 0; i < layerGroups.length; i++) {
         let layer_group = layerGroups[i];
@@ -107,7 +112,7 @@ function getStationbyDrawRect(lat_lngs) {
          });
     }
 }
-
+//Function to add markers, identical function for all types of drawn Items. Checks if a station is already chosen to avoid dublicates.
 function addMarked(layer_elem){
     let stationID = layer_elem._popup._content.lastChild.id;
     var button = layer_elem._popup._content.lastChild;
@@ -118,11 +123,11 @@ function addMarked(layer_elem){
         showStationBar();
 
     } else {
-        console.log("already in");
+        console.log("Station is already chosen");
         showStationBar();
     }    
 }
-
+//Gets the circleCenter and Radius of a drawn circle, if it contains any markers, add them to markedStations and chosenStations
 function getStationbyDrawCircle(circleLayer) {
     var radius = circleLayer.getRadius();
     var circleCenter = circleLayer.getLatLng();
@@ -138,7 +143,10 @@ function getStationbyDrawCircle(circleLayer) {
     }
 
 }
-
+/*
+*@param ID from a station
+*@return Station from stationID, stored in stationsdata within database
+*/
 function stationByID(stationID) {
     for(var i = 0; i < stationsData.length; i++) {
         if(stationsData[i].id == stationID) {
