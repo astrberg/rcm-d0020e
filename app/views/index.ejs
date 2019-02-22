@@ -25,17 +25,17 @@
       <!-- Search bar -->
         <div id="search-container">
           <input type="text" id="searchbar">
-            <div id="suggestion-field">
-            </div>
+            <div id="suggestion-field"></div>
         </div>
       
 
       <!-- Station field to the right and button -->
       <div id="station-list" class="info"></div>
-      <button id="remove-all-button" onclick="removeAllStations()">Ta bort alla valda stationer</button>
-      <button id="stationlist-button" onclick="updateStationField()">Visa valda stationer</button>
-      <button id="graph-button" onclick="openewgraphtab()">Grafer</button> 
-
+      <div class="button-container">
+        <button class="button-two" onclick="removeAllStations()">Ta bort alla valda stationer</button>
+        <button class="button-two" onclick="updateStationField()">Visa valda stationer</button>
+        <button class="button-two" onclick="openewgraphtab()">Grafer</button> 
+      </div>
       </div>
     </div>
       
