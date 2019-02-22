@@ -54,7 +54,7 @@ function addStationToLayer(station, layerNumber){
     marker.on('click', async function(){
         
         // Wait for weather data
-        await getLatestWeatherData(station.id);
+        await getLatestWeatherData([station.id]);
         let dataText = [" \xB0C", " \xB0C", " %", " m/s", ""];
         let data = ["air_temperature", "road_temperature", "air_humidity", "wind_speed", "wind_direction"];
         let markerDiv = document.getElementById("marker-data");

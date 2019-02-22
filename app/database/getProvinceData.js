@@ -1,7 +1,7 @@
 const mysqlssh = require('mysql-ssh');
 const authorization = require('./authorization');
 
-
+let mutex = 0;
 /* Functions in the DB class that is usable by other files */
 module.exports = {
     /*
@@ -16,7 +16,7 @@ module.exports = {
        
         let auth = new authorization.Authorization();
 
-
+        mutex++;
         // ssh to database server and then connect to db
         mysqlssh.connect(auth.ssh, auth.database).then(client => {
             
@@ -31,7 +31,12 @@ module.exports = {
             client.query(sql, function (err, results) {
                 if (err) throw err
                 
-                mysqlssh.close()
+                mutex--;
+
+                if(mutex == 0){
+                    mysqlssh.close()
+
+                }
                 
                 let temperatures = [];
                 
