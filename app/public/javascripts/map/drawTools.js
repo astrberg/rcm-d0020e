@@ -2,6 +2,10 @@
 var drawnItems = new L.FeatureGroup();
 map.addLayer(drawnItems);
 
+// L.EditToolbar.Delete.include({
+//     removeAllLayers: false
+// });
+
 // Initialise the draw control and pass it the FeatureGroup of editable layers
 var drawControl = new L.Control.Draw({
     draw : {
@@ -35,20 +39,37 @@ map.on(L.Draw.Event.EDITED, function (event) {
         removeStationsOutsideDrawnItem();
     });
 });
-//Event for deleting one or all drawn items.
+
 map.on(L.Draw.Event.DELETED, function (event) {
-    removeMarkedStations();
-    drawnCircleLayers = [];
-    drawnRectLayers = [];
+    var layers = event.layers;
+    
+    layers.eachLayer(function (layer) {
+        if(layer instanceof L.Rectangle){
+            for(var i = 0; i < drawnRectLayers.length; i++) {
+                if(drawnRectLayers[i]._leaflet_id == layer._leaflet_id) {
+                    drawnRectLayers.splice(i, 1);  
+                }
+            }
+        }else if(layer instanceof L.Circle){
+            for(var i = 0; i < drawnCircleLayers.length; i++) {
+                if(drawnCircleLayers[i]._leaflet_id == layer._leaflet_id) {
+                    drawnCircleLayers.splice(i, 1);  
+                }
+            }
+        }
+        
+    });
+    removeStationsOutsideDrawnItem();
 });
+
 var drawnRectLayers = []; 
-var drawnCircleLayers = [];  
+var drawnCircleLayers = []; 
 
 //Event for creating drawn items.
 map.on(L.Draw.Event.CREATED, function (event) {
     var layer = event.layer;
     var type = event.layerType;
-    
+
 
     if(type == 'circle') {
         drawnCircleLayers.push(layer);
