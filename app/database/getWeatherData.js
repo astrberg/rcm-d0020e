@@ -106,7 +106,7 @@ module.exports = {
 
                     results.forEach(result =>{
 
-                        // depeding on the timeDiff, filter the result and add 1/1, 1/4, 1/8 or 1/16 of every result
+                        // depeding on the timeDiff, filter the result and add 1/1, 1/2, 1/4, 1/8 or 1/16 of every result
                         
                         // these limits are up for tweaking
                         if(timeDiff < 96){ // less then 4 days
