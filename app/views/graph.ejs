@@ -35,14 +35,14 @@
 <button type="button" onclick="rungraphs(starttime,stoptime)">Time intervall</button> 
 </div>
 <div id="divcheckboxes">
-<input type="checkbox" checked=checked id="airtemp"/>Air_temp
-<input type="checkbox" checked=checked id="Road_temp"/>Road_temp
-<input type="checkbox" checked=checked id="Air_humidity"/>Air_humidity
-<input type="checkbox" checked=checked id="Wind_speed"/>Wind_speed
-<input type="checkbox" checked=checked id="current_temp"/>Current_air_temp
-<input type="checkbox" checked=checked id="current_road_temp"/>Current_road_temp
-<input type="checkbox" checked=checked id="current_hum"/>Current_air_humidity
-<input type="checkbox" checked=checked id="current_windspeed"/>Current_wind_speed
+<input type="checkbox" checked=checked id="airtemp"/>Lufttemperatur
+<input type="checkbox" checked=checked id="Road_temp"/>Vägtemperatur
+<input type="checkbox" checked=checked id="Air_humidity"/>Luftfuktighet
+<input type="checkbox" checked=checked id="Wind_speed"/>Vindhastighet
+<input type="checkbox" checked=checked id="current_temp"/>Nuvarande lufttemperatur
+<input type="checkbox" checked=checked id="current_road_temp"/>Nuvarande vägtemperatur
+<input type="checkbox" checked=checked id="current_hum"/>Nuvarande luftfuktighet
+<input type="checkbox" checked=checked id="current_windspeed"/>Nuvarande vindhastighet
 </div>
 
 <div id="type1">
@@ -91,6 +91,8 @@ for(var i=0;i<thechosendata.length;i++){
 document.getElementById("myRange1").max = Math.floor(Date.now() / 1000);
 document.getElementById("myRange2").max = Math.floor(Date.now() / 1000);
 
+
+var currentDate = new Date();
 
 var starttime='2019-01-20 13:12:12';
 var stoptime='2019-01-23 13:23:20';
