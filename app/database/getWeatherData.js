@@ -75,7 +75,6 @@ module.exports = {
             
             let weather_data = [];
 
-
             // do a async loop through the station_id list
             async.each(station_id, function(id, callback){
 
@@ -92,10 +91,49 @@ module.exports = {
     
                         current_time.setHours(current_time.getHours() - current_time.getTimezoneOffset() / 60);
                     });
-    
+                    let filteredResult = [];
+                    let i = 0;
+
+
+                    // calculate the time difference between the first and last result
+                    let timeDiff = results[results.length - 1].timestamp.getTime() - results[0].timestamp.getTime();
+
+
+                    //change timediff from ms to h
+                    timeDiff = timeDiff / (3.6*(10**6));
+                    
+                    //console.log(timeDiff)
+
+                    results.forEach(result =>{
+
+                        // depeding on the timeDiff, filter the result and add 1/1, 1/2, 1/4, 1/8 or 1/16 of every result
+                        
+                        // these limits are up for tweaking
+                        if(timeDiff < 96){ // less then 4 days
+                            filteredResult.push(result);
+                        }else if(timeDiff < 252){   // less then 1.5 week
+                            if(i % 2 == 0){
+                                filteredResult.push(result);
+                            }
+                        }else if(timeDiff < 1008){   // less then 6 weeks
+                            if(i % 4 == 0){
+                                filteredResult.push(result);
+                            }
+                        }else if(timeDiff < 2016){  // less then 12 weeks
+                            if(i % 8 == 0){
+                                filteredResult.push(result);
+                            }
+                        }else{
+                            if(i % 16 == 0){
+                                filteredResult.push(result);
+                            }
+                        }
+                        
+                        i++;
+                    });
                     
                     // add the data of the station to the list 
-                    weather_data.push(results);
+                    weather_data.push(filteredResult);
 
                     // callback to make the async stuff work
                     callback();
