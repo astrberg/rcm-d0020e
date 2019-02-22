@@ -101,18 +101,25 @@ module.exports = {
 
                     //change timediff from ms to h
                     timeDiff = timeDiff / (3.6*(10**6));
-
+                    
+                    //console.log(timeDiff)
 
                     results.forEach(result =>{
 
                         // depeding on the timeDiff, filter the result and add 1/1, 1/4, 1/8 or 1/16 of every result
-                        if(timeDiff < 48){ // less then 2 days
+                        
+                        // these limits are up for tweaking
+                        if(timeDiff < 96){ // less then 4 days
                             filteredResult.push(result);
-                        }else if(timeDiff < 336){   // less then 7 days
+                        }else if(timeDiff < 252){   // less then 1.5 week
+                            if(i % 2 == 0){
+                                filteredResult.push(result);
+                            }
+                        }else if(timeDiff < 1008){   // less then 6 weeks
                             if(i % 4 == 0){
                                 filteredResult.push(result);
                             }
-                        }else if(timeDiff < 2688){  // less then about a month
+                        }else if(timeDiff < 2016){  // less then 12 weeks
                             if(i % 8 == 0){
                                 filteredResult.push(result);
                             }
