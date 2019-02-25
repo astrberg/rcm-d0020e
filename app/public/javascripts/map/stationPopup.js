@@ -2,16 +2,26 @@
 // Popup content
 function addPopup(station, marker) {
     var popupContent = document.createElement("table-data");
+
+    let index = 0;
+    for(let i = 0; i < stationsData.length; i++){
+      if(station.id == latestWeatherData[i].station_id){
+        index = i;
+      }
+    }
+    
     popupContent.innerHTML  = 
           '<table id = "marker-data" >' +
             '<tr> <td> Station </td><td>' + station.name +'</td></tr>' + 
             '<tr> <td> Län: </td><td>' + countyNames[station.county_number] + '</td></tr>' + 
-            '<tr> <td>Lufttemperatur: </td><td></td></tr>' +
-            '<tr> <td>Vägtemperatur: </td><td></td></tr>' +
-            '<tr> <td>Luftfuktighet: </td><td></td></tr>' +
-            '<tr> <td>Vindhastighet: </td><td></td></tr>' +
-            '<tr> <td>Vindriktning: </td><td></td></tr>' +
+            '<tr> <td>Lufttemperatur: </td><td>' + latestWeatherData[index]['air_temperature']+ "\xB0C"+
+            '<tr> <td>Vägtemperatur: </td><td>'+latestWeatherData[index]['road_temperature'] + "\xB0C" +
+            '<tr> <td>Luftfuktighet: </td><td>'+latestWeatherData[index]['air_humidity'] + "%" +
+            '<tr> <td>Vindhastighet: </td><td>'+latestWeatherData[index]['wind_speed'] + "m/s"
+            '<tr> <td>Vindriktning: </td><td>' +windDirection(latestWeatherData[index]['wind_direction']) +
     '</table>';
+
+    
 
     // Leaflet require DOM therefor Jquery is not used
     var button = document.createElement("button");

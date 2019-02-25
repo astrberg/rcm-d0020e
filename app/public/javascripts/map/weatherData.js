@@ -1,10 +1,17 @@
 
 
 async function getLatestWeatherData(station_id) {
-   await $.getJSON("/api/getLatestWeatherData",{station_id},  function(data) {
-        latestWeatherData = data[0]; 
+   await $.getJSON("/api/getLatestWeatherData",  function(data) {
+        latestWeatherData = data; 
     });
 }
+
+async function getAllLatestWeatherData() {
+
+    await $.getJSON("/api/getAllLatestWeatherData",  function(data) {
+         latestWeatherData = data; 
+     });
+ }
 
  async function getAvgCountyWeatherData(){
       await $.getJSON('/api/getAverageTempProvince', function(averageCountyWeather) {
