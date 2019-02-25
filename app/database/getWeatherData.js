@@ -32,16 +32,8 @@ module.exports = {
                 client.query(sql, [values], function (err, results) {
                     if (err) throw err
                     
-                    
-                    let current_time = results[0].timestamp;
-
-                    // convert fetched timestamp to correct timezone. 
-                    // JSON parses timestamp to UTC+0 and we live in UTC+1
-                    current_time.setHours(current_time.getHours() - current_time.getTimezoneOffset() / 60);
-                    
-                    // change windspeed from km/h to m/s and use 2 decimals
-                    results[0].wind_speed /=  3.6;
-                    results[0].wind_speed = results[0].wind_speed.toFixed(2);
+                    // convert timestamp and windspeed to wanted units
+                    convertData(results[0])
                     
                     weather_data.push(results);
                     callback();
@@ -50,12 +42,8 @@ module.exports = {
             },function(callback){
                 // when async functions are done send data back
                 res.send(weather_data);
-                mutex--;
-        
-                if(mutex == 0){
-                    mysqlssh.close()
-
-                }
+                decreaseMutex();
+                
             });
         }).catch(err => {
             console.log(err)
@@ -91,25 +79,18 @@ module.exports = {
                     // calculate the time difference between the first and last result
                     let time_diff = results[results.length - 1].timestamp.getTime() - results[0].timestamp.getTime();
 
-
                     //change time_diff from ms to h
                     time_diff = time_diff / (3.6*(10**6));
                     
                     let i = 0;
      
                     results.forEach (result =>{
-                        // convert fetched timestamp to correct timezone. 
-                        // JSON parses timestamp to UTC+0 and we live in UTC+1
-                        let current_time = result.timestamp;
-    
-                        current_time.setHours(current_time.getHours() - current_time.getTimezoneOffset() / 60);
                         
-                        // change windspeed from km/h to m/s and use 2 decimals
-                        result.wind_speed /=  3.6;
-                        result.wind_speed = result.wind_speed.toFixed(2);
+                        // convert timestamp and windspeed to wanted units
+                        convertData(result);
 
                         // depeding on the time_diff, filter the result and add 1/1, 1/2, 1/4, 1/8 or 1/16 of every result
-                        if(i % calculateMod(time_diff) == 0){
+                        if(i % calculateFilter(time_diff) == 0){
                             filtered_result.push(result);
                         }
 
@@ -128,12 +109,7 @@ module.exports = {
             },function(callback){
                 // when async functions are done send data back
                 res.send(weather_data);
-                mutex--;
-        
-                if(mutex == 0){
-                    mysqlssh.close()
-
-                }
+                decreaseMutex();
             });
             
 
@@ -160,12 +136,7 @@ module.exports = {
             client.query(sql, values, function (err, results) {
                 if (err) throw err
 
-                mutex--;
-
-                if(mutex == 0){
-                    mysqlssh.close()
-
-                }
+                decreaseMutex();
                 
                 // send data back to client
                 res.send(results);
@@ -178,7 +149,7 @@ module.exports = {
 };
 
 
-function calculateMod(hours){
+function calculateFilter(hours){
     // these limits are up for tweaking
     if(hours < 96){ // less then 4 days
         return 1;                        
@@ -190,5 +161,26 @@ function calculateMod(hours){
         return 8;
     }else{
         return 16;
+    }
+}
+
+function convertData(result){
+    // convert fetched timestamp to correct timezone. 
+    // JSON parses timestamp to UTC+0 and we live in UTC+1
+    let current_time = result.timestamp;
+
+    current_time.setHours(current_time.getHours() - current_time.getTimezoneOffset() / 60);
+    
+    // change windspeed from km/h to m/s and use 2 decimals
+    result.wind_speed /=  3.6;
+    result.wind_speed = result.wind_speed.toFixed(2);
+}
+
+function decreaseMutex(){
+    mutex--;
+        
+    if(mutex == 0){
+        mysqlssh.close()
+
     }
 }
