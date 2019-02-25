@@ -47,7 +47,6 @@ function addStation(station, marker, button){
 
 
 function removeAllStations() {
-    // DO YOU SEE THIS SHIT! NEEEEEEEEEEEEEEEEEEETH
     $("#station-list .remove-button").click();
     chosenStations = [];
 

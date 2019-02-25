@@ -8,7 +8,7 @@ $("#station-list").mouseenter( function(){
 
 function addStationBox(station, marker, button){
     const stationBox = `<div id='${station.id}' class="station-box">
-                            <h3> Station name: '${station.name}'</h3> 
+                            <h3> Station: ${station.name}</h3> 
                       </div>`;
     const buttonList = $('<button/>', {
         id: station.id,

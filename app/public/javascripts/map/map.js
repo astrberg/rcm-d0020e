@@ -47,7 +47,7 @@ var info = L.control();
 
 info.onAdd = function (map) {
     this._map = map;
-    this._div = L.DomUtil.create('div', 'info info-box');
+    this._div = L.DomUtil.create('div', 'info');
     this.update();
     return this._div;
 };
