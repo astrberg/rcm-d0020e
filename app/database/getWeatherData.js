@@ -2,7 +2,7 @@ const mysqlssh = require('mysql-ssh');
 const authorization = require('./authorization');
 var async = require("async");
 
-let mutex = 0;
+var mutex = 0;
 
 /* Functions in the DB class that is usable by other files */
 module.exports = {
@@ -39,12 +39,41 @@ module.exports = {
                     callback();
                     
                 })
+            
             },function(callback){
                 // when async functions are done send data back
                 res.send(weather_data);
                 decreaseMutex();
                 
             });
+        }).catch(err => {
+            console.log(err)
+        })
+        
+    },getAllLatestWeatherData : function(req, res, next){
+        mutex++;
+
+        let auth = new authorization.Authorization();
+
+        // ssh to database server and then connect to db
+        mysqlssh.connect(auth.ssh, auth.database).then(client => {
+            const sql = "SELECT * FROM weather_data ORDER BY id DESC LIMIT 576";
+
+
+
+            client.query(sql, function (err, results) {
+                if (err) throw err
+                
+                // convert timestamp and windspeed to wanted units
+                results.forEach(result => {
+                    convertData(result)
+
+                });
+                
+                res.send(results);
+                decreaseMutex();
+            });
+            
         }).catch(err => {
             console.log(err)
         })
@@ -177,6 +206,7 @@ function convertData(result){
 }
 
 function decreaseMutex(){
+    console.log(mutex);
     mutex--;
         
     if(mutex == 0){
