@@ -33,9 +33,8 @@
         opacity: 0.7; 
     }
 .leaflet-top.leaflet-right {
-    float: right;
-    position: absolute;
-    margin-right: 21vw;
+
+    right: 21vw;
     
 }
 .button {
@@ -83,20 +82,16 @@
 .button-container {
     color: black;
     display: none;
-    height: 100%;
     float: right;
-    margin-top: 88vh;
-    
+    top: 89vh;
+    z-index: 500;
+    position: relative;
+    margin-right: 2px;
+
 }
 
 .button-two {
     padding: 25px;
-}
-.right-container {
-    z-index: 500;
-    position: absolute;
-    right: 0;
-    height: 100%;
 }
 
 #station-list {
@@ -105,6 +100,8 @@
     display: none;
     overflow-y: scroll;
     float:right;
+    position: relative;
+    z-index: 500;
 
 }
 

@@ -38,16 +38,10 @@ function updateStationField(){
 }
 
 function showStationFieldButton(){
-    // $("#stationlist-button").show();
-    // $("#remove-all-button").show();
-    // $("#graph-button").show();
     $(".button-container").show();
 }
 
 function hideStationButton(){
-    // $("#stationlist-button").hide();
-    // $("#remove-all-button").hide();
-    // $("#graph-button").hide();
     $(".button-container").hide();
     $("#station-list:visible").hide();
 }
