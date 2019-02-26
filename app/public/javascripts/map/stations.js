@@ -42,7 +42,6 @@ function addStation(station, marker, button){
     // Add to chosenstation array to be used by graph
     chosenStations.push(station);
     
-
 }
 
 
@@ -65,4 +64,8 @@ function handleChosenStations(station, marker, button){
         removeStation(station, marker, button);
 
     }
+}
+function showStationBar() {
+    updateStationField();
+    showStationFieldButton();
 }
