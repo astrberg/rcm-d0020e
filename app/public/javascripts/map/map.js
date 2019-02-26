@@ -9,6 +9,18 @@ var geoJson;
 /**
  * The layer for the Leaflet map
  */
+var swedenRoads = 'http://{s}.tile.openstreetmap.se/osm/{z}/{x}/{y}.png';
+var roadTileLayer = L.TileLayer.boundaryCanvas(swedenRoads, {
+    maxZoom: 15,
+    minZoom: 5,
+    maxBoundsViscosity: 1.0,
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+        '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+        'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    id: 'mapbox.streets',
+    boundary: countyData
+});
+
 var mapboxURL = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiYnVnbWFuYSIsImEiOiJjanJhbXVqbmowcmQzNDRuMHZhdzNxbjkxIn0.x1rFh-zIo8WfBRfpj2HsjA';
 var standardTileLayer = L.TileLayer.boundaryCanvas(mapboxURL, {
     maxZoom: 9,
@@ -20,7 +32,7 @@ var standardTileLayer = L.TileLayer.boundaryCanvas(mapboxURL, {
     id: 'mapbox.streets',
     boundary: countyData
 });
-standardTileLayer.addTo(map);
+
 
 
 /**
@@ -127,10 +139,20 @@ function onEachFeature(feature, layer) {
 
 //Adds the Swedish countys to the map with some css styling
 function drawMap() {
+    document.getElementById('county').checked = 'true';
+    map.removeLayer(roadTileLayer);
+    standardTileLayer.addTo(map);
     geojson = L.geoJson(countyData, {
         style: style,
         onEachFeature: onEachFeature
     }).addTo(map);
+}
+
+function drawRoads(){
+    document.getElementById('road').checked = 'true';
+    map.removeLayer(geojson);
+    map.removeLayer(standardTileLayer);
+    roadTileLayer.addTo(map);
 }
 
 
