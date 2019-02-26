@@ -27,7 +27,7 @@
           <input type="text" id="searchbar">
             <div id="suggestion-field"></div>
         </div>
-      
+  
 
       <!-- Station field to the right and button -->
       <div id="station-list" class="info"></div>
@@ -55,17 +55,17 @@
     <script src="javascripts/map/searchStation.js"></script>
 
     <script>
-    async function main (){
-      await getAvgCountyWeatherData();
-      await drawMap();
-      await getStations(); 
-    }
-    main();
+      async function main (){
+        await getAvgCountyWeatherData();
+        await drawMap();
+        await getStations(); 
+      }
+      main();
 
-    function openewgraphtab(){
-	var w = window.open("http://127.0.0.1:3000/graph");
-	}
-	
+      function openewgraphtab(){
+        var w = window.open("/graph");
+      }
+    
     </script>
   </body>
 </html>

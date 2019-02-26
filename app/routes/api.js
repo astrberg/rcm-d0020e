@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var async = require("async");
 
 var test = require('../database/testConnection');
 var station = require('../database/getStationData');
@@ -29,7 +30,7 @@ router.get('/getAverageTempProvince', function(req, res, next) {
 router.get('/getLatestWeatherData', function(req, res, next) {
     
     station_id = req["query"]["station_id"];
-    
+    //station_id = ["SE_STA_VVIS2429", "SE_STA_VVIS2529"];
     weather.getLatestWeatherData(req,res,next,station_id);
 });
 
@@ -40,7 +41,14 @@ router.get('/getWeatherData', function(req, res, next) {
     start_time = req["query"]["start_time"];
     stop_time = req["query"]["stop_time"];
 
+    // station_id = ["SE_STA_VVIS2429", "SE_STA_VVIS2529"];
+    // start_time = "2019-02-19 10:40:00"
+    // stop_time = "2019-02-19 11:10:00"
+
+  
     weather.getWeatherData(req,res,next,station_id, start_time, stop_time);
+
+    
 });
 
 /* GET weather data over time */

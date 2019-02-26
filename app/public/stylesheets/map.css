@@ -48,6 +48,7 @@
     cursor: pointer;
     margin-top: 5px;
 }
+
 .button:hover {
     background-color: gray;
 }
@@ -60,7 +61,6 @@
     width: 90%;
     cursor: pointer;
     margin-top: 5px;
-    
 }
 .add-button:hover {
     background-color: #92B558;   

@@ -86,7 +86,7 @@ function currenttempgraph(weatherdata){
 	    options: {
 			title:{
 	display:true,
-	text: "Current_airtemp"}
+	text: "Nuvarande lufttemperatur"}
 	}
 	});
 }
@@ -117,7 +117,7 @@ function currentwindspeedgraph(weatherdata){
 	    options: {
 			title:{
 	display:true,
-	text: "Current_windspeed"}
+	text: "Nuvarande vindhastighet"}
 	}
 	});
 }
@@ -149,7 +149,7 @@ function currentroadtempgraph(weatherdata){
 	    options: {
 			title:{
 	display:true,
-	text: "Current_roadtemp"}
+	text: "Nuvarande vägtemperatur"}
 	}
 	});
 }
@@ -180,7 +180,7 @@ function currenthumgraph(weatherdata){
 	    options: {
 			title:{
 	display:true,
-	text: "Current_humidity"}
+	text: "Nuvarande luftfuktighet"}
 	}
 	});
 }
@@ -336,7 +336,7 @@ var speedData = {
 var chartOptions = {
     title:{
 	display:true,
-	text: "Road_temp",
+	text: "Vägtemperatur",
   legend: {
     display: true,
     position: 'top',
@@ -377,7 +377,7 @@ var speedData = {
 var chartOptions = {
     title:{
 	display:true,
-	text: "Air_temp",
+	text: "Lufttemperatur",
   legend: {
     display: true,
     position: 'top',
@@ -417,7 +417,7 @@ var speedData = {
 var chartOptions = {
     title:{
 	display:true,
-	text: "Air_humidity",
+	text: "Luftfuktighet",
   legend: {
     display: true,
     position: 'top',
@@ -457,7 +457,7 @@ var speedData = {
 var chartOptions = {
     title:{
 	display:true,
-	text: "Wind_speed",
+	text: "Vindhastighet",
   legend: {
     display: true,
     position: 'top',

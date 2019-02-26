@@ -53,7 +53,9 @@ info.onAdd = function (map) {
 };
 info.update = function (props) {
     this._div.innerHTML = '<h4>Sverige medeltemperatur per län</h4>' +  (props ?
-        '<b>' + props.name + '</b><br />'   + averageData[props.countyCode][1].toFixed(1) + '\xB0C'
+        '<b>' + props.name + '</b> ' +
+        '<br /> Lufttemperatur: '   + averageData[props.countyCode][1].toFixed(1)+ '\xB0C'+
+        '<br /> Vägtemperatur: ' + averageData[props.countyCode][2].toFixed(1) + '\xB0C'
         : 'Hovra över län');
     
 };
