@@ -87,6 +87,8 @@ for(var i=0;i<thechosendata.length;i++){
 	stationname.push(thechosendata[i].name);
 }
 
+var latestWeatherData = window.opener.latestWeatherData;
+
 
 document.getElementById("myRange1").max = Math.floor(Date.now() / 1000);
 document.getElementById("myRange2").max = Math.floor(Date.now() / 1000);
