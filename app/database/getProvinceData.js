@@ -31,12 +31,7 @@ module.exports = {
             client.query(sql, function (err, results) {
                 if (err) throw err
                 
-                mutex--;
-
-                if(mutex == 0){
-                    mysqlssh.close()
-
-                }
+                
                 
                 let temperatures = [];
                 
@@ -68,12 +63,21 @@ module.exports = {
                     
 
                     county++;
+
+                    
                 }
-                
-                
+
+
+                mutex--;
+
+                if(mutex == 0){
+                    mysqlssh.close()
+
+                }
 
                 // send data back to client
                 res.send(temperatures);
+                
             });
 
         }).catch(err => {
