@@ -84,35 +84,35 @@
 
 
 <div id="type1">
-  <button id="Canvashidebutton" type="button" onclick="hideelements('myChart1','airtemp')">X</button> 
+  <button id="Canvashidebutton" type="button" onclick="hideelements('type1','airtemp')">X</button> 
   <canvas id="myChart1"></canvas>
 </div>
 <div id="type2">
-  <button id="Canvashidebutton" type="button" onclick="hideelements('myChart2','Road_temp')">X</button> 
+  <button id="Canvashidebutton" type="button" onclick="hideelements('type2','Road_temp')">X</button> 
   <canvas id="myChart2"></canvas>
 </div>
 <div id="type3">
-  <button id="Canvashidebutton" type="button" onclick="hideelements('myChart3','Air_humidity')">X</button> 
+  <button id="Canvashidebutton" type="button" onclick="hideelements('type3','Air_humidity')">X</button> 
   <canvas id="myChart3"></canvas>
 </div>
 <div id="type4">
-  <button id="Canvashidebutton" type="button" onclick="hideelements('myChart4','Wind_speed')">X</button> 
+  <button id="Canvashidebutton" type="button" onclick="hideelements('type4','Wind_speed')">X</button> 
   <canvas id="myChart4"></canvas>
 </div>
 <div id="type5">
-  <button id="Canvashidebutton" type="button" onclick="hideelements('myChart5','current_temp')">X</button> 
+  <button id="Canvashidebutton" type="button" onclick="hideelements('type5','current_temp')">X</button> 
   <canvas id="myChart5"></canvas>
 </div>
 <div id="type6">
-  <button id="Canvashidebutton" type="button" onclick="hideelements('myChart6','current_road_temp')">X</button> 
+  <button id="Canvashidebutton" type="button" onclick="hideelements('type6','current_road_temp')">X</button> 
   <canvas id="myChart6"></canvas>
 </div>
 <div id="type7">
-  <button id="Canvashidebutton" type="button" onclick="hideelements('myChart7','current_hum')">X</button> 
+  <button id="Canvashidebutton" type="button" onclick="hideelements('type7','current_hum')">X</button> 
   <canvas id="myChart7"></canvas>
 </div>
 <div id="type8">
- <button id="Canvashidebutton" type="button" onclick="hideelements('myChart8','current_windspeed')">X</button> 
+ <button id="Canvashidebutton" type="button" onclick="hideelements('type8','current_windspeed')">X</button> 
   <canvas id="myChart8"></canvas>
 </div>
 
@@ -206,73 +206,73 @@ rungraphs(starttime,stoptime);
 $(function () {
         $("#airtemp").click(function () {
             if ($(this).is(":checked")) {
-                $("#myChart1").show();
+                $("#type1").show();
               
             } else {
-                $("#myChart1").hide();
+                $("#type1").hide();
                 
             }
         });
     $("#Road_temp").click(function () {
             if ($(this).is(":checked")) {
-                $("#myChart2").show();
+                $("#type2").show();
               
             } else {
-                $("#myChart2").hide();
+                $("#type2").hide();
                 
             }
         });
     $("#Air_humidity").click(function () {
             if ($(this).is(":checked")) {
-                $("#myChart3").show();
+                $("#type3").show();
               
             } else {
-                $("#myChart3").hide();
+                $("#type3").hide();
                 
             }
         });
     $("#Wind_speed").click(function () {
             if ($(this).is(":checked")) {
-                $("#myChart4").show();
+                $("#type4").show();
               
             } else {
-                $("#myChart4").hide();
+                $("#type4").hide();
                 
             }
         });
     $("#current_temp").click(function () {
             if ($(this).is(":checked")) {
-                $("#myChart5").show();
+                $("#type5").show();
               
             } else {
-                $("#myChart5").hide();
+                $("#type5").hide();
                 
             }
         });
     $("#current_road_temp").click(function () {
 		    if ($(this).is(":checked")) {
-		        $("#myChart6").show();
+		        $("#type6").show();
 		      
 		    } else {
-		        $("#myChart6").hide();
+		        $("#type6").hide();
 		        
 		    }
 		});
     $("#current_hum").click(function () {
 		    if ($(this).is(":checked")) {
-		        $("#myChart7").show();
+		        $("#type7").show();
 		      
 		    } else {
-		        $("#myChart7").hide();
+		        $("#type7").hide();
 		        
 		    }
 	});
    $("#current_windspeed").click(function () {
 		    if ($(this).is(":checked")) {
-		        $("#myChart8").show();
+		        $("#type8").show();
 		      
 		    } else {
-		        $("#myChart8").hide();
+		        $("#type8").hide();
 		        
 		    }
 	});
@@ -281,11 +281,9 @@ $(function () {
 
 function hideelements(id,box){
   var x = document.getElementById(id);
-
   x.style.display = "none";
-  
   document.getElementById(box).checked = false;
-  
+
 }
 
 //Slider1
