@@ -43,8 +43,11 @@ map.on('zoomend', function() {
 
 var info = L.control();
 
+
+
 info.onAdd = function (map) {
-    this._div = L.DomUtil.create('div', 'info thingy');
+    this._map = map;
+    this._div = L.DomUtil.create('div', 'info');
     this.update();
     return this._div;
 };
@@ -54,8 +57,10 @@ info.update = function (props) {
         '<br /> Lufttemperatur: '   + averageData[props.countyCode][1].toFixed(1)+ '\xB0C'+
         '<br /> Vägtemperatur: ' + averageData[props.countyCode][2].toFixed(1) + '\xB0C'
         : 'Hovra över län');
+    
 };
 info.addTo(map);
+
 
 function getColor(d) {
     return  d > 35  ? '#CC0000' :

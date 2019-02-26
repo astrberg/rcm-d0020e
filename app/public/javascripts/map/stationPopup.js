@@ -14,7 +14,7 @@ function addPopup(station, marker) {
     '</table>';
 
     // Leaflet require DOM therefor Jquery is not used
-    var button = document.createElement("button");
+    var button = document.createElement("div");
     button.id = station.id;
     button.className = "add-button";
     button.innerText = "Lägg till";
@@ -22,12 +22,10 @@ function addPopup(station, marker) {
          handleChosenStations(station, marker, this);
       
     });
+
     popupContent.appendChild(button);
 
-    // var popup = L.popup()
-    // .setContent(button);
-
-  marker.bindPopup(popupContent).openPopup();
+    marker.bindPopup(popupContent).openPopup();
 }
 
 function windDirection(data) {

@@ -20,25 +20,23 @@
 
   </head>
   <body>
-    <button type="button" onclick="openewgraphtab()">Generera grafer i ny tab</button> 
-
-
     <div id=map-container class="map-container">
       <div id="mapid" class="map">
       <!-- Search bar -->
         <div id="search-container">
           <input type="text" id="searchbar">
-            <div id="suggestion-field">
-            </div>
+            <div id="suggestion-field"></div>
         </div>
-        <!-- Station field to the right and button -->
-        <div id="station-list"></div>
-        
-        <div id="button-container">
-          <button id="remove-all-button" onclick="removeAllStations()">Ta bort alla valda stationer</button>
-          <button id="stationlist-button" onclick="updateStationField()">Visa valda stationer</button>
-        </div>
+  
+
+      <!-- Station field to the right and button -->
+      <div id="station-list" class="info"></div>
+      <div class="button-container">
+          <button class="button-two" onclick="openewgraphtab()">Grafer</button> 
+          <button class="button-two" id="stationlist-button" onclick="updateStationField()">Visa valda stationer</button>
+          <button class="button-two" onclick="removeAllStations()">Ta bort alla valda stationer</button>
       </div>
+    
     </div>
       
 

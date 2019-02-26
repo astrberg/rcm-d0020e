@@ -8,7 +8,7 @@ $("#station-list").mouseenter( function(){
 
 function addStationBox(station, marker, button){
     const stationBox = `<div id='${station.id}' class="station-box">
-                            <h3> Station name: '${station.name}'</h3> 
+                            <h3> Station: ${station.name}</h3> 
                       </div>`;
     const buttonList = $('<button/>', {
         id: station.id,
@@ -17,12 +17,12 @@ function addStationBox(station, marker, button){
         click: function () { removeStation(station, marker, button) }
     });
     const buttonGoToStation = $('<button/>', {
-        // class: "remove-button",
+        class: "button",
         text: "Gå till station",
         click: function () { zoomToStation(station) }
     });
     const $stationList = $("#station-list");
-    $stationList.append($(stationBox).append(buttonList, buttonGoToStation));
+    $stationList.append($(stationBox).append(buttonGoToStation, buttonList));
 }
 
 function updateStationField(){
@@ -38,14 +38,11 @@ function updateStationField(){
 }
 
 function showStationFieldButton(){
-    $("#button-container").show();
-    //$("#remove-all-button").show();
-    
+    $(".button-container").show();
 }
 
 function hideStationButton(){
-    $("#button-container").hide();
-    //$("#remove-all-button").hide();
+    $(".button-container").hide();
     $("#station-list:visible").hide();
 }
 
