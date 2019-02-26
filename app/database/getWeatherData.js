@@ -206,7 +206,6 @@ function convertData(result){
 }
 
 function decreaseMutex(){
-    console.log(mutex);
     mutex--;
         
     if(mutex == 0){

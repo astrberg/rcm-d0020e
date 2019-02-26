@@ -4,7 +4,7 @@ function addPopup(station, marker) {
     var popupContent = document.createElement("table-data");
 
     let index = 0;
-    for(let i = 0; i < stationsData.length; i++){
+    for(let i = 0; i < latestWeatherData.length; i++){
       if(station.id == latestWeatherData[i].station_id){
         index = i;
       }
