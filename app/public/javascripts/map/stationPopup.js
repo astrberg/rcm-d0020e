@@ -1,41 +1,42 @@
-
 // Popup content
 function addPopup(station, marker) {
-    var popupContent = document.createElement("table-data");
+  var popupContent = document.createElement("table-data");
 
-    let index = 0;
-    for(let i = 0; i < latestWeatherData.length; i++){
-      if(station.id == latestWeatherData[i].station_id){
-        index = i;
-      }
-    }
+  let index = -1;//getLatestWeatherIndex(station);
+
+  index = getLatestWeatherIndex(station);
+  if(index == -1){
+    console.log("ERROR");
+  }else{
     
     popupContent.innerHTML  = 
-          '<table id = "marker-data" >' +
-            '<tr> <td> Station </td><td>' + station.name +'</td></tr>' + 
-            '<tr> <td> Län: </td><td>' + countyNames[station.county_number] + '</td></tr>' + 
-            '<tr> <td>Lufttemperatur: </td><td>' + latestWeatherData[index]['air_temperature']+ "\xB0C"+
-            '<tr> <td>Vägtemperatur: </td><td>'+latestWeatherData[index]['road_temperature'] + "\xB0C" +
-            '<tr> <td>Luftfuktighet: </td><td>'+latestWeatherData[index]['air_humidity'] + "%" +
-            '<tr> <td>Vindhastighet: </td><td>'+latestWeatherData[index]['wind_speed'] + "m/s"
-            '<tr> <td>Vindriktning: </td><td>' +windDirection(latestWeatherData[index]['wind_direction']) +
+    '<table id = "marker-data" >' +
+    '<tr> <td> Station </td><td>' + station.name +'</td></tr>' + 
+    '<tr> <td> Län: </td><td>' + countyNames[station.county_number] + '</td></tr>' + 
+    '<tr> <td>Lufttemperatur: </td><td>' + latestWeatherData[index]['air_temperature']+ "\xB0C"+
+    '<tr> <td>Vägtemperatur: </td><td>'+latestWeatherData[index]['road_temperature'] + "\xB0C" +
+    '<tr> <td>Luftfuktighet: </td><td>'+latestWeatherData[index]['air_humidity'] + "%" +
+    '<tr> <td>Vindhastighet: </td><td>'+latestWeatherData[index]['wind_speed'] + "m/s" +
+    '<tr> <td>Vindriktning: </td><td>' + windDirection(latestWeatherData[index]['wind_direction']) + 
     '</table>';
+  }
+    //console.log(windDirection(latestWeatherData[index]['wind_direction']));
 
+  
+
+  // Leaflet require DOM therefor Jquery is not used
+  var button = document.createElement("button");
+  button.id = station.id;
+  button.className = "add-button";
+  button.innerText = "Lägg till";
+  button.addEventListener("click" , function() {
+        handleChosenStations(station, marker, this);
     
+  });
+  popupContent.appendChild(button);
 
-    // Leaflet require DOM therefor Jquery is not used
-    var button = document.createElement("button");
-    button.id = station.id;
-    button.className = "add-button";
-    button.innerText = "Lägg till";
-    button.addEventListener("click" , function() {
-         handleChosenStations(station, marker, this);
-      
-    });
-    popupContent.appendChild(button);
-
-    // var popup = L.popup()
-    // .setContent(button);
+  // var popup = L.popup()
+  // .setContent(button);
 
   marker.bindPopup(popupContent).openPopup();
 }
@@ -65,4 +66,12 @@ function windDirection(data) {
     else if(data == 'southWest') { //northEast
       return '&nbsp; <i class="fa fa-long-arrow-left" style="transform: rotate(45deg)"></i> <br>';
     }
+}
+
+function getLatestWeatherIndex(station){
+  for(let j = 0; j < latestWeatherData.length; j++){
+      if(station.id === latestWeatherData[j].station_id){
+          return j;
+      }
+  }
 }

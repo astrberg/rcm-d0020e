@@ -6,8 +6,6 @@ async function getStations() {
     await $.getJSON("/api/getStationData", function(stations) {
 
         stationsData = stations;
-        createLayers(stations);
-
     });    
 }
 

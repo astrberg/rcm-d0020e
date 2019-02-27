@@ -60,8 +60,9 @@
       async function main (){
         await getAvgCountyWeatherData();
         await drawMap();
-        await getAllLatestWeatherData(); 
         await getStations();
+        await getAllLatestWeatherData(); 
+        await createLayers(stationsData);
       }
       main();
 
