@@ -5,10 +5,25 @@ canvas{
   padding: 20px;
 }
 
+#time24h {
+    background-color: white;
+    display: inline-flex;
+    border: 1px solid #ccc;
+    color: #555;
+  }
+  
+.timeinput24{
+    border: none;
+    color: #555;
+    text-align: center;
+    width: 40px;
+  }
+
 #ButtonTimeIntervall{
   background-color: #008CBA; 
   border: none;
   color: white;
+  margin-top: 15px;
   padding: 15px 32px;
   text-align: center;
   text-decoration: none;
