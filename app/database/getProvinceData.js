@@ -14,9 +14,10 @@ module.exports = {
     // Check connection to MySQL 
     getAverageTempProvince : function(req, res, next){
        
-        let auth = new authorization.Authorization();
+        let auth = authorization.Authorization;
 
-        mutex++;
+        auth.increaseMutex();
+        
         // ssh to database server and then connect to db
         mysqlssh.connect(auth.ssh, auth.database).then(client => {
             
@@ -31,12 +32,7 @@ module.exports = {
             client.query(sql, function (err, results) {
                 if (err) throw err
                 
-                mutex--;
-
-                if(mutex == 0){
-                    mysqlssh.close()
-
-                }
+                
                 
                 let temperatures = [];
                 
@@ -68,12 +64,21 @@ module.exports = {
                     
 
                     county++;
-                }
-                
-                
 
+                    
+                }
+
+
+                
                 // send data back to client
                 res.send(temperatures);
+
+                auth.decreaseMutex();
+
+                if(auth.getMutex() == 0){
+                    mysqlssh.close()
+                }
+
             });
 
         }).catch(err => {

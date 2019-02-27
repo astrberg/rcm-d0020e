@@ -66,7 +66,7 @@ function generatedataforbar(typeofgraph,datatempvar,stationame){
 function databarchartcurrent(weatherdata,station_name){
 	var typeofgraph = "current_air";
 	var stationame = station_name;
-	var datatempvar= weatherdata[0].air_temperature;
+	var datatempvar= weatherdata.air_temperature;
 	generatedataforbar(typeofgraph,datatempvar,stationame);
 }
 
@@ -96,7 +96,7 @@ function currenttempgraph(weatherdata){
 function databarchartwindcurrent(weatherdata,station_name){
 	var typeofgraph = "current_windspeed";
 	var stationame = station_name;
-	var datatempvar= weatherdata[0].wind_speed;
+	var datatempvar= weatherdata.wind_speed;
 	generatedataforbar(typeofgraph,datatempvar,stationame);
 }
 
@@ -128,7 +128,7 @@ function currentwindspeedgraph(weatherdata){
 function databarchartroadcurrent(weatherdata,station_name){
 	var typeofgraph = "current_road";
 	var stationame = station_name;
-	var datatempvar= weatherdata[0].road_temperature;
+	var datatempvar= weatherdata.road_temperature;
 	generatedataforbar(typeofgraph,datatempvar,stationame);
 }
 
@@ -160,7 +160,7 @@ function currentroadtempgraph(weatherdata){
 function databarcharthumcurrent(weatherdata,station_name){
 	var typeofgraph = "current_hum";
 	var stationame = station_name;
-	var datatempvar= weatherdata[0].air_humidity;
+	var datatempvar= weatherdata.air_humidity;
 	generatedataforbar(typeofgraph,datatempvar,stationame);
 }
 var chart2 = null;

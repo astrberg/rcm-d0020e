@@ -51,22 +51,21 @@ function addStationToLayer(station, layerNumber){
     addPopup(station, marker);
    
 
-    marker.on('click', async function(){
-        
-        // Wait for weather data
-        await getLatestWeatherData([station.id]);
-        let dataText = [" \xB0C", " \xB0C", " %", " m/s", ""];
-        let data = ["air_temperature", "road_temperature", "air_humidity", "wind_speed", "wind_direction"];
-        let markerDiv = document.getElementById("marker-data");
-        if(markerDiv != null) {
-            for(let i = 0; i < 4; i++) {
-                markerDiv.rows[i + 2].cells[1].innerHTML = latestWeatherData[0][data[i]] + dataText[i];
-            }
-            markerDiv.rows[6].cells[1].innerHTML =  windDirection(latestWeatherData[0][data[4]]);
-        }   
-        
-
-    });
+    // marker.on('click', function(){
+                
+    //     let dataText = [" \xB0C", " \xB0C", " %", " m/s", ""];
+    //     let data = ["air_temperature", "road_temperature", "air_humidity", "wind_speed", "wind_direction"];
+    //     let markerDiv = document.getElementById("marker-data");
+    //     if(markerDiv != null) {
+    //         let index = getLatestWeatherIndex(station);
+            
+    //         for(let i = 0; i < 4; i++) {
+    //             markerDiv.rows[i + 2].cells[1].innerHTML = latestWeatherData[index][data[i]] + dataText[i];
+    //         }
+    //         markerDiv.rows[6].cells[1].innerHTML =  windDirection(latestWeatherData[index][data[4]]);
+            
+    //     }   
+    // });
 
 
 }
