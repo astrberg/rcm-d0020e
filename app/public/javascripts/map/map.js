@@ -63,6 +63,7 @@ info.update = function (props) {
 info.addTo(map);
 
 
+
 function getColor(d) {
     return  d > 35  ? '#990000' :
             d > 30  ? '#CC0000' :
@@ -137,8 +138,8 @@ function createPopup(e) {
         button.className = "add-button";
         button.innerText = "Lägg till";
     }
-
-
+    
+    
     button.addEventListener("click" , function() {
         if(chosenCountyExists == true) {
             removeCounty(countyCode, button); 

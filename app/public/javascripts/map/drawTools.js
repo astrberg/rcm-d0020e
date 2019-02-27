@@ -29,6 +29,40 @@ var drawControl = new L.Control.Draw({
     edit : true
   }
 });
+
+//Language
+//Custom språk drawTools
+L.drawLocal.draw.toolbar.buttons.rectangle = 'Rita en rektangel';
+L.drawLocal.draw.toolbar.buttons.circle = 'Rita en cirkel';
+
+L.drawLocal.draw.handlers.circle.radius  = 'Radie';
+
+L.drawLocal.draw.handlers.rectangle.tooltip.start = 'Klicka och drag för att rita en rektangel';
+L.drawLocal.draw.handlers.circle.tooltip.start = 'Klicka och drag för att rita en cirkel';
+
+L.drawLocal.draw.handlers.simpleshape.tooltip.end  = 'Släpp för att rita figur';
+
+L.drawLocal.draw.toolbar.actions.title = 'Avbryt ritning';
+L.drawLocal.draw.toolbar.actions.text = 'Avbryt';
+
+L.drawLocal.edit.toolbar.actions.save.title = 'Spara ändringar';
+L.drawLocal.edit.toolbar.actions.save.text = 'Spara';
+
+L.drawLocal.edit.toolbar.actions.cancel.title = 'Avbryt ändringar';
+L.drawLocal.edit.toolbar.actions.cancel.text = 'Avbryt';
+
+L.drawLocal.edit.toolbar.buttons.edit = 'Redigera figur';
+L.drawLocal.edit.toolbar.buttons.editDisabled = 'Inga figurer att redigera';
+L.drawLocal.edit.toolbar.buttons.remove = 'Radera figur';
+L.drawLocal.edit.toolbar.buttons.removeDisabled = 'Inga figurer att radera';
+L.drawLocal.edit.toolbar.actions.clearAll.title = 'Tömmer alla figurer på stationer';
+L.drawLocal.edit.toolbar.actions.clearAll.text = 'Töm alla';
+
+L.drawLocal.edit.handlers.edit.tooltip.subtext = 'Drag figur i de vita handtagen för att redigera';
+L.drawLocal.edit.handlers.edit.tooltip.text = 'Klicka avbryt för att ångra redigering';
+L.drawLocal.edit.handlers.remove.tooltip.text = 'Klicka på en figur för att radera';
+
+
 map.addControl(drawControl);
  
 //Event for editing all drawn items, runs on "save"
