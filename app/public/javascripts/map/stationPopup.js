@@ -2,9 +2,8 @@
 function addPopup(station, marker) {
   var popupContent = document.createElement("table-data");
 
-  let index = -1;//getLatestWeatherIndex(station);
-
-  index = getLatestWeatherIndex(station);
+  let index = getLatestWeatherIndex(station);
+  
   if(index == -1){
     console.log("ERROR");
   }else{
@@ -22,6 +21,7 @@ function addPopup(station, marker) {
   }
     //console.log(windDirection(latestWeatherData[index]['wind_direction']));
 
+
   
 
   // Leaflet require DOM therefor Jquery is not used
@@ -38,7 +38,7 @@ function addPopup(station, marker) {
   // var popup = L.popup()
   // .setContent(button);
 
-  marker.bindPopup(popupContent).openPopup();
+    marker.bindPopup(popupContent).openPopup();
 }
 
 function windDirection(data) {
@@ -74,4 +74,6 @@ function getLatestWeatherIndex(station){
           return j;
       }
   }
+  
+  return -1;
 }

@@ -40,12 +40,10 @@ function addStation(station, marker, button){
     // Add to chosenstation array to be used by graph
     chosenStations.push(station);
     
-
 }
 
 
 function removeAllStations() {
-    // DO YOU SEE THIS SHIT! NEEEEEEEEEEEEEEEEEEETH
     $("#station-list .remove-button").click();
     chosenStations = [];
 
@@ -64,4 +62,8 @@ function handleChosenStations(station, marker, button){
         removeStation(station, marker, button);
 
     }
+}
+function showStationBar() {
+    updateStationField();
+    showStationFieldButton();
 }

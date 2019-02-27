@@ -4,6 +4,7 @@
 const map = L.map('mapid').setView([62.97519757003264, 15.864257812499998], 5);
 
 var averageData = [];
+var markedStations = [];
 var geoJson;
 /**
  * The layer for the Leaflet map
@@ -43,8 +44,11 @@ map.on('zoomend', function() {
 
 var info = L.control();
 
+
+
 info.onAdd = function (map) {
-    this._div = L.DomUtil.create('div', 'info thingy');
+    this._map = map;
+    this._div = L.DomUtil.create('div', 'info');
     this.update();
     return this._div;
 };
@@ -54,28 +58,30 @@ info.update = function (props) {
         '<br /> Lufttemperatur: '   + averageData[props.countyCode][1].toFixed(1)+ '\xB0C'+
         '<br /> Vägtemperatur: ' + averageData[props.countyCode][2].toFixed(1) + '\xB0C'
         : 'Hovra över län');
+    
 };
 info.addTo(map);
 
+
 function getColor(d) {
-    return  d > 35  ? '#CC0000' :
-            d > 30  ? '#FF0000' :
-            d > 25 ? '#FF3333' :
-            d > 20  ? '#CC6600' :
-            d > 15   ? '#FF8000' :
-            d > 10   ? '#FF9933' :
-            d > 5   ? '#FFB266' :
-            d > 0  ? '#FFCC99' :
+    return  d > 35  ? '#990000' :
+            d > 30  ? '#CC0000' :
+            d > 25 ? '#FF0000' :
+            d > 20  ? '#FF3333' :
+            d > 15   ? '#FF6666' :
+            d > 10   ? '#FF9999' :
+            d > 5   ? '#FFCCCC' :
+            d > 0  ? '#FFDCDC' :
 
 
-            d > -5  ? '#99DDFF' :
-            d > -10 ? '#66CDFF' :
-            d > -15  ? '#3399FF' :
-            d > -20   ? '#0080FF' :
-            d > -25   ? '#0066CC' :
-            d > -30   ? '#3333FF' :
-            d > -35   ? '#0000FF' :
-                        '#000099';
+            d > -5  ? '#CCE5FF' :
+            d > -10 ? '#99CCFF' :
+            d > -15  ? '#66B2FF' :
+            d > -20   ? '#3399FF' :
+            d > -25   ? '#0080FF' :
+            d > -30   ? '#0066CC' :
+            d > -35   ? '#004C99' :
+                        '#003366';
 }
 
 function style(feature) {
@@ -99,11 +105,6 @@ function highlightFeature(e) {
         dashArray: '',
         fillOpacity: 0.7
     });
-
-    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-        layer.bringToFront();
-    }
-
     info.update(layer.feature.properties);
 }
 
@@ -131,115 +132,7 @@ function drawMap() {
         onEachFeature: onEachFeature
     }).addTo(map);
 }
-//Draw functionality
-var drawnItems = new L.FeatureGroup();
-map.addLayer(drawnItems);
 
-// Initialise the draw control and pass it the FeatureGroup of editable layers
-var drawControl = new L.Control.Draw({
-    draw : {
-        polyline : false,
-        marker : false,
-        circlemarker : false,
-        polygon : false,
-        rectangle : {
-            shapeOptions: {
-                color: 'purple'
-               },
-        },
-        circle : {
-            shapeOptions: {
-                color: 'purple'
-               },
-        },
-    },
-  edit: {
-    featureGroup: drawnItems,
-    edit : true
-  }
-});
-map.addControl(drawControl);
-
-//TODO: Edit now empties list for both rectangle and circle, needs a separate list for both types
-map.on(L.Draw.Event.EDITED, function (event) {
-    removeAllStations();
-    var layers = event.layers;
-    layers.eachLayer(function (layer) {
-        if(layer instanceof L.Rectangle) {
-            var lat_lngs = [layer._latlngs[0],layer._latlngs[2]];
-            getStationbyDrawRect(lat_lngs);
-        }else if(layer instanceof L.Circle) {
-            getStationbyDrawCircle(layer);
-        }
-    });
-});
-
-map.on(L.Draw.Event.DELETED, function (event) {
-    removeAllStations();
-});
-    
-       
-
-map.on(L.Draw.Event.CREATED, function (event) {
-    var layer = event.layer;
-    var type = event.layerType;
-
-    if(type == 'circle') {
-        getStationbyDrawCircle(layer);
-    }
-    if(type == 'rectangle') {
-        var lat_lngs = [layer._latlngs[0],layer._latlngs[2]];
-        getStationbyDrawRect(lat_lngs);
-        
-    }
-
-    drawnItems.addLayer(layer);
-});
-
-function getStationbyDrawRect(lat_lngs) {
-    for(var i = 0; i < layerGroups.length; i++) {
-        let layer_group = layerGroups[i];
-        layer_group.eachLayer(function(layer_elem){
-            if(L.latLngBounds(lat_lngs).contains(layer_elem.getLatLng())){
-                if(layer_elem instanceof L.Marker) {
-                    let contentID = layer_elem._popup._content.id;
-                    contentID = contentID.split(':');
-                    let stationID = contentID[1];
-                    console.log(stationID);
-
-                    var stations = stationByID(stationID);
-                    // addStation(stations);
-                }
-            }
-         });
-    }
-}
-function getStationbyDrawCircle(circleLayer) {
-    var radius = circleLayer.getRadius();
-    var circleCenter = circleLayer.getLatLng();
-    for(var i = 0; i < layerGroups.length; i++) {
-        let layer_group = layerGroups[i];
-        layer_group.eachLayer(function(layer_elem){
-            if(Math.abs(circleCenter.distanceTo(layer_elem.getLatLng())) <= radius){
-                if(layer_elem instanceof L.Marker) {
-                    let contentID = layer_elem._popup._content.id;
-                    contentID = contentID.split(':');
-                    let stationID = contentID[1];
-                    var stations = stationByID(stationID);
-                    addStation(stations);
-                }
-            }
-         });
-    }
-
-}
-function stationByID(stationID) {
-    for(var i = 0; i < stationsData.length; i++) {
-        if(stationsData[i].id == stationID) {
-            return stationsData[i];
-        }
-    }
-}
 
 var legend = L.control({position: 'bottomleft'});
 
@@ -250,14 +143,13 @@ legend.onAdd = function (map) {
         labels = [];
     for (var i = 0; i < scales.length; i++) {
         if(i == 0){
-            div.innerHTML +=  '<i style="background:' + getColor(scales[i]) + '"></i>' + scales[i] + '+ <br> ';
+            div.innerHTML +=  '<i style="background:' + getColor(scales[i]) + '"></i> >' + scales[i] + '<br> ';
         }else if(i == scales.length -1) {
-            div.innerHTML +=  '<i style="background:' + getColor(scales[i]) + '"></i>' + scales[i] + '- ';
+            div.innerHTML +=  '<i style="background:' + getColor(scales[i]) + '"></i> <' + scales[i];
         }else {
-            div.innerHTML +=  '<i style="background:' + getColor(scales[i]) + '"></i>' + (scales[i]) + '<br>';
+            div.innerHTML +=  '<i style="background:' + getColor(scales[i]) + '"></i> ' + (scales[i]) + '<br>';
     }
 }
     return div;
 };
 legend.addTo(map);
-
