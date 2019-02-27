@@ -30,27 +30,27 @@ function addPopup(station, marker) {
 
 function windDirection(data) {
     if(data == 'north') {
-      return '&nbsp; <i class="fa fa-long-arrow-down"></i> <br>';
+      return '&nbsp; <i class="fas fa-long-arrow-alt-down fa-2x"></i> <br>';
     }
     else if(data == 'south') {
-      return '&nbsp; <i class="fa fa-long-arrow-up"></i> <br>';
+      return '&nbsp; <i class="fas fa-long-arrow-alt-up fa-2x"></i> <br>';
     }
     else if(data == 'east') {
-      return '&nbsp; <i class="fa fa-long-arrow-left"></i> <br>';
+      return '&nbsp; <i class="fas fa-long-arrow-alt-left fa-2x"></i> <br>';
     }
     else if(data == 'west') {
-      return '&nbsp; <i class="fa fa-long-arrow-right"></i> <br>';
+      return '&nbsp; <i class="fas fa-long-arrow-alt-right fa-2x"></i> <br>';
     }
     else if(data == 'northEast') { //southWest
-      return '&nbsp; <i class="fa fa-long-arrow-down" style="transform: rotate(45deg)"></i> <br>';
+      return '&nbsp; <i class="fas fa-long-arrow-alt-down fa-2x" style="transform: rotate(45deg)"></i> <br>';
     }
     else if(data == 'northWest') { //southEast
-      return '&nbsp; <i class="fa fa-long-arrow-right" style="transform: rotate(45deg)"></i> <br>';
+      return '&nbsp; <i class="fas fa-long-arrow-alt-right fa-2x" style="transform: rotate(45deg)"></i> <br>';
     }
     else if(data == 'southEast') { //northWest
-      return '&nbsp; <i class="fa fa-long-arrow-up" style="transform: rotate(45deg)"></i> <br>';
+      return '&nbsp; <i class="fas fa-long-arrow-alt-up fa-2x" style="transform: rotate(45deg)"></i> <br>';
     }
     else if(data == 'southWest') { //northEast
-      return '&nbsp; <i class="fa fa-long-arrow-left" style="transform: rotate(45deg)"></i> <br>';
+      return '&nbsp; <i class="fas fa-long-arrow-alt-left fa-2x" style="transform: rotate(45deg)"></i> <br>';
     }
 }
