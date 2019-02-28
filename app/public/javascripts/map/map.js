@@ -120,9 +120,8 @@ function roadStyle(feature) {
 }
 
 function highlightFeature(e) {
-    var layer = e.target;
-
     if(noColor == false) {
+        var layer = e.target;
         layer.setStyle({
             weight: 5,
             color: '#666',
@@ -130,38 +129,40 @@ function highlightFeature(e) {
             fillOpacity: 0.7
         });
         info.update(layer.feature.properties);
-    } else  if(noColor == true){
+    }else {
+        var layer = e.target;
         layer.setStyle({
-            weight: 2,
-            color: 'black',
-            dashArray: '3',
-            fillOpacity: 0
-        });
-        info.update(layer.feature.properties);
-
+        weight: 2,
+        color: 'black',
+        dashArray: '',
+        fillOpacity: 0
+    });
+    info.update(layer.feature.properties);
     }
 }
 
 function resetHighlight(e) {
-    if(noColor == true) {
+    if(noColor == false) {
         info.update();
-    }else if(noColor == false) {
         geojson.resetStyle(e.target);
+
+    }else {
         info.update();
+        }
     }
-}
 
 function zoomToFeature(e) {
     map.fitBounds(e.target.getBounds());
 }
 
 function onEachFeature(feature, layer) {
-    layer.on({
-        mouseover: highlightFeature,
-        mouseout: resetHighlight,
-        click: zoomToFeature
+        layer.on({
+            mouseover: highlightFeature,
+            mouseout: resetHighlight,
+            click: zoomToFeature
     });
 }
+
 
 //Adds the Swedish countys to the map with some css styling
 function drawMap() {
@@ -270,31 +271,61 @@ var stateChangingButton = L.easyButton({
             }
     }]
 });
-var countyButton = L.easyButton({
-    states: [{
-        stateName: 'Länöversikt',        
-        icon:      'fa fa-sun-o',               
-        title:     'Länöversikt',
-        onClick: function(btn, map) {
-            noColor = false;
-            stateChangingButton.state('Ta-bort-färgmarkering');
-            drawMap()
-        }
-    }]
-});
-var roadButton = L.easyButton({
-    states: [{
-        stateName: 'Vägöversikt',        
-        icon:      'fa fa-road',               
-        title:     'Vägöversikt',
-        onClick: function(btn, map) {
-            noColor = false;
-            stateChangingButton.state('Ta-bort-färgmarkering');
-            drawRoads()
-        }
-    }]
-});
 
-countyButton.addTo(map);
-roadButton.addTo(map);
+var mapChangingButton = L.easyButton({
+    states: [{
+            stateName: 'Countymap',        
+            icon:      'fa fa-sun-o',               
+            title:     'Länöversikt',      
+            onClick: function(btn, map) { 
+                btn.state('Roadmap');
+                stateChangingButton.state('Ta-bort-färgmarkering');
+                noColor = false;     
+                drawMap();
+            }
+        }, {
+            stateName: 'Roadmap',
+            icon:      'fa fa-road',
+            title:     'Vägöversikt',
+            onClick: function(btn, map) {
+                btn.state('Countymap');
+                stateChangingButton.state('Ta-bort-färgmarkering');
+                noColor = false;
+                drawRoads();
+            }
+    }]
+});
+// var countyButton = L.easyButton({
+//     states: [{
+//         stateName: 'Länöversikt',        
+//         icon:      'fa fa-sun-o',               
+//         title:     'Länöversikt',
+//         onClick: function(btn, map) {
+//             if(countyButtonPressed == false ) {
+//                 noColor = false;
+//                 drawMap()
+//                 console.log("hej2");
+//                 countyButtonPressed = true;
+//             }else if(countyButtonPressed == true) {
+//                 return;
+//             }
+//         }
+//     }]
+// });
+// var roadButton = L.easyButton({
+//     states: [{
+//         stateName: 'Vägöversikt',        
+//         icon:      'fa fa-road',               
+//         title:     'Vägöversikt',
+//         onClick: function(btn, map) {
+//             noColor = false;
+//             stateChangingButton.state('Ta-bort-färgmarkering');
+//             drawRoads()
+//         }
+//     }]
+// });
+
+// countyButton.addTo(map);
+// roadButton.addTo(map);
+mapChangingButton.addTo(map);
 stateChangingButton.addTo(map);
