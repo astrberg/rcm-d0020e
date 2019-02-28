@@ -275,8 +275,8 @@ var stateChangingButton = L.easyButton({
 var mapChangingButton = L.easyButton({
     states: [{
             stateName: 'Countymap',        
-            icon:      'fa fa-sun-o',               
-            title:     'Länöversikt',      
+            icon:      'fas fa-sun',               
+            title:     'Länöversikt lufttemperatur',      
             onClick: function(btn, map) { 
                 btn.state('Roadmap');
                 stateChangingButton.state('Ta-bort-färgmarkering');
@@ -285,8 +285,8 @@ var mapChangingButton = L.easyButton({
             }
         }, {
             stateName: 'Roadmap',
-            icon:      'fa fa-road',
-            title:     'Vägöversikt',
+            icon:      'fas fa-road',
+            title:     'Länöversikt vägtemperatur',
             onClick: function(btn, map) {
                 btn.state('Countymap');
                 stateChangingButton.state('Ta-bort-färgmarkering');
@@ -311,7 +311,7 @@ var mapChangingButton = L.easyButton({
 //             }
 //         }
 //     }]
-// });
+// });<i class="fas fa-cloud-sun"></i>
 // var roadButton = L.easyButton({
 //     states: [{
 //         stateName: 'Vägöversikt',        
