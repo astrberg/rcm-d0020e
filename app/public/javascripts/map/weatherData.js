@@ -13,8 +13,8 @@ async function getAllLatestWeatherData() {
      });
  }
 
- async function getAvgCountyWeatherData(){
-      await $.getJSON('/api/getAverageTempProvince', function(averageCountyWeather) {
+ async function getLatestAvgCountyWeatherData(){
+      await $.getJSON('/api/getLatestAverageTempProvince', function(averageCountyWeather) {
           averageData = averageCountyWeather;
 
       });
@@ -22,7 +22,7 @@ async function getAllLatestWeatherData() {
 
 
 async function getNewData(){
-    await getAvgCountyWeatherData();
+    await getLatestAvgCountyWeatherData();
     await getAllLatestWeatherData();
 }
 

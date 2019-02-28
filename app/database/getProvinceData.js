@@ -12,7 +12,7 @@ module.exports = {
 
 
     // Check connection to MySQL 
-    getAverageTempProvince : function(req, res, next){
+    getLatestAverageTempProvince : function(req, res, next){
        
         let auth = authorization.Authorization;
 
@@ -84,5 +84,7 @@ module.exports = {
         }).catch(err => {
             console.log(err)
         }) 
+    }, getAverageTempProvince: function(req, res, next, provinces){
+
     }
 };
