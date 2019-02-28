@@ -1,11 +1,11 @@
 
 var icon = L.divIcon({
-    className: 'fa fa-map-marker fa-2x',
+    className: 'fas fa-map-pin fa-1x',
     iconAnchor: [12, 24],
-    popupAnchor: [-5, -25]
+    popupAnchor: [-5, -25],
 });
 var selectedIcon = L.divIcon({
-    className: 'fa fa-map-marker fa-3x',
+    className: 'fas fa-map-pin fa-2x',
     iconAnchor: [15, 34],
     popupAnchor: [-5, -35]
 });

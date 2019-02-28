@@ -1,6 +1,8 @@
 var chosenStations = [];
 var stationsData = [];
+var chosenCounties = [];
 var latestWeatherData = [];
+
 
 async function getStations() {
     await $.getJSON("/api/getStationData", function(stations) {
@@ -17,7 +19,7 @@ function removeStation(station, marker, button){
         button.innerText = "Lägg till";
         button.className = "add-button";
         marker.setIcon(icon);
-        $('div[class=station-box][id="' + station.id + '"]').remove();
+        $('div[class=station-box][id="' + station.id + '"]').remove()
         chosenStations.splice(i, 1);
 
     }
@@ -46,6 +48,7 @@ function addStation(station, marker, button){
 function removeAllStations() {
     $("#station-list .remove-button").click();
     chosenStations = [];
+    chosenCounties = [];
 
 }
 // Checks if a station is added or removed from chosenStations array
@@ -63,7 +66,33 @@ function handleChosenStations(station, marker, button){
 
     }
 }
+
 function showStationBar() {
     updateStationField();
     showStationFieldButton();
+}
+
+function removeCounty(countyCode, button){
+    button.innerText = "Lägg till";
+    button.className = "add-button"
+    $('div[class=station-box][id="' + countyCode + '"]').remove();
+    for(var i = 0; i < chosenCounties.length; i++) {
+        if(chosenCounties[i] === countyCode) {
+            chosenCounties.splice(i, 1);
+        }
+    }
+    if(chosenCounties.length === 0) {
+        updateStationField();
+        hideStationButton();
+    } 
+}
+
+function addChosenCounty(countyCode, coords, button){
+    if(chosenCounties.length == 0) {
+        showStationBar();
+    }
+    button.innerText = "Ta bort";
+    button.className = "remove-button";
+    addCountyBox(countyCode, button, coords);
+    chosenCounties.push(countyCode);
 }
