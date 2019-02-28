@@ -25,6 +25,25 @@ function addStationBox(station, marker, button){
     $stationList.append($(stationBox).append(buttonGoToStation, buttonList));
 }
 
+function addCountyBox(countyCode, button, coords) {
+    const countyBox = `<div id='${countyCode}' class="station-box">
+                            <h3> Län: ${countyNames[countyCode]}</h3> 
+                      </div>`;
+    const buttonList = $('<button/>', {
+        id: countyCode,
+        class: "remove-button",
+        text: "Ta bort",
+        click: function () { removeCounty(countyCode, button) }
+    });
+    const buttonGoToCounty = $('<button/>', {
+        class: "button",
+        text: "Gå till Län",
+        click: function () { zoomToCounty(coords) }
+    });
+    const $stationList = $("#station-list");
+    $stationList.append($(countyBox).append(buttonGoToCounty, buttonList));
+}
+
 function updateStationField(){
     const div = $("#station-list")
 
@@ -63,4 +82,11 @@ function zoomToStation(station){
         duration: 2
     });
     
+}
+
+function zoomToCounty(coords){
+    map.flyTo(coords, 7,{
+        animate: true,
+        duration: 2
+    });
 }

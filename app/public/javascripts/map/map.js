@@ -70,9 +70,10 @@ info.update = function (props) {
         '<br /> Lufttemperatur: '   + averageData[props.countyCode][1].toFixed(1)+ '\xB0C'+
         '<br /> Vägtemperatur: ' + averageData[props.countyCode][2].toFixed(1) + '\xB0C'
         : 'Hovra över län');
-    
+        
 };
 info.addTo(map);
+
 
 
 function getColor(d) {
@@ -84,8 +85,6 @@ function getColor(d) {
             d > 10   ? '#FF9999' :
             d > 5   ? '#FFCCCC' :
             d > 0  ? '#FFDCDC' :
-
-
             d > -5  ? '#CCE5FF' :
             d > -10 ? '#99CCFF' :
             d > -15  ? '#66B2FF' :
@@ -102,7 +101,7 @@ function countyStyle(feature) {
         weight: 2,
         opacity: 0.2,
         color: 'black',
-        dashArray: '3',
+        dashArray: '',
         fillOpacity: 0.7,
         fillColor: getColor(avg[1])
     };
@@ -141,6 +140,55 @@ function highlightFeature(e) {
     }
 }
 
+map.doubleClickZoom.disable(); 
+function createPopup(e) {
+    var layer = e.target;
+    var countyCode = layer.feature.properties.countyCode;
+    var avg = averageData[countyCode];
+    var popLocation= e.latlng;
+    var chosenCountyExists = false;
+    var popup = L.popup();
+    popup.setLatLng(popLocation);
+    var button = document.createElement("div");
+    var popupContent = document.createElement("table-data");
+    popupContent.innerHTML  = '<table id = "county-data" >' +
+    '<tr> <td> Län: </td><td>' + countyNames[avg[0]] + '</td></tr>' + 
+    '<tr> <td>Lufttemperatur: </td><td>' + avg[1].toFixed(1)+ '\xB0C' + '</td></tr>' +
+    '<tr> <td>Vägtemperatur: </td><td>' + avg[2].toFixed(1)+ '\xB0C' + '</td></tr>' +
+    '<tr> <td>Luftfuktighet: </td><td></td></tr>' +
+    '<tr> <td>Vindhastighet: </td><td></td></tr>' +
+    '</table>';
+
+
+    for(var i = 0; i < chosenCounties.length; i++) {
+        if(chosenCounties[i] === countyCode) {
+            button.innerText = "Ta bort";
+            button.className = "remove-button"; 
+            chosenCountyExists = true;  
+        }
+    }
+    if(!chosenCountyExists) {
+        button.className = "add-button";
+        button.innerText = "Lägg till";
+    }
+    
+    
+    button.addEventListener("click" , function() {
+        if(chosenCountyExists == true) {
+            removeCounty(countyCode, button); 
+            map.closePopup();     
+        }else {
+            addChosenCounty(countyCode, popLocation, button);
+            map.closePopup();
+        }
+   });
+
+    popupContent.appendChild(button);
+    popup.setContent(popupContent);
+    popup.openOn(map);
+
+}
+
 function resetHighlight(e) {
     if(noColor == false) {
         info.update();
@@ -151,15 +199,11 @@ function resetHighlight(e) {
         }
     }
 
-function zoomToFeature(e) {
-    map.fitBounds(e.target.getBounds());
-}
-
 function onEachFeature(feature, layer) {
-        layer.on({
-            mouseover: highlightFeature,
-            mouseout: resetHighlight,
-            click: zoomToFeature
+    layer.on({
+        mouseover: highlightFeature,
+        mouseout: resetHighlight,
+        click: createPopup
     });
 }
 
@@ -220,30 +264,6 @@ legend.onAdd = function (map) {
 };
 legend.addTo(map);
 
-// L.easyButton('fa fa-sun-o', function(btn, map) {
-//     noColor = false;
-//      drawMap();
-// }).addTo(map);
-
-// L.easyButton('fa fa-road', function(btn, map) {
-//     nocolor = false;
-//     drawRoads();
-// }).addTo(map); 
-
-// L.easyButton('fas fa-exchange-alt', function(btn, map) {
-//     if(noColor == false) {
-//         geojson.eachLayer(function (layer) {    
-//             layer.setStyle({fillOpacity :0 }) 
-//           });
-//           noColor = true;
-//     }else {
-//         geojson.eachLayer(function (layer) {    
-//             layer.setStyle({fillOpacity : 0.7 }) 
-//           });
-//           noColor = false;
-//     }
-// }).addTo(map); 
-
 
 
 var stateChangingButton = L.easyButton({
@@ -295,37 +315,6 @@ var mapChangingButton = L.easyButton({
             }
     }]
 });
-// var countyButton = L.easyButton({
-//     states: [{
-//         stateName: 'Länöversikt',        
-//         icon:      'fa fa-sun-o',               
-//         title:     'Länöversikt',
-//         onClick: function(btn, map) {
-//             if(countyButtonPressed == false ) {
-//                 noColor = false;
-//                 drawMap()
-//                 console.log("hej2");
-//                 countyButtonPressed = true;
-//             }else if(countyButtonPressed == true) {
-//                 return;
-//             }
-//         }
-//     }]
-// });<i class="fas fa-cloud-sun"></i>
-// var roadButton = L.easyButton({
-//     states: [{
-//         stateName: 'Vägöversikt',        
-//         icon:      'fa fa-road',               
-//         title:     'Vägöversikt',
-//         onClick: function(btn, map) {
-//             noColor = false;
-//             stateChangingButton.state('Ta-bort-färgmarkering');
-//             drawRoads()
-//         }
-//     }]
-// });
 
-// countyButton.addTo(map);
-// roadButton.addTo(map);
 mapChangingButton.addTo(map);
 stateChangingButton.addTo(map);
