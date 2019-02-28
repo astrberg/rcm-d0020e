@@ -2,8 +2,6 @@ const mysqlssh = require('mysql-ssh');
 const authorization = require('./authorization');
 var async = require("async");
 
-let mutex = 0;
-
 /* Functions in the DB class that is usable by other files */
 module.exports = {
     /*
@@ -14,11 +12,11 @@ module.exports = {
 
     // get latest inserted weather from given station
     getLatestWeatherData : function(req, res, next, station_id){
-        mutex++;
+        
 
-        let auth = new authorization.Authorization();
+        let auth = authorization.Authorization;
         let weather_data = [];
-
+        auth.increaseMutex();
         // ssh to database server and then connect to db
         mysqlssh.connect(auth.ssh, auth.database).then(client => {
             const sql = "SELECT * FROM weather_data WHERE station_id = ? ORDER BY id DESC LIMIT 1";
@@ -39,12 +37,51 @@ module.exports = {
                     callback();
                     
                 })
+            
             },function(callback){
                 // when async functions are done send data back
                 res.send(weather_data);
-                decreaseMutex();
+
+                auth.decreaseMutex();
+
+                if(auth.getMutex() == 0){
+                    mysqlssh.close()
+                }
                 
             });
+        }).catch(err => {
+            console.log(err)
+        })
+        
+    },getAllLatestWeatherData : function(req, res, next, length){
+        
+
+        let auth = authorization.Authorization;
+        auth.increaseMutex();
+        
+        // ssh to database server and then connect to db
+        mysqlssh.connect(auth.ssh, auth.database).then(client => {
+            const sql = "SELECT * FROM weather_data ORDER BY id DESC LIMIT ?";
+
+
+            client.query(sql, [[parseInt(length)]], function (err, results) {
+                if (err) throw err
+                
+                // convert timestamp and windspeed to wanted units
+                results.forEach(result => {
+                    convertData(result)
+
+                });
+                res.send(results);
+
+                auth.decreaseMutex();
+
+                if(auth.getMutex() == 0){
+                    mysqlssh.close()
+                }
+
+            });
+            
         }).catch(err => {
             console.log(err)
         })
@@ -53,10 +90,10 @@ module.exports = {
     // get weather data from given station
     getWeatherData : function(req, res, next, station_id, start_time, stop_time){
        
-        mutex++;
-
-        let auth = new authorization.Authorization();
-
+        
+        let auth = authorization.Authorization;
+        
+        auth.increaseMutex();
         // ssh to database server and then connect to db
         mysqlssh.connect(auth.ssh, auth.database).then(client => {
             
@@ -109,7 +146,12 @@ module.exports = {
             },function(callback){
                 // when async functions are done send data back
                 res.send(weather_data);
-                decreaseMutex();
+
+                auth.decreaseMutex();
+
+                if(auth.getMutex() == 0){
+                    mysqlssh.close()
+                }
             });
             
 
@@ -120,10 +162,10 @@ module.exports = {
     // get avarage weather data from given station
     getAverageWeatherData : function(req, res, next, station_id, start_time, stop_time){
         
-        mutex++;
-
-        let auth = new authorization.Authorization();
-
+        
+        let auth = authorization.Authorization;
+        
+        auth.increaseMutex();
         // ssh to database server and then connect to db
         mysqlssh.connect(auth.ssh, auth.database).then(client => {
             
@@ -136,10 +178,16 @@ module.exports = {
             client.query(sql, values, function (err, results) {
                 if (err) throw err
 
-                decreaseMutex();
+                
                 
                 // send data back to client
                 res.send(results);
+                
+                auth.decreaseMutex();
+
+                if(auth.getMutex() == 0){
+                    mysqlssh.close()
+                }
             })
 
         }).catch(err => {
@@ -176,11 +224,3 @@ function convertData(result){
     result.wind_speed = result.wind_speed.toFixed(2);
 }
 
-function decreaseMutex(){
-    mutex--;
-        
-    if(mutex == 0){
-        mysqlssh.close()
-
-    }
-}

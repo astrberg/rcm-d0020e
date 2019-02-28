@@ -13,8 +13,21 @@ class Authorization{
             host: '130.240.204.191',
             user: 'bugmana',
             privateKey: fs.readFileSync(process.env.HOME + '/.ssh/id_rsa')
-        }; 
+        };
+
+        this.mutex = 0;
+    }
+  
+    increaseMutex(){
+        this.mutex++;
+        
+    }
+    decreaseMutex(){
+        this.mutex--;
+    }
+    getMutex(){
+        return this.mutex;
     }
 }
 
-module.exports.Authorization = Authorization;
+module.exports.Authorization = new Authorization();
