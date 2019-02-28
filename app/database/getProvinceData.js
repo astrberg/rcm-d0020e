@@ -1,18 +1,19 @@
 const mysqlssh = require('mysql-ssh');
 const authorization = require('./authorization');
+var async = require("async");
 
-let mutex = 0;
+
 /* Functions in the DB class that is usable by other files */
 module.exports = {
     /*
     ALL FUNCTIONS SHOULD RETURN SOMETHING
     If status, see specific one at
     https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
-    */
+    */ 
 
 
     // Check connection to MySQL 
-    getAverageTempProvince : function(req, res, next){
+    getLatestAverageTempProvince : function(req, res, next){
        
         let auth = authorization.Authorization;
 
@@ -22,16 +23,25 @@ module.exports = {
         mysqlssh.connect(auth.ssh, auth.database).then(client => {
             
             // select avg temps from stations in county over the last 15 min
-            var sql =  "SELECT * FROM (\
+            var old_broken_sql =  "SELECT * FROM (\
                             SELECT * FROM (\
                                 SELECT w.id, w.air_temperature, w.road_temperature, s.county_number FROM weather_data w, station_data s \
                                 WHERE w.station_id = s.id) \
-                            AS g ORDER BY g.id DESC LIMIT 576) \
+                            AS g ORDER BY g.id DESC LIMIT 550) \
                         AS t ORDER BY t.county_number ASC";
                     
+
+            var sql = `select * from 
+                                (select g.id, g.station_id, g.air_temperature, g.road_temperature, t.county_number from 
+                                    (SELECT w.id,w.station_id, w.air_temperature, w.road_temperature FROM weather_data w order by w.id desc limit 550) 
+                                    as g inner join 
+                                    (select s.id, s.county_number from station_data s) 
+                                as t on g.station_id = t.id) 
+                            as h order by h.county_number asc`;
+
             client.query(sql, function (err, results) {
                 if (err) throw err
-                
+                 
                 
                 
                 let temperatures = [];
@@ -84,5 +94,128 @@ module.exports = {
         }).catch(err => {
             console.log(err)
         }) 
+    }, getAverageTempProvince: function(req, res, next, provinces, start_time, stop_time){
+        let auth = authorization.Authorization;
+
+        auth.increaseMutex();
+        
+        // ssh to database server and then connect to db
+        mysqlssh.connect(auth.ssh, auth.database).then(client => {
+            
+            // var sql = "SELECT * FROM weather_data WHERE station_id = ? AND timestamp BETWEEN ? AND ?";
+            // "select w.air_temperature, s.county_number from weather_data as w, station_data as s where w.station_id = s.id and s.county_number = 25;"
+            // "select w.air_temperature, w.timestamp from weather_data as w where w.station_id in (select s.id from station_data as s where county_number = 25);"
+            var sql = "select w.air_temperature, w.timestamp from weather_data as w where w.station_id in (select s.id from station_data as s where county_number = ?) and w.timestamp between ? and ? order by w.timestamp asc";
+            
+            let weather_data = [];
+
+            // do a async loop through the station_id list
+            async.each(provinces, function(province, callback){
+                
+                let values = [province, start_time, stop_time]
+
+                client.query(sql,values, function (err, results) {
+                    if (err) throw err
+                    
+                    let filtered_result = [];
+                    
+                    // calculate the time difference between the first and last result
+                    let time_diff = results[results.length - 1].timestamp.getTime() - results[0].timestamp.getTime();
+
+                    //change time_diff from ms to h
+                    time_diff = time_diff / (3.6*(10**6));
+                    
+                    let i = 0;
+                    
+                    let avg_temp = 0;
+                    let count = 0;
+
+                    let calculated_avg = [];
+
+                    for(let n = 0; n < results.length; n++){
+
+                        avg_temp += results[n].air_temperature;
+                        count++;
+
+                       
+                        if(n >= results.length-1){
+                            calculated_avg.push({air_temperature: avg_temp/count, timestamp: results[n].timestamp});
+
+                            count = 0;
+                            avg_temp = 0;
+
+                        }else if(results[n].timestamp.getTime() !== results[n+1].timestamp.getTime()){
+                            calculated_avg.push({air_temperature: avg_temp/count, timestamp: results[n].timestamp});
+
+                            count = 0;
+                            avg_temp = 0;
+                        }
+
+                    }
+
+                    calculated_avg.forEach (result =>{
+                        
+                        // convert timestamp and windspeed to wanted units
+                        convertData(result);
+
+                        // depeding on the time_diff, filter the result and add 1/1, 1/2, 1/4, 1/8 or 1/16 of every result
+                        if(i % calculateFilter(time_diff) == 0){
+                            filtered_result.push(result);
+                        }
+
+                        i++;
+                    });
+
+                    // add the data of the station to the list 
+                    weather_data.push(filtered_result);
+
+                    callback();
+                        
+                })
+
+                
+            },function(callback){
+                // when async functions are done send data back
+                res.send(weather_data);
+
+                auth.decreaseMutex();
+
+                if(auth.getMutex() == 0){
+                    mysqlssh.close()
+                }
+            });
+
+        }).catch(err => {
+            console.log(err)
+        })
     }
 };
+
+
+function calculateFilter(hours){
+    // these limits are up for tweaking
+    if(hours < 96){ // less then 4 days
+        return 1;                        
+    }else if(hours < 252){   // less then 1.5 week
+        return 2;
+    }else if(hours < 1008){   // less then 6 weeks
+        return 4;
+    }else if(hours < 2016){  // less then 12 weeks
+        return 8;
+    }else{
+        return 16;
+    }
+}
+
+function convertData(result){
+    // convert fetched timestamp to correct timezone. 
+    // JSON parses timestamp to UTC+0 and we live in UTC+1
+    let current_time = result.timestamp;
+
+    current_time.setHours(current_time.getHours() - current_time.getTimezoneOffset() / 60);
+    
+    // change windspeed from km/h to m/s and use 2 decimals
+    result.wind_speed /=  3.6;
+    result.wind_speed = result.wind_speed.toFixed(2);
+}
+
