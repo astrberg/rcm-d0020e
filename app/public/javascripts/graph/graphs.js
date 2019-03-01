@@ -66,7 +66,8 @@ function generatedataforbar(typeofgraph,datatempvar,stationame){
 function databarchartcurrent(weatherdata,station_name){
 	var typeofgraph = "current_air";
 	var stationame = station_name;
-	var datatempvar= weatherdata.air_temperature;
+	//var datatempvar= weatherdata[0].air_temperature;
+        var datatempvar= weatherdata.air_temperature;
 	generatedataforbar(typeofgraph,datatempvar,stationame);
 }
 
@@ -96,6 +97,7 @@ function currenttempgraph(weatherdata){
 function databarchartwindcurrent(weatherdata,station_name){
 	var typeofgraph = "current_windspeed";
 	var stationame = station_name;
+	//var datatempvar= weatherdata[0].wind_speed;
 	var datatempvar= weatherdata.wind_speed;
 	generatedataforbar(typeofgraph,datatempvar,stationame);
 }
@@ -128,6 +130,7 @@ function currentwindspeedgraph(weatherdata){
 function databarchartroadcurrent(weatherdata,station_name){
 	var typeofgraph = "current_road";
 	var stationame = station_name;
+	//var datatempvar= weatherdata[0].road_temperature;
 	var datatempvar= weatherdata.road_temperature;
 	generatedataforbar(typeofgraph,datatempvar,stationame);
 }
@@ -160,6 +163,7 @@ function currentroadtempgraph(weatherdata){
 function databarcharthumcurrent(weatherdata,station_name){
 	var typeofgraph = "current_hum";
 	var stationame = station_name;
+	//var datatempvar= weatherdata[0].air_humidity;
 	var datatempvar= weatherdata.air_humidity;
 	generatedataforbar(typeofgraph,datatempvar,stationame);
 }
@@ -190,16 +194,18 @@ function currenthumgraph(weatherdata){
 //multiple lines in the graph
 var datagrafwindspeed = [];
 var datagraftimestampwindspeed = [];	
+var checktruefalsewind=true;
 function datamultieplegrafwinspeed(weatherdata,station_name){
 	var datagrafwindspeed = [];
 	var valuegraph = "windspeed"
 	var stationame = station_name;
 	for(var i = 0; i < weatherdata.length; i++){
 		datagrafwindspeed.push(weatherdata[i].wind_speed);
-	if(datagraftimestampwindspeed.length < weatherdata.length){
+	if(checktruefalsewind){
 		datagraftimestampwindspeed.push(weatherdata[i].timestamp.slice(2,10));
 	}
 	}
+	checktruefalsewind=false;
 	generatedata(valuegraph,datagrafwindspeed,stationame)
 }
 
@@ -207,16 +213,18 @@ function datamultieplegrafwinspeed(weatherdata,station_name){
 //multiple lines in the graph
 var datagrafhum = [];
 var datagraftimestamphum = [];	
+var checktruefalsehum=true;
 function datamultieplegrafhumidity(weatherdata,station_name){
 	var datagrafhum = [];
 	var valuegraph = "humidity"
 	var stationame = station_name;
 	for(var i = 0; i < weatherdata.length; i++){
 		datagrafhum.push(weatherdata[i].air_humidity);
-		if(datagraftimestamphum.length < weatherdata.length){
+		if(checktruefalsehum){
 		datagraftimestamphum.push(weatherdata[i].timestamp.slice(2,10));
 	}
 	}
+	checktruefalsehum=false;
 	generatedata(valuegraph,datagrafhum,stationame)
 }
 
@@ -225,34 +233,38 @@ function datamultieplegrafhumidity(weatherdata,station_name){
 //multiple lines in the graph
 var datagrafair = [];
 var datagraftimestampair = [];	
+var checktruefalseair=true;
 function datamultieplegrafair(weatherdata,station_name){
 	var datagrafairtemp = [];
 	var valuegraph = "airtemp"
 	var stationame = station_name;
 	for(var i = 0; i < weatherdata.length; i++){
 		datagrafairtemp.push(weatherdata[i].air_temperature);
-		if(datagraftimestampair.length < weatherdata.length){
+		if(checktruefalseair){
 		datagraftimestampair.push(weatherdata[i].timestamp.slice(2,10));
 	}
 	}
-	generatedata(valuegraph,datagrafairtemp,stationame)
+	checktruefalseair=false;
+	generatedata(valuegraph,datagrafairtemp,stationame);
 }
 
 
 //road_temp
 //multiple lines in the graph
 var data3graf3 = [];
-var datagraftimestamp = [];	
+var datagraftimestamp = [];
+var checktruefalse=true;	
 function datamultieplegraf(weatherdata,station_name){
 	var datagrafroadtemp = [];
 	var valuegraph = "roadtemp"
 	var stationame = station_name;
 	for(var i = 0; i < weatherdata.length; i++){
 		datagrafroadtemp.push(weatherdata[i].road_temperature);
-		if(datagraftimestamp.length < weatherdata.length){
+		if(checktruefalse){
 			datagraftimestamp.push(weatherdata[i].timestamp.slice(2,10));
 		}
 	}
+	checktruefalse=false;
 	generatedata(valuegraph, datagrafroadtemp,stationame)
 }
 
@@ -492,6 +504,10 @@ function cleararrays(){
  	currentroadtemp = [];
 	currentairhum = [];	
 	currentdatawind = [];
+	checktruefalse=true;
+	checktruefalseair=true;
+	checktruefalsehum=true;
+	checktruefalsewind=true;
 }
 
 
