@@ -11,10 +11,26 @@ async function getWeatherData(station_id, start_time, stop_time,station_name) {
 		
     });	
 }
-	
+
 //Get current latest weatherdata from the stations sent in
 async function getlatest(station_id,station_name) {
-	// loop through every given station id and get the find the 
+    await $.getJSON("/api/getLatestWeatherData", {station_id}, function(weatherData) {
+		
+
+	for(let i = 0; i < weatherData.length; i++){
+			databarchartcurrent(weatherData[i],station_name[i]);
+			databarchartroadcurrent(weatherData[i],station_name[i]);
+			databarcharthumcurrent(weatherData[i],station_name[i]);
+			databarchartwindcurrent(weatherData[i],station_name[i]);
+		}
+    });	
+}
+/*
+//Get current latest weatherdata from the stations sent in
+async function getlatest(station_id,station_name) {
+
+
+// loop through every given station id and get the find the 
 	// weatherdata of that station in the latestWeather list
 	for(let j = 0; j < station_id.length; j++){
 
@@ -30,6 +46,7 @@ async function getlatest(station_id,station_name) {
 		}
 		
 	}
-    
+   
 }
+*/
 
