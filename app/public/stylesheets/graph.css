@@ -1,3 +1,10 @@
+body {
+   padding: 50px; 
+
+
+   font-family: Helvetica, Arial, sans-serif; 
+
+}
 #slideroptions{ 
   background-color: #E0E0E0; 
 }
@@ -17,8 +24,8 @@
 canvas{
   /*width:500px !important;
   height:300px !important;*/
-  margin: auto;
-  padding: 20px;
+  margin:auto;
+
 }
 
 #time24h {
@@ -53,7 +60,7 @@ canvas{
 
 #Canvashidebutton{
   position: absolute;
-  margin: 50px;
+  margin: 30px;
   right: 0px;
   background-color: red; 
   border: none;
