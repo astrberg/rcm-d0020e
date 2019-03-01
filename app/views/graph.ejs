@@ -63,7 +63,7 @@
 <div id="slideroptions">
 
 <div id="starttime">
-<p>Starttime</p>
+<p id"stopandstartp">STARTDATUM</p>
 <p id="output1"></p>
 <div class="slidecontainer1">
   <input type="range" min="1545230510" max="0" value="1" class="slider" id="myRange1">
@@ -76,7 +76,7 @@
 </div>
 
 <div id="stoptime">
-<p>Stoptime</p>
+<p id"stopandstartp">SLUTDATUM</p>
 <p id="output2"></p>
 <div class="slidecontainer2">
   <input type="range" min="1545230510" max="0" value="1" class="slider" id="myRange2">
@@ -294,7 +294,6 @@ function hideelements(id,box){
 
 }
 
-//TEST
 document.querySelectorAll('input[type=number]')
   .forEach(e => e.oninput = () => {
     // Always 2 digits
