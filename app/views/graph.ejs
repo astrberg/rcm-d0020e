@@ -53,6 +53,16 @@
   <input type="checkbox" checked="checked" id="current_windspeed">
   <span class="checkmark"></span>
 </label> 
+
+<label class="container">Nuvarande lufttemperatur län
+  <input type="checkbox" checked="checked" id="current_temp_prov">
+  <span class="checkmark"></span>
+</label> 
+
+<label class="container">Nuvarande vägtemperatur län
+  <input type="checkbox" checked="checked" id="current_road_prov">
+  <span class="checkmark"></span>
+</label> 
 </div>
     </div>
   </li>
@@ -122,7 +132,14 @@
  <button id="Canvashidebutton" type="button" onclick="hideelements('type8','current_windspeed')">X</button> 
   <canvas id="myChart8"></canvas>
 </div>
-
+<div id="type9">
+ <button id="Canvashidebutton" type="button" onclick="hideelements('type9','current_temp_prov')">X</button> 
+  <canvas id="myChart9"></canvas>
+</div>
+<div id="type10">
+ <button id="Canvashidebutton" type="button" onclick="hideelements('type10','current_road_prov')">X</button> 
+  <canvas id="myChart10"></canvas>
+</div>
 
  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
  <script src="javascripts/map/stations.js"></script>
@@ -141,6 +158,8 @@ for(var i=0;i<thechosendata.length;i++){
 }
 //?????
 var latestWeatherData = window.opener.latestWeatherData;
+
+var chosenCounties = window.opener.chosenCounties;
 
 document.getElementById("myRange1").max = Math.floor(Date.now() / 1000);
 document.getElementById("myRange2").max = Math.floor(Date.now() / 1000);
@@ -184,10 +203,17 @@ async function rungraphs(starttime, stoptime){
 	const canvasclearvar8 = document.getElementById('myChart8').getContext('2d');
 		canvasclearvar8.clearRect(0,0, document.getElementById('myChart8').width, document.getElementById('myChart8').height);
 
+	const canvasclearvar9 = document.getElementById('myChart9').getContext('2d');
+		canvasclearvar9.clearRect(0,0, document.getElementById('myChart9').width, document.getElementById('myChart9').height);
+
+	const canvasclearvar10 = document.getElementById('myChart10').getContext('2d');
+		canvasclearvar10.clearRect(0,0, document.getElementById('myChart10').width, document.getElementById('myChart10').height);
+
     //functioncalls to get data
     await getWeatherData(stationsarrayid,starttime,stoptime,stationname);
     await getlatest(stationsarrayid,stationname);
-
+    await getAverageTempProvince(chosenCounties,starttime,stoptime);
+    await getLatestAvgCountyWeatherData(chosenCounties);
 	
 	//functions to draw graphs
 	await roadtemp();
@@ -205,6 +231,11 @@ async function rungraphs(starttime, stoptime){
 	await currenthumgraph();
 
 	await currentwindspeedgraph();
+
+	await currentairtempgraphprov();
+
+	await currentroadtempgraphprov();
+
 }
 }
 
@@ -281,6 +312,24 @@ $(function () {
 		      
 		    } else {
 		        $("#type8").hide();
+		        
+		    }
+	});
+   $("#current_temp_prov").click(function () {
+		    if ($(this).is(":checked")) {
+		        $("#type9").show();
+		      
+		    } else {
+		        $("#type9").hide();
+		        
+		    }
+	});
+   $("#current_road_prov").click(function () {
+		    if ($(this).is(":checked")) {
+		        $("#type10").show();
+		      
+		    } else {
+		        $("#type10").hide();
 		        
 		    }
 	});

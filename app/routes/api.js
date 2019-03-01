@@ -29,9 +29,9 @@ router.get('/getLatestAverageTempProvince', function(req, res, next) {
 /* GET AVG temp over province over time */
 router.get('/getAverageTempProvince', function(req, res, next) {
     
-    let provinces = [25,24, 5];
-    let start_time = "2019-02-10 10:40:00"
-    let stop_time = "2019-02-19 11:10:00"
+    //let provinces = [25,24, 5];
+    //let start_time = "2019-02-10 10:40:00"
+    //let stop_time = "2019-02-19 11:10:00"
 
     province.getAverageTempProvince(req,res,next, provinces, start_time, stop_time);
 });

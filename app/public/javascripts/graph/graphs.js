@@ -35,11 +35,70 @@ function graf2(){
 
 	myChart.update();
 }
+//generatedataforcurrprov
+function databarchartcurrentprovair(temp,id){
+	var typeofgraph = "current_air_temp_county";
+	var stationame = id;
+	var datatempvar= temp;
+	generatedataforbar(typeofgraph,datatempvar,stationame);
+}
+var chart10 = null;
+function currentairtempgraphprov(weatherdata){
+	if(chart10!=null){
+		chart10.destroy();
+	}
+	var ctx = document.getElementById('myChart9').getContext('2d');
+	chart10 = new Chart(ctx, {
+	    type: 'bar',
+	    data: {
+		//labels: stations,
+		datasets: currentairtempprov
+	    },
+
+	
+	    options: {
+			title:{
+	display:true,
+	text: "Nuvarande medeltemperatur luft län"}
+	}
+	});
+}
+//generatedataforcurrprov
+function databarchartcurrentprovroad(temp,id){
+	var typeofgraph = "current_road_temp_county";
+	var stationame = id;
+	var datatempvar= temp;
+	generatedataforbar(typeofgraph,datatempvar,stationame);
+}
+var chart11 = null;
+function currentroadtempgraphprov(weatherdata){
+	if(chart11!=null){
+		chart11.destroy();
+	}
+	var ctx = document.getElementById('myChart10').getContext('2d');
+	chart11 = new Chart(ctx, {
+	    type: 'bar',
+	    data: {
+		//labels: stations,
+		datasets: currentroadtempprov
+	    },
+
+	
+	    options: {
+			title:{
+	display:true,
+	text: "Nuvarande medeltemperatur väg län"}
+	}
+	});
+}
+
 	
 var currentdatawind = [];
 var currentdatatemp = [];
 var currentroadtemp = [];
 var currentairhum = [];
+var currentairtempprov = [];
+var currentroadtempprov = [];
 //Generats variables for the stations used as data for the current bar graphs. 
 function generatedataforbar(typeofgraph,datatempvar,stationame){
     var dataFirst = {
@@ -60,6 +119,13 @@ function generatedataforbar(typeofgraph,datatempvar,stationame){
 	if (typeofgraph=="current_windspeed"){
 		currentdatawind.push(dataFirst);
 	}
+	if (typeofgraph=="current_air_temp_county"){
+		currentairtempprov.push(dataFirst);
+	}
+	if (typeofgraph=="current_road_temp_county"){
+		currentroadtempprov.push(dataFirst);
+	}
+
 
 }
 //current data air temp

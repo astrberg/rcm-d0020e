@@ -25,6 +25,23 @@ async function getlatest(station_id,station_name) {
 		}
     });	
 }
+async function getAverageTempProvince(counties, start_time, stop_time) {		
+	await $.getJSON("/api/getAverageTempProvince", {counties, start_time, stop_time}, function(AverageTempProvinceData) {
+	
+		console.log(AverageTempProvinceData)
+    });	
+}
+//get latst avg county data
+async function getLatestAvgCountyWeatherData(chosenCounties){
+      await $.getJSON('/api/getLatestAverageTempProvince', function(averageCountyWeather) {
+          averageData = averageCountyWeather;
+	  for(var i=0;i<chosenCounties.length;i++){
+		databarchartcurrentprovair(averageData[chosenCounties[i]][1],chosenCounties[i]);
+		databarchartcurrentprovroad(averageData[chosenCounties[i]][2],chosenCounties[i]);
+
+	}
+      });
+}
 /*
 //Get current latest weatherdata from the stations sent in
 async function getlatest(station_id,station_name) {
