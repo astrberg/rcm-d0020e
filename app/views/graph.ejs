@@ -54,13 +54,18 @@
   <span class="checkmark"></span>
 </label> 
 
-<label class="container">Nuvarande lufttemperatur län
+<label class="container">Nuvarande medel lufttemperatur län
   <input type="checkbox" checked="checked" id="current_temp_prov">
   <span class="checkmark"></span>
 </label> 
 
-<label class="container">Nuvarande vägtemperatur län
+<label class="container">Nuvarande medel vägtemperatur län
   <input type="checkbox" checked="checked" id="current_road_prov">
+  <span class="checkmark"></span>
+</label> 
+
+<label class="container">Nuvarande medel lufttemperatur över tid län
+  <input type="checkbox" checked="checked" id="overtime_road_prov">
   <span class="checkmark"></span>
 </label> 
 </div>
@@ -143,7 +148,7 @@
  </div>
 
  <div id="type11">
-  <button id="Canvashidebutton" type="button" onclick="hideelements('type11','current_road_prov')">X</button> 
+  <button id="Canvashidebutton" type="button" onclick="hideelements('type11','overtime_road_prov')">X</button> 
    <canvas id="myChart11"></canvas>
  </div>
 
@@ -177,7 +182,7 @@ document.getElementById("myRange2").max = Math.floor(Date.now() / 1000);
 var currentDate = new Date();
 
 var starttime='2019-01-20 13:12:12';
-var stoptime='2019-01-21 13:23:20';
+var stoptime='2019-01-20 16:23:20';
 
 
 async function rungraphs(starttime, stoptime){
@@ -217,11 +222,12 @@ async function rungraphs(starttime, stoptime){
 
 	const canvasclearvar10 = document.getElementById('myChart10').getContext('2d');
 		canvasclearvar10.clearRect(0,0, document.getElementById('myChart10').width, document.getElementById('myChart10').height);
-
+    
+  const canvasclearvar11 = document.getElementById('myChart11').getContext('2d');
+  canvasclearvar11.clearRect(0,0, document.getElementById('myChart11').width, document.getElementById('myChart11').height)
     //functioncalls to get data
     await getWeatherData(stationsarrayid,starttime,stoptime,stationname);
     await getlatest(stationsarrayid,stationname);
-    console.log(chosenintcounties);
     await getAverageTempProvince(chosenintcounties,starttime,stoptime);
     await getLatestAvgCountyWeatherData(chosenCounties);
 	
@@ -344,7 +350,17 @@ $(function () {
 		        $("#type10").hide();
 		        
 		    }
-	});
+  });
+  $("#overtime_road_prov").click(function () {
+		    if ($(this).is(":checked")) {
+		        $("#type11").show();
+		      
+		    } else {
+		        $("#type11").hide();
+		        
+		    }
+  });
+  
  });
 
 

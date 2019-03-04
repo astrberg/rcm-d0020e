@@ -28,9 +28,7 @@ router.get('/getLatestAverageTempProvince', function(req, res, next) {
 
 /* GET AVG temp over province over time */
 router.get('/getAverageTempProvince', function(req, res, next) {
-    console.log("hello")
     counties = req["query"]["counties"];
-    //console.log(counties);
     start_time = req["query"]["start_time"];
     stop_time = req["query"]["stop_time"];
 

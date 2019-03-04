@@ -259,35 +259,37 @@ function currenthumgraph(weatherdata){
 //multiple lines in the graph
 var datagraftempprov = [];
 var datagraftimestamptempprov = [];	
+var datagraftimestamptempprovnotsliced = [];	
 var checktruefalsetempprov=true;
 function datamultieplegraftempprov(weatherdata,Prov_id){
-	console.log(weatherdata);
+	
 	var datagraftempprov = [];
 	var valuegraph = "avgprovairtemp"
 	var Prov_id = Prov_id;
 	if (checktruefalsetempprov){
 		for(var i = 0; i < weatherdata.length; i++){
 			datagraftempprov.push(weatherdata[i].air_temperature);
-			
-		if(checktruefalsetempprov){
 			datagraftimestamptempprov.push(weatherdata[i].timestamp.slice(2,10));
-		}
+			datagraftimestamptempprovnotsliced.push(weatherdata[i].timestamp);
 		}
 	}else{
-
-		//stationnamelist.indexOf(stationame)
-		//datagraftimestamptempprov.indexOf(weatherdata[i].timestamp)
-		//var x = datagraftimestamptempprov.indexOf(weatherdata[i].timestamp)
-		//datagraftempprov.push(weatherdata[x].air_temperature);
-		//arr.insert(2, 'C');
 		for(var i = 0; i < weatherdata.length; i++){
-			var x = datagraftimestamptempprov.indexOf(weatherdata[i].timestamp)
-			datagraftempprov[x]=weatherdata[i].air_temperature;
+			var x = datagraftimestamptempprovnotsliced.indexOf(weatherdata[i].timestamp);
+			var lastx;
+			var offset;
+			if(x>=0){
+				datagraftempprov[x]=weatherdata[i].air_temperature;
+				lastx = x;
+				offset=0;
+			}
+			if(x==-1){
+				offset++;
+				datagraftempprov[lastx+offset]=weatherdata[i].air_temperature;
+			}
 			//datagraftempprov.push(weatherdata[i].air_temperature);
 		}
 	} 
-	
-	console.log(datagraftimestamptempprov);
+	//console.log(datagraftempprov);
 	checktruefalsetempprov=false;
 	generatedata(valuegraph,datagraftempprov,Prov_id)
 
@@ -433,7 +435,7 @@ else{
 	}
 	if (value=="avgprovairtemp"){
 		datagraftempprov.push(dataFirst);
-		console.log("value: ",datagraftempprov)
+		
 	}
 }
 
@@ -646,6 +648,8 @@ function cleararrays(){
 	currentdatatemp = [];
 	datagrafwindspeed = [];
 	datagraftimestampwindspeed = [];
+	currentairtempprov = [];
+	currentroadtempprov = [];
 	datagrafhum = [];
 	datagraftimestamphum = [];	
 	datagrafair = [];
@@ -659,6 +663,10 @@ function cleararrays(){
 	checktruefalseair=true;
 	checktruefalsehum=true;
 	checktruefalsewind=true;
+	datagraftempprov = [];
+    datagraftimestamptempprov = [];	
+	datagraftimestamptempprovnotsliced = [];
+	checktruefalsetempprov=true;
 }
 
 

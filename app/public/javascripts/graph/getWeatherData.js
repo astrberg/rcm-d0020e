@@ -26,9 +26,9 @@ async function getlatest(station_id,station_name) {
     });	
 }
 async function getAverageTempProvince(counties, start_time, stop_time) {	
-	console.log(counties,start_time,stop_time)	
 	await $.getJSON("/api/getAverageTempProvince", {counties, start_time, stop_time}, function(AverageTempProvinceData) {
-		console.log(AverageTempProvinceData);
+		console.log("VALUES IN GETWEATHERDATA",AverageTempProvinceData)
+		//console.log(chosenCounties)
 		var max=[];
 		var imax=0;
 		for(var i=0;i<chosenCounties.length;i++){
@@ -39,7 +39,7 @@ async function getAverageTempProvince(counties, start_time, stop_time) {
 			
 			//databarchartcurrentprovroad(AverageTempProvinceData[i],chosenCounties[i]);
 		}
-		datamultieplegraftempprov(AverageTempProvinceData[imax],chosenCounties[i]);
+		datamultieplegraftempprov(AverageTempProvinceData[imax],chosenCounties[imax]);
 
 		for(var i=0;i<chosenCounties.length;i++){
 			if (i!=imax){
