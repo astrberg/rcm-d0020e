@@ -25,10 +25,29 @@ async function getlatest(station_id,station_name) {
 		}
     });	
 }
-async function getAverageTempProvince(counties, start_time, stop_time) {		
+async function getAverageTempProvince(counties, start_time, stop_time) {	
+	console.log(counties,start_time,stop_time)	
 	await $.getJSON("/api/getAverageTempProvince", {counties, start_time, stop_time}, function(AverageTempProvinceData) {
-	
-		console.log(AverageTempProvinceData)
+		console.log(AverageTempProvinceData);
+		var max=[];
+		var imax=0;
+		for(var i=0;i<chosenCounties.length;i++){
+			if (AverageTempProvinceData[i].length>max){
+				max=AverageTempProvinceData[i].length;
+				imax=i
+			}
+			
+			//databarchartcurrentprovroad(AverageTempProvinceData[i],chosenCounties[i]);
+		}
+		datamultieplegraftempprov(AverageTempProvinceData[imax],chosenCounties[i]);
+
+		for(var i=0;i<chosenCounties.length;i++){
+			if (i!=imax){
+				datamultieplegraftempprov(AverageTempProvinceData[i],chosenCounties[i]);
+			}
+			
+			//databarchartcurrentprovroad(AverageTempProvinceData[i],chosenCounties[i]);
+		}
     });	
 }
 //get latst avg county data

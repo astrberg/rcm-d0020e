@@ -255,6 +255,45 @@ function currenthumgraph(weatherdata){
 	});
 }
 
+//airtemp province avg
+//multiple lines in the graph
+var datagraftempprov = [];
+var datagraftimestamptempprov = [];	
+var checktruefalsetempprov=true;
+function datamultieplegraftempprov(weatherdata,Prov_id){
+	console.log(weatherdata);
+	var datagraftempprov = [];
+	var valuegraph = "avgprovairtemp"
+	var Prov_id = Prov_id;
+	if (checktruefalsetempprov){
+		for(var i = 0; i < weatherdata.length; i++){
+			datagraftempprov.push(weatherdata[i].air_temperature);
+			
+		if(checktruefalsetempprov){
+			datagraftimestamptempprov.push(weatherdata[i].timestamp.slice(2,10));
+		}
+		}
+	}else{
+
+		//stationnamelist.indexOf(stationame)
+		//datagraftimestamptempprov.indexOf(weatherdata[i].timestamp)
+		//var x = datagraftimestamptempprov.indexOf(weatherdata[i].timestamp)
+		//datagraftempprov.push(weatherdata[x].air_temperature);
+		//arr.insert(2, 'C');
+		for(var i = 0; i < weatherdata.length; i++){
+			var x = datagraftimestamptempprov.indexOf(weatherdata[i].timestamp)
+			datagraftempprov[x]=weatherdata[i].air_temperature;
+			//datagraftempprov.push(weatherdata[i].air_temperature);
+		}
+	} 
+	
+	console.log(datagraftimestamptempprov);
+	checktruefalsetempprov=false;
+	generatedata(valuegraph,datagraftempprov,Prov_id)
+
+}
+
+
 
 //wind_speed
 //multiple lines in the graph
@@ -274,6 +313,7 @@ function datamultieplegrafwinspeed(weatherdata,station_name){
 	checktruefalsewind=false;
 	generatedata(valuegraph,datagrafwindspeed,stationame)
 }
+
 
 //humidity
 //multiple lines in the graph
@@ -391,6 +431,51 @@ else{
 	if(value=="windspeed"){
 		datagrafwindspeed.push(dataFirst);
 	}
+	if (value=="avgprovairtemp"){
+		datagraftempprov.push(dataFirst);
+		console.log("value: ",datagraftempprov)
+	}
+}
+
+
+var lineChartptovair = null;
+//function to create prov air temp avg graph
+function roadtempprov(){
+if(lineChartptovair!=null){
+	lineChartptovair.destroy();
+}
+
+var speedCanvas = document.getElementById("myChart11");
+Chart.defaults.global.defaultFontFamily = "Lato";
+Chart.defaults.global.defaultFontSize = 18;
+
+
+var speedData = {
+  labels: datagraftimestamptempprov,
+  datasets: datagraftempprov
+};
+
+var chartOptions = {
+    title:{
+	display:true,
+	text: "Vägtemperatur medel län",
+  legend: {
+    display: true,
+    position: 'top',
+    labels: {
+      boxWidth: 80,
+      fontColor: 'black'
+    }
+}
+  }
+};
+
+lineChartptovair = new Chart(speedCanvas, {
+  type: 'line',
+  data: speedData,
+  options: chartOptions
+});
+lineChartptovair.update();
 }
 
 var lineChart1 = null;

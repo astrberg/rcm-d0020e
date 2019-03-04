@@ -136,10 +136,16 @@
  <button id="Canvashidebutton" type="button" onclick="hideelements('type9','current_temp_prov')">X</button> 
   <canvas id="myChart9"></canvas>
 </div>
+
 <div id="type10">
- <button id="Canvashidebutton" type="button" onclick="hideelements('type10','current_road_prov')">X</button> 
-  <canvas id="myChart10"></canvas>
-</div>
+  <button id="Canvashidebutton" type="button" onclick="hideelements('type10','current_road_prov')">X</button> 
+   <canvas id="myChart10"></canvas>
+ </div>
+
+ <div id="type11">
+  <button id="Canvashidebutton" type="button" onclick="hideelements('type11','current_road_prov')">X</button> 
+   <canvas id="myChart11"></canvas>
+ </div>
 
  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
  <script src="javascripts/map/stations.js"></script>
@@ -158,8 +164,11 @@ for(var i=0;i<thechosendata.length;i++){
 }
 //?????
 var latestWeatherData = window.opener.latestWeatherData;
-
+var chosenintcounties=[]
 var chosenCounties = window.opener.chosenCounties;
+for (var i=0; i<chosenCounties.length;i++){
+  chosenintcounties.push(parseInt(chosenCounties[i]));
+}
 
 document.getElementById("myRange1").max = Math.floor(Date.now() / 1000);
 document.getElementById("myRange2").max = Math.floor(Date.now() / 1000);
@@ -168,7 +177,7 @@ document.getElementById("myRange2").max = Math.floor(Date.now() / 1000);
 var currentDate = new Date();
 
 var starttime='2019-01-20 13:12:12';
-var stoptime='2019-01-23 13:23:20';
+var stoptime='2019-01-21 13:23:20';
 
 
 async function rungraphs(starttime, stoptime){
@@ -212,7 +221,8 @@ async function rungraphs(starttime, stoptime){
     //functioncalls to get data
     await getWeatherData(stationsarrayid,starttime,stoptime,stationname);
     await getlatest(stationsarrayid,stationname);
-    await getAverageTempProvince(chosenCounties,starttime,stoptime);
+    console.log(chosenintcounties);
+    await getAverageTempProvince(chosenintcounties,starttime,stoptime);
     await getLatestAvgCountyWeatherData(chosenCounties);
 	
 	//functions to draw graphs
@@ -230,7 +240,9 @@ async function rungraphs(starttime, stoptime){
 
 	await currenthumgraph();
 
-	await currentwindspeedgraph();
+  await currentwindspeedgraph();
+
+  await roadtempprov()
 
 	await currentairtempgraphprov();
 
