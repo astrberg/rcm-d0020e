@@ -5,6 +5,36 @@ body {
    font-family: Helvetica, Arial, sans-serif; 
 
 }
+#jumtotop{
+  display:none;
+  position:fixed;
+  bottom:20px;
+  left: 45%;
+  height: 22px;
+  width:175px;
+  background-color:#008CBA;
+  color: white;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration:none; 
+}
+#jumtotop:hover{
+  background-color: #4CAF50;
+  cursor: pointer;
+}
+#jumper{
+  margin-left:5px;
+  float:right;
+  height: 10px;
+  width:65px;
+  padding-top:2px;
+  background-color:#008CBA;
+  color: white;
+}
+#jumper:hover{
+  background-color: #4CAF50;
+  cursor: pointer;
+}
 #slideroptions{ 
   background-color: #E0E0E0; 
 }
@@ -52,6 +82,7 @@ canvas{
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
+  border-radius: 5px;
 }
 #ButtonTimeIntervall:hover {
   background-color: #4CAF50;
@@ -70,6 +101,7 @@ canvas{
   text-decoration: none;
   display:" inline-block";
   font-size: 16px;
+  border-radius: 5px;
 }
 #Canvashidebutton:hover {
   cursor: pointer;
@@ -82,6 +114,7 @@ padding: 5px;
 
 #starttime{
 display: inline-block;
+padding-left:3px;
 }
 
 #stoptime{
@@ -99,6 +132,7 @@ display: inline-block;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  border-bottom: 2px solid#B0B0B0
 }
 
 .container input {

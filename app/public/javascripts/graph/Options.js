@@ -269,3 +269,14 @@ document.getElementById('timeinput241').value =d1.getHours();
 document.getElementById('timeinput242').value =d1.getMinutes();
 
 }
+
+//function to see when we scroll and show go top top button
+window.onscroll = function(){scrollFunction()};
+
+function scrollFunction(){
+    if(document.body.scrollTop > 250 || document.documentElement.scrollTop > 250){
+        document.getElementById("jumtotop").style.display="block"
+    }else{
+        document.getElementById("jumtotop").style.display="none"
+    }
+}

@@ -7,7 +7,7 @@
 
   </head>
   <body>
-
+<div id="options">
 <ul>
   <li><a href="/">Hem/kartan</a></li>
   <li class="dropdown">
@@ -17,59 +17,70 @@
  <label id="prov4" class="container">Lufttemperatur
   <input type="checkbox"  checked="checked" id="airtemp">
   <span class="checkmark"></span>
+  <a id="jumper" href="#type1">Hoppa</a>
 </label>
-
 <label id="prov5" class="container">Vägtemperatur
   <input type="checkbox"  checked="checked" id="Road_temp">
   <span class="checkmark"></span>
+  <a id="jumper" href="#type2">Hoppa</a>
 </label>
 
 <label id="prov6" class="container">Luftfuktighet
   <input type="checkbox"  checked="checked" id="Air_humidity">
   <span class="checkmark"></span>
+  <a id="jumper" href="#type3">Hoppa</a>
 </label>
 
 <label id="prov7" class="container">Vindhastighet
   <input type="checkbox"  checked="checked" id="Wind_speed">
   <span class="checkmark"></span>
+  <a id="jumper" href="#type4">Hoppa</a>
 </label> 
 
 <label id="prov8" class="container">Nuvarande lufttemperatur
   <input type="checkbox" checked="checked" id="current_temp">
   <span class="checkmark"></span>
+  <a id="jumper" href="#type5">Hoppa</a>
 </label> 
 <label id="prov12" class="container">Nuvarande daggpunkt
   <input type="checkbox" checked="checked" id="daggpunkt">
   <span class="checkmark"></span>
+  <a id="jumper" href="#type12">Hoppa</a>
 </label> 
 <label id="prov9" class="container">Nuvarande vägtemperatur
   <input type="checkbox" checked="checked" id="current_road_temp">
   <span class="checkmark"></span>
+  <a id="jumper" href="#type6">Hoppa</a>
 </label> 
 
 <label id="prov10" class="container">Nuvarande luftfuktighet
   <input type="checkbox" checked="checked" id="current_hum">
   <span class="checkmark"></span>
+  <a id="jumper" href="#type7">Hoppa</a>
 </label> 
 
 <label id="prov11" class="container">Nuvarande vindhastighet
   <input type="checkbox" checked="checked" id="current_windspeed">
   <span class="checkmark"></span>
+  <a id="jumper"  href="#type8">Hoppa</a>
 </label> 
 
 <label id="prov1" class="container">Nuvarande medellufttemperatur län
   <input type="checkbox" checked="checked" id="current_temp_prov">
   <span class="checkmark"></span>
+  <a id="jumper" href="#type9">Hoppa</a>
 </label> 
 
 <label id="prov2" class="container">Nuvarande medelvägtemperatur län
   <input type="checkbox" checked="checked" id="current_road_prov">
   <span class="checkmark"></span>
+  <a id="jumper" href="#type10">Hoppa</a>
 </label> 
 
 <label id="prov3" class="container">Nuvarande medellufttemperatur över tid län
   <input type="checkbox" checked="checked" id="overtime_road_prov">
   <span class="checkmark"></span>
+  <a id="jumper" href="#type11">Hoppa</a>
 </label> 
 </div>
     </div>
@@ -106,7 +117,8 @@
 </div>
 </div>
 <button id="ButtonTimeIntervall" type="button" onclick="rungraphs(starttime,stoptime)">Time intervall</button> 
-
+</div>
+<a id="jumtotop" href="#options">HOPPA TILL TOPPEN</a>
 
 <div id="type1">
   <button class="hidebut" id="Canvashidebutton" type="button" onclick="hideelements('type1','airtemp')">X</button> 
