@@ -13,7 +13,7 @@ var noColor = false;
  */
 var swedenRoads = 'http://{s}.tile.openstreetmap.se/osm/{z}/{x}/{y}.png';
 var roadTileLayer = L.TileLayer.boundaryCanvas(swedenRoads, {
-    maxZoom: 9,
+    maxZoom: 15,
     minZoom: 5,
     maxBoundsViscosity: 1.0,
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
@@ -25,7 +25,7 @@ var roadTileLayer = L.TileLayer.boundaryCanvas(swedenRoads, {
 
 var mapboxURL = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiYnVnbWFuYSIsImEiOiJjanJhbXVqbmowcmQzNDRuMHZhdzNxbjkxIn0.x1rFh-zIo8WfBRfpj2HsjA';
 var standardTileLayer = L.TileLayer.boundaryCanvas(mapboxURL, {
-    maxZoom: 9,
+    maxZoom: 15,
     minZoom: 5,
     maxBoundsViscosity: 1.0,
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
@@ -40,7 +40,7 @@ var standardTileLayer = L.TileLayer.boundaryCanvas(mapboxURL, {
 /**
  * Restrict the map movement
  */
-var southWest = L.latLng(54,9),
+var southWest = L.latLng(54,0),
     northEast = L.latLng(72, 32);
 var bounds = L.latLngBounds(southWest, northEast);
 map.setMaxBounds(bounds);
@@ -155,8 +155,6 @@ function createPopup(e) {
     '<tr> <td> Län: </td><td>' + countyNames[avg[0]] + '</td></tr>' + 
     '<tr> <td>Lufttemperatur: </td><td>' + avg[1].toFixed(1)+ '\xB0C' + '</td></tr>' +
     '<tr> <td>Vägtemperatur: </td><td>' + avg[2].toFixed(1)+ '\xB0C' + '</td></tr>' +
-    '<tr> <td>Luftfuktighet: </td><td></td></tr>' +
-    '<tr> <td>Vindhastighet: </td><td></td></tr>' +
     '</table>';
 
 
@@ -301,7 +299,7 @@ var mapChangingButton = L.easyButton({
                 btn.state('Roadmap');
                 stateChangingButton.state('Ta-bort-färgmarkering');
                 noColor = false;     
-                drawMap();
+                drawRoads();
             }
         }, {
             stateName: 'Roadmap',
@@ -311,7 +309,7 @@ var mapChangingButton = L.easyButton({
                 btn.state('Countymap');
                 stateChangingButton.state('Ta-bort-färgmarkering');
                 noColor = false;
-                drawRoads();
+                drawMap();
             }
     }]
 });

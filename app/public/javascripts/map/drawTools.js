@@ -68,7 +68,6 @@ map.addControl(drawControl);
 //Event for editing all drawn items, runs on "save"
 map.on(L.Draw.Event.EDITED, function (event) {
     var layers = event.layers;
-    
     layers.eachLayer(function (layer) {
         removeStationsOutsideDrawnItem();
     });
@@ -103,8 +102,6 @@ var drawnCircleLayers = [];
 map.on(L.Draw.Event.CREATED, function (event) {
     var layer = event.layer;
     var type = event.layerType;
-
-
     if(type == 'circle') {
         drawnCircleLayers.push(layer);
         getStationbyDrawCircle(layer);
@@ -173,13 +170,14 @@ function addMarked(layer_elem){
     var button = layer_elem._popup._content.lastChild;
     var station = stationByID(stationID);
     if(!markedStations.includes(layer_elem)) {
+        if(chosenCounties.length === 0 && chosenStations.length === 0){
+            showStationBar();
+        }
         markedStations.push(layer_elem);
         addStation(station, layer_elem, button);
-        showStationBar();
-
     } else {
         console.log("Station is already chosen");
-        showStationBar();
+        //showStationBar();
     }    
 }
 //Gets the circleCenter and Radius of a drawn circle, if it contains any markers, add them to markedStations and chosenStations

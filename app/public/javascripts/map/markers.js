@@ -1,11 +1,11 @@
 
 var icon = L.divIcon({
-    className: 'fas fa-map-pin fa-1x',
+    className: 'fas fa-map-pin fa-2x',
     iconAnchor: [12, 24],
     popupAnchor: [-5, -25],
 });
 var selectedIcon = L.divIcon({
-    className: 'fas fa-map-pin fa-2x',
+    className: 'fas fa-map-pin fa-3x',
     iconAnchor: [15, 34],
     popupAnchor: [-5, -35]
 });
@@ -14,8 +14,9 @@ var selectedIcon = L.divIcon({
 function addMarkerOnZoom(group){
     for(var i = 0; i <= group; i++){
         if(!map.hasLayer(layerGroups[i])){
-            map.addLayer(layerGroups[i]);
-        
+            if(map.getZoom() < 10){
+                map.addLayer(layerGroups[i]);
+            }
         }
     }
 }
@@ -23,8 +24,9 @@ function addMarkerOnZoom(group){
 function removeMarkerOnZoom(group){
     for(var i = 9; i > group; i--){
         if(map.hasLayer(layerGroups[i])){
-            map.removeLayer(layerGroups[i]);
-        
+            if(map.getZoom() < 10){
+                map.removeLayer(layerGroups[i]);
+            }
         }
     }
     
@@ -37,7 +39,8 @@ var layerGroups = [];
 var timer = Date.now();
 
 function addStationToLayer(station, layerNumber){
-    var marker = L.marker([station.lon, station.lat]);
+    const id = "marker"+station.id;
+    var marker = L.marker([station.lon, station.lat],{myCustomId: id});
     marker.setIcon(icon);
 
 
