@@ -24,7 +24,7 @@ function removeStation(station, marker, button){
 
     }
     // Toggle field
-    if(chosenStations.length === 0) {
+    if(chosenStations.length === 0 && chosenCounties.length === 0) {
         updateStationField();
         hideStationButton();
     } 
@@ -49,16 +49,22 @@ function removeAllStations() {
     $("#station-list .remove-button").click();
     chosenStations = [];
     chosenCounties = [];
-
+    markedStations = [];
+    for(let i = 0; i < drawnRectLayers.length; i++){
+        map.removeLayer(drawnRectLayers[i]);
+    }
+    for(let i = 0; i < drawnCircleLayers.length; i++){
+        map.removeLayer(drawnCircleLayers[i]);
+    }
 }
 // Checks if a station is added or removed from chosenStations array
 function handleChosenStations(station, marker, button){
     // Toggle field
-    if(chosenStations.length === 0) {
-        showStationFieldButton();
-
-    }
+    
     if(!(chosenStations.find(x => x.id === station.id))) {
+        if(chosenStations.length === 0 && chosenCounties.length === 0) {
+            showStationBar();
+        }
         addStation(station, marker, button);
 
     } else {
@@ -81,14 +87,14 @@ function removeCounty(countyCode, button){
             chosenCounties.splice(i, 1);
         }
     }
-    if(chosenCounties.length === 0) {
+    if(chosenCounties.length === 0 && chosenStations.length === 0) {
         updateStationField();
         hideStationButton();
     } 
 }
 
 function addChosenCounty(countyCode, coords, button){
-    if(chosenCounties.length == 0) {
+    if(chosenCounties.length == 0 && chosenStations == 0) {
         showStationBar();
     }
     button.innerText = "Ta bort";

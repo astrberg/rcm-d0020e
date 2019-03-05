@@ -29,17 +29,52 @@ $("#suggestion-field").mouseenter( function(){
 
 
 
-$("#suggestion-field").on("click", ".suggestion-box", function(){
-    // get the index saved as id
-    index = $(this).attr("id");
+// $("#suggestion-field").on("click", ".suggestion-box", function(){
+//     // get the index saved as id
+//     index = $(this).attr("id");
 
-    zoomToStation(stationsData[index]);
-});
+//     zoomToStation(stationsData[index]);
+// });
 
-function getSuggestionBox(name, index){
-    let suggestionBox = `<div class="suggestion-box" id="${index}"> 
-                            <div>${name}</div>
-                        </div>`;
+function getSuggestionBox(station, index){
+    let suggestionBox = document.createElement('div');
+    suggestionBox.className = "suggestion-box";
+    suggestionBox.id = index;
+    let name = document.createElement('div');
+    name.innerHTML = station.name;
+    name.style = 'text-align: center; font-size: 2em;';
+    suggestionBox.appendChild(name);
+    const addButton = document.createElement('button');
+    addButton.className = 'add-button';
+    addButton.style = " width: 45%; margin-right: 5%;";
+    addButton.innerHTML = "Lägg till";
+    addButton.addEventListener('click',function(){
+        for(var i = 0; i < layerGroups.length; i++) {
+            let layer_group = layerGroups[i]; 
+            layer_group.eachLayer(function(layer_elem){
+                if(layer_elem instanceof L.Marker){
+                    const id = "marker"+station.id;
+                    if(layer_elem.options.myCustomId == id){
+                        console.log("YEEESS!!!");
+                        handleChosenStations(station, layer_elem, addButton);
+                    }
+                }
+            });
+        }
+    });
+    suggestionBox.appendChild(addButton);
+    const zoomButton = document.createElement('button');
+    zoomButton.className = 'button';
+    zoomButton.style = "width: 45%;";
+    zoomButton.innerHTML = "Gå till station";
+    zoomButton.addEventListener('click',function(){
+        zoomToStation(stationsData[index]);
+    });
+    suggestionBox.appendChild(zoomButton);
+    // let suggestionBox = `<div class="suggestion-box" id="${index}"> 
+    //                         <div>${name}</div>
+    //                         <button></button>
+    //                     </div>`;
     return suggestionBox;
 } 
 
@@ -57,7 +92,7 @@ function searchbarHandler(){
     // append the suggestionfield with the station name and the index in the stationData list
     for(var i = 0; i < foundStations.length; i++){
         
-        suggestionField.append(getSuggestionBox(foundStations[i][0].name, foundStations[i][1]));
+        suggestionField.append(getSuggestionBox(foundStations[i][0], foundStations[i][1]));
     }
 }
 
