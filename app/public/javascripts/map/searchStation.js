@@ -40,14 +40,23 @@ function getSuggestionBox(station, index){
     let suggestionBox = document.createElement('div');
     suggestionBox.className = "suggestion-box";
     suggestionBox.id = index;
+
     let name = document.createElement('div');
     name.innerHTML = station.name;
     name.style = 'text-align: center; font-size: 2em;';
     suggestionBox.appendChild(name);
+
     const addButton = document.createElement('button');
-    addButton.className = 'add-button';
     addButton.style = " width: 45%; margin-right: 5%;";
-    addButton.innerHTML = "Lägg till";
+    
+    if(chosenStations.includes(station)){
+        addButton.className = 'remove-button';
+        addButton.innerHTML = "Ta bort";
+    }else{
+        addButton.className = 'add-button';
+        addButton.innerHTML = "Lägg till";
+    }
+    
     addButton.addEventListener('click',function(){
         for(var i = 0; i < layerGroups.length; i++) {
             let layer_group = layerGroups[i]; 
@@ -55,7 +64,6 @@ function getSuggestionBox(station, index){
                 if(layer_elem instanceof L.Marker){
                     const id = "marker"+station.id;
                     if(layer_elem.options.myCustomId == id){
-                        console.log("YEEESS!!!");
                         handleChosenStations(station, layer_elem, addButton);
                     }
                 }
@@ -63,6 +71,7 @@ function getSuggestionBox(station, index){
         }
     });
     suggestionBox.appendChild(addButton);
+
     const zoomButton = document.createElement('button');
     zoomButton.className = 'button';
     zoomButton.style = "width: 45%;";
@@ -71,10 +80,7 @@ function getSuggestionBox(station, index){
         zoomToStation(stationsData[index]);
     });
     suggestionBox.appendChild(zoomButton);
-    // let suggestionBox = `<div class="suggestion-box" id="${index}"> 
-    //                         <div>${name}</div>
-    //                         <button></button>
-    //                     </div>`;
+
     return suggestionBox;
 } 
 
