@@ -105,7 +105,9 @@ module.exports = {
             // var sql = "SELECT * FROM weather_data WHERE station_id = ? AND timestamp BETWEEN ? AND ?";
             // "select w.air_temperature, s.county_number from weather_data as w, station_data as s where w.station_id = s.id and s.county_number = 25;"
             // "select w.air_temperature, w.timestamp from weather_data as w where w.station_id in (select s.id from station_data as s where county_number = 25);"
-            var sql = "select w.air_temperature, w.timestamp from weather_data as w where w.station_id in (select s.id from station_data as s where county_number = ?) and w.timestamp between ? and ? order by w.timestamp asc";
+            var sql = `select w.air_temperature, w.timestamp from weather_data as w where w.station_id in 
+                        (select s.id from station_data as s where county_number = ?) 
+                        and w.timestamp between ? and ? order by w.timestamp asc`;
             
             let weather_data = [];
 
