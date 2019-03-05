@@ -3,6 +3,7 @@ var stationsData = [];
 var chosenCounties = [];
 var latestWeatherData = [];
 
+let warningFlag = true;
 
 async function getStations() {
     await $.getJSON("/api/getStationData", function(stations) {
@@ -41,14 +42,19 @@ function addStation(station, marker, button){
     addStationBox(station, marker, button);
     // Add to chosenstation array to be used by graph
     chosenStations.push(station);
+
+    if((chosenStations.length + chosenCounties.length > 10) && warningFlag){
+        warningFlag = false;
+        alert("Varning, många stationer har valts. Detta kan göra graferna otydliga.");
+    }
     
 }
-
 
 function removeAllStations() {
     $("#station-list .remove-button").click();
     chosenStations = [];
     chosenCounties = [];
+    warningFlag = true;
 
 }
 // Checks if a station is added or removed from chosenStations array
