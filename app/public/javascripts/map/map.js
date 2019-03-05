@@ -40,7 +40,7 @@ var standardTileLayer = L.TileLayer.boundaryCanvas(mapboxURL, {
 /**
  * Restrict the map movement
  */
-var southWest = L.latLng(54,9),
+var southWest = L.latLng(54,0),
     northEast = L.latLng(72, 32);
 var bounds = L.latLngBounds(southWest, northEast);
 map.setMaxBounds(bounds);
@@ -155,8 +155,6 @@ function createPopup(e) {
     '<tr> <td> Län: </td><td>' + countyNames[avg[0]] + '</td></tr>' + 
     '<tr> <td>Lufttemperatur: </td><td>' + avg[1].toFixed(1)+ '\xB0C' + '</td></tr>' +
     '<tr> <td>Vägtemperatur: </td><td>' + avg[2].toFixed(1)+ '\xB0C' + '</td></tr>' +
-    '<tr> <td>Luftfuktighet: </td><td></td></tr>' +
-    '<tr> <td>Vindhastighet: </td><td></td></tr>' +
     '</table>';
 
 
