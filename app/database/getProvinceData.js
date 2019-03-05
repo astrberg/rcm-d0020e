@@ -105,9 +105,13 @@ module.exports = {
             // var sql = "SELECT * FROM weather_data WHERE station_id = ? AND timestamp BETWEEN ? AND ?";
             // "select w.air_temperature, s.county_number from weather_data as w, station_data as s where w.station_id = s.id and s.county_number = 25;"
             // "select w.air_temperature, w.timestamp from weather_data as w where w.station_id in (select s.id from station_data as s where county_number = 25);"
+
+           // var sql = "select w.air_temperature, w.timestamp, w.road_temperature, w.air_humidity,w.wind_speed from weather_data as w where w.station_id in (select s.id from station_data as s where county_number = ?) and w.timestamp between ? and ? order by w.timestamp asc";
+
             var sql = `select w.air_temperature, w.timestamp from weather_data as w where w.station_id in 
                         (select s.id from station_data as s where county_number = ?) 
                         and w.timestamp between ? and ? order by w.timestamp asc`;
+
             
             let weather_data = [];
 
@@ -129,28 +133,49 @@ module.exports = {
                     
                     let i = 0;
                     
-                    let avg_temp = 0;
+                    let avg_air_temp = 0;
+                    let avg_road_temp = 0;
+                    let avg_wind_speed = 0;
+                    let avg_air_humid = 0;
                     let count = 0;
 
                     let calculated_avg = [];
 
                     for(let n = 0; n < results.length; n++){
 
-                        avg_temp += results[n].air_temperature;
+                        avg_air_temp += results[n].air_temperature;
+                        avg_road_temp += results[n].road_temperature;
+                        avg_wind_speed += results[n].wind_speed;
+                        avg_air_humid += results[n].air_humidity;
+
                         count++;
 
                        
                         if(n >= results.length-1){
-                            calculated_avg.push({air_temperature: avg_temp/count, timestamp: results[n].timestamp});
+                            calculated_avg.push({air_temperature: avg_air_temp/count, 
+                                                timestamp: results[n].timestamp,
+                                                road_temperature: avg_road_temp/count,
+                                                wind_speed: avg_wind_speed/count,
+                                                air_humidity: avg_air_humid/count});
 
                             count = 0;
-                            avg_temp = 0;
+                            avg_air_temp = 0;
+                            avg_road_temp = 0;
+                            avg_wind_speed = 0;
+                            avg_air_humid = 0;
 
                         }else if(results[n].timestamp.getTime() !== results[n+1].timestamp.getTime()){
-                            calculated_avg.push({air_temperature: avg_temp/count, timestamp: results[n].timestamp});
+                            calculated_avg.push({air_temperature: avg_air_temp/count, 
+                                                timestamp: results[n].timestamp,
+                                                road_temperature: avg_road_temp/count,
+                                                wind_speed: avg_wind_speed/count,
+                                                air_humidity: avg_air_humid/count});
 
                             count = 0;
-                            avg_temp = 0;
+                            avg_air_temp = 0;
+                            avg_road_temp = 0;
+                            avg_wind_speed = 0;
+                            avg_air_humid = 0;
                         }
 
                     }

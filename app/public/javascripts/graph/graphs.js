@@ -35,11 +35,70 @@ function graf2(){
 
 	myChart.update();
 }
+//generatedataforcurrprov
+function databarchartcurrentprovair(temp,id){
+	var typeofgraph = "current_air_temp_county";
+	var stationame = id;
+	var datatempvar= temp;
+	generatedataforbar(typeofgraph,datatempvar,stationame);
+}
+var chart10 = null;
+function currentairtempgraphprov(weatherdata){
+	if(chart10!=null){
+		chart10.destroy();
+	}
+	var ctx = document.getElementById('myChart9').getContext('2d');
+	chart10 = new Chart(ctx, {
+	    type: 'bar',
+	    data: {
+		//labels: stations,
+		datasets: currentairtempprov
+	    },
+
 	
+	    options: {
+			title:{
+	display:true,
+	text: "Nuvarande medeltemperatur luft län"}
+	}
+	});
+}
+//generatedataforcurrprov
+function databarchartcurrentprovroad(temp,id){
+	var typeofgraph = "current_road_temp_county";
+	var stationame = id;
+	var datatempvar= temp;
+	generatedataforbar(typeofgraph,datatempvar,stationame);
+}
+var chart11 = null;
+function currentroadtempgraphprov(weatherdata){
+	if(chart11!=null){
+		chart11.destroy();
+	}
+	var ctx = document.getElementById('myChart10').getContext('2d');
+	chart11 = new Chart(ctx, {
+	    type: 'bar',
+	    data: {
+		//labels: stations,
+		datasets: currentroadtempprov
+	    },
+
+	
+	    options: {
+			title:{
+	display:true,
+	text: "Nuvarande medeltemperatur väg län"}
+	}
+	});
+}
+
+var currentdaggpunkt = [];
 var currentdatawind = [];
 var currentdatatemp = [];
 var currentroadtemp = [];
 var currentairhum = [];
+var currentairtempprov = [];
+var currentroadtempprov = [];
 //Generats variables for the stations used as data for the current bar graphs. 
 function generatedataforbar(typeofgraph,datatempvar,stationame){
     var dataFirst = {
@@ -60,13 +119,54 @@ function generatedataforbar(typeofgraph,datatempvar,stationame){
 	if (typeofgraph=="current_windspeed"){
 		currentdatawind.push(dataFirst);
 	}
+	if (typeofgraph=="current_air_temp_county"){
+		currentairtempprov.push(dataFirst);
+	}
+	if (typeofgraph=="current_road_temp_county"){
+		currentroadtempprov.push(dataFirst);
+	}	
+	if (typeofgraph=="current_dagg_temp"){
+		currentdaggpunkt.push(dataFirst);
+	}
+
 
 }
+//current dagg temp
+function databarchartcurrentdagg(data,station_name){
+	var typeofgraph = "current_dagg_temp";
+	var stationame = station_name;
+	var datatempvar= data;
+	generatedataforbar(typeofgraph,datatempvar,stationame);
+}
+
+var chart15 = null;
+function currentdaggpunktfunc(weatherdata){
+	if(chart15!=null){
+		chart15.destroy();
+	}
+	var ctx = document.getElementById('myChart12').getContext('2d');
+	chart15 = new Chart(ctx, {
+	    type: 'bar',
+	    data: {
+		//labels: stations,
+		datasets: currentdaggpunkt
+	    },
+
+	    options: {
+			title:{
+	display:true,
+	text: "Nuvarande daggpunkt(nuvarande temp>=0)"}
+	}
+	});
+}
+
+
 //current data air temp
 function databarchartcurrent(weatherdata,station_name){
 	var typeofgraph = "current_air";
 	var stationame = station_name;
-	var datatempvar= weatherdata.air_temperature;
+	var datatempvar= weatherdata[0].air_temperature;
+        //var datatempvar= weatherdata.air_temperature;
 	generatedataforbar(typeofgraph,datatempvar,stationame);
 }
 
@@ -96,7 +196,8 @@ function currenttempgraph(weatherdata){
 function databarchartwindcurrent(weatherdata,station_name){
 	var typeofgraph = "current_windspeed";
 	var stationame = station_name;
-	var datatempvar= weatherdata.wind_speed;
+	var datatempvar= weatherdata[0].wind_speed;
+	//var datatempvar= weatherdata.wind_speed;
 	generatedataforbar(typeofgraph,datatempvar,stationame);
 }
 
@@ -128,7 +229,8 @@ function currentwindspeedgraph(weatherdata){
 function databarchartroadcurrent(weatherdata,station_name){
 	var typeofgraph = "current_road";
 	var stationame = station_name;
-	var datatempvar= weatherdata.road_temperature;
+	var datatempvar= weatherdata[0].road_temperature;
+	//var datatempvar= weatherdata.road_temperature;
 	generatedataforbar(typeofgraph,datatempvar,stationame);
 }
 
@@ -160,7 +262,8 @@ function currentroadtempgraph(weatherdata){
 function databarcharthumcurrent(weatherdata,station_name){
 	var typeofgraph = "current_hum";
 	var stationame = station_name;
-	var datatempvar= weatherdata.air_humidity;
+	var datatempvar= weatherdata[0].air_humidity;
+	//var datatempvar= weatherdata.air_humidity;
 	generatedataforbar(typeofgraph,datatempvar,stationame);
 }
 var chart2 = null;
@@ -185,38 +288,84 @@ function currenthumgraph(weatherdata){
 	});
 }
 
+//airtemp province avg
+//multiple lines in the graph
+var datagraftempprov = [];
+var datagraftimestamptempprov = [];	
+var datagraftimestamptempprovnotsliced = [];	
+var checktruefalsetempprov=true;
+function datamultieplegraftempprov(weatherdata,Prov_id){
+	
+	var datagraftempprov = [];
+	var valuegraph = "avgprovairtemp"
+	var Prov_id = Prov_id;
+	if (checktruefalsetempprov){
+		for(var i = 0; i < weatherdata.length; i++){
+			datagraftempprov.push(weatherdata[i].air_temperature);
+			datagraftimestamptempprov.push(weatherdata[i].timestamp.slice(2,10));
+			datagraftimestamptempprovnotsliced.push(weatherdata[i].timestamp);
+		}
+	}else{
+		for(var i = 0; i < weatherdata.length; i++){
+			var x = datagraftimestamptempprovnotsliced.indexOf(weatherdata[i].timestamp);
+			var lastx;
+			var offset;
+			if(x>=0){
+				datagraftempprov[x]=weatherdata[i].air_temperature;
+				lastx = x;
+				offset=0;
+			}
+			if(x==-1){
+				offset++;
+				datagraftempprov[lastx+offset]=weatherdata[i].air_temperature;
+			}
+			//datagraftempprov.push(weatherdata[i].air_temperature);
+		}
+	} 
+	//console.log(datagraftempprov);
+	checktruefalsetempprov=false;
+	generatedata(valuegraph,datagraftempprov,Prov_id)
+
+}
+
+
 
 //wind_speed
 //multiple lines in the graph
 var datagrafwindspeed = [];
 var datagraftimestampwindspeed = [];	
+var checktruefalsewind=true;
 function datamultieplegrafwinspeed(weatherdata,station_name){
 	var datagrafwindspeed = [];
 	var valuegraph = "windspeed"
 	var stationame = station_name;
 	for(var i = 0; i < weatherdata.length; i++){
 		datagrafwindspeed.push(weatherdata[i].wind_speed);
-	if(datagraftimestampwindspeed.length < weatherdata.length){
+	if(checktruefalsewind){
 		datagraftimestampwindspeed.push(weatherdata[i].timestamp.slice(2,10));
 	}
 	}
+	checktruefalsewind=false;
 	generatedata(valuegraph,datagrafwindspeed,stationame)
 }
+
 
 //humidity
 //multiple lines in the graph
 var datagrafhum = [];
 var datagraftimestamphum = [];	
+var checktruefalsehum=true;
 function datamultieplegrafhumidity(weatherdata,station_name){
 	var datagrafhum = [];
 	var valuegraph = "humidity"
 	var stationame = station_name;
 	for(var i = 0; i < weatherdata.length; i++){
 		datagrafhum.push(weatherdata[i].air_humidity);
-		if(datagraftimestamphum.length < weatherdata.length){
+		if(checktruefalsehum){
 		datagraftimestamphum.push(weatherdata[i].timestamp.slice(2,10));
 	}
 	}
+	checktruefalsehum=false;
 	generatedata(valuegraph,datagrafhum,stationame)
 }
 
@@ -225,34 +374,38 @@ function datamultieplegrafhumidity(weatherdata,station_name){
 //multiple lines in the graph
 var datagrafair = [];
 var datagraftimestampair = [];	
+var checktruefalseair=true;
 function datamultieplegrafair(weatherdata,station_name){
 	var datagrafairtemp = [];
 	var valuegraph = "airtemp"
 	var stationame = station_name;
 	for(var i = 0; i < weatherdata.length; i++){
 		datagrafairtemp.push(weatherdata[i].air_temperature);
-		if(datagraftimestampair.length < weatherdata.length){
+		if(checktruefalseair){
 		datagraftimestampair.push(weatherdata[i].timestamp.slice(2,10));
 	}
 	}
-	generatedata(valuegraph,datagrafairtemp,stationame)
+	checktruefalseair=false;
+	generatedata(valuegraph,datagrafairtemp,stationame);
 }
 
 
 //road_temp
 //multiple lines in the graph
 var data3graf3 = [];
-var datagraftimestamp = [];	
+var datagraftimestamp = [];
+var checktruefalse=true;	
 function datamultieplegraf(weatherdata,station_name){
 	var datagrafroadtemp = [];
 	var valuegraph = "roadtemp"
 	var stationame = station_name;
 	for(var i = 0; i < weatherdata.length; i++){
 		datagrafroadtemp.push(weatherdata[i].road_temperature);
-		if(datagraftimestamp.length < weatherdata.length){
+		if(checktruefalse){
 			datagraftimestamp.push(weatherdata[i].timestamp.slice(2,10));
 		}
 	}
+	checktruefalse=false;
 	generatedata(valuegraph, datagrafroadtemp,stationame)
 }
 
@@ -313,6 +466,51 @@ else{
 	if(value=="windspeed"){
 		datagrafwindspeed.push(dataFirst);
 	}
+	if (value=="avgprovairtemp"){
+		datagraftempprov.push(dataFirst);
+		
+	}
+}
+
+
+var lineChartptovair = null;
+//function to create prov air temp avg graph
+function roadtempprov(){
+if(lineChartptovair!=null){
+	lineChartptovair.destroy();
+}
+
+var speedCanvas = document.getElementById("myChart11");
+Chart.defaults.global.defaultFontFamily = "Lato";
+Chart.defaults.global.defaultFontSize = 18;
+
+
+var speedData = {
+  labels: datagraftimestamptempprov,
+  datasets: datagraftempprov
+};
+
+var chartOptions = {
+    title:{
+	display:true,
+	text: "Vägtemperatur medel län",
+  legend: {
+    display: true,
+    position: 'top',
+    labels: {
+      boxWidth: 80,
+      fontColor: 'black'
+    }
+}
+  }
+};
+
+lineChartptovair = new Chart(speedCanvas, {
+  type: 'line',
+  data: speedData,
+  options: chartOptions
+});
+lineChartptovair.update();
 }
 
 var lineChart1 = null;
@@ -477,12 +675,26 @@ lineChart4 = new Chart(speedCanvas, {
 lineChart4.update();
 }
 
+/*
+f/100 ^1/8  (112+0.9T)+0.1T -112
+*/
+function daggpunktfunc(){
+	var dagg;
+	for(var i=0;i<currentdatatemp.length;i++){
+		if(currentdatatemp[i].data[0]>=0){
+			dagg = Math.pow((currentairhum[i].data[0]/100), (1/8)) *(112+(0.9*currentdatatemp[i].data[0]))+(0.1*currentdatatemp[i].data[0])-112;
+			databarchartcurrentdagg(dagg,currentdatatemp[i].label);
+		}
+	}
+}
 
 //clear all the arrays
 function cleararrays(){
 	currentdatatemp = [];
 	datagrafwindspeed = [];
 	datagraftimestampwindspeed = [];
+	currentairtempprov = [];
+	currentroadtempprov = [];
 	datagrafhum = [];
 	datagraftimestamphum = [];	
 	datagrafair = [];
@@ -492,6 +704,15 @@ function cleararrays(){
  	currentroadtemp = [];
 	currentairhum = [];	
 	currentdatawind = [];
+	checktruefalse=true;
+	checktruefalseair=true;
+	checktruefalsehum=true;
+	checktruefalsewind=true;
+	datagraftempprov = [];
+    datagraftimestamptempprov = [];	
+	datagraftimestamptempprovnotsliced = [];
+	checktruefalsetempprov=true;
+	currentdaggpunkt = []
 }
 
 
