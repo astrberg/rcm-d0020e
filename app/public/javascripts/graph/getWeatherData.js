@@ -39,11 +39,11 @@ async function getAverageTempProvince(counties, start_time, stop_time) {
 			
 			//databarchartcurrentprovroad(AverageTempProvinceData[i],chosenCounties[i]);
 		}
-		datamultieplegraftempprov(AverageTempProvinceData[imax],chosenCounties[imax]);
+		datamultieplegraftempprov(AverageTempProvinceData[imax],countyNames[chosenCounties[imax]]);
 
 		for(var i=0;i<chosenCounties.length;i++){
 			if (i!=imax){
-				datamultieplegraftempprov(AverageTempProvinceData[i],chosenCounties[i]);
+				datamultieplegraftempprov(AverageTempProvinceData[i],countyNames[chosenCounties[i]]);
 			}
 			
 			//databarchartcurrentprovroad(AverageTempProvinceData[i],chosenCounties[i]);
@@ -55,8 +55,8 @@ async function getLatestAvgCountyWeatherData(chosenCounties){
       await $.getJSON('/api/getLatestAverageTempProvince', function(averageCountyWeather) {
           averageData = averageCountyWeather;
 	  for(var i=0;i<chosenCounties.length;i++){
-		databarchartcurrentprovair(averageData[chosenCounties[i]][1],chosenCounties[i]);
-		databarchartcurrentprovroad(averageData[chosenCounties[i]][2],chosenCounties[i]);
+		databarchartcurrentprovair(averageData[chosenCounties[i]][1],countyNames[chosenCounties[i]]);
+		databarchartcurrentprovroad(averageData[chosenCounties[i]][2],countyNames[chosenCounties[i]]);
 
 	}
       });
