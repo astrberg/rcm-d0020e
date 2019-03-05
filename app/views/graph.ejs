@@ -14,57 +14,60 @@
     <a href="javascript:void(0)" class="dropbtn">Grafalternativ</a>
     <div class="dropdown-content">
 <div id="Checkboxes">
- <label class="container">Lufttemperatur
+ <label id="prov4" class="container">Lufttemperatur
   <input type="checkbox"  checked="checked" id="airtemp">
   <span class="checkmark"></span>
 </label>
 
-<label class="container">Vägtemperatur
+<label id="prov5" class="container">Vägtemperatur
   <input type="checkbox"  checked="checked" id="Road_temp">
   <span class="checkmark"></span>
 </label>
 
-<label class="container">Luftfuktighet
+<label id="prov6" class="container">Luftfuktighet
   <input type="checkbox"  checked="checked" id="Air_humidity">
   <span class="checkmark"></span>
 </label>
 
-<label class="container">Vindhastighet
+<label id="prov7" class="container">Vindhastighet
   <input type="checkbox"  checked="checked" id="Wind_speed">
   <span class="checkmark"></span>
 </label> 
 
-<label class="container">Nuvarande lufttemperatur
+<label id="prov8" class="container">Nuvarande lufttemperatur
   <input type="checkbox" checked="checked" id="current_temp">
   <span class="checkmark"></span>
 </label> 
-
-<label class="container">Nuvarande vägtemperatur
+<label id="prov12" class="container">Nuvarande daggpunkt
+  <input type="checkbox" checked="checked" id="daggpunkt">
+  <span class="checkmark"></span>
+</label> 
+<label id="prov9" class="container">Nuvarande vägtemperatur
   <input type="checkbox" checked="checked" id="current_road_temp">
   <span class="checkmark"></span>
 </label> 
 
-<label class="container">Nuvarande luftfuktighet
+<label id="prov10" class="container">Nuvarande luftfuktighet
   <input type="checkbox" checked="checked" id="current_hum">
   <span class="checkmark"></span>
 </label> 
 
-<label class="container">Nuvarande vindhastighet
+<label id="prov11" class="container">Nuvarande vindhastighet
   <input type="checkbox" checked="checked" id="current_windspeed">
   <span class="checkmark"></span>
 </label> 
 
-<label class="container">Nuvarande medel lufttemperatur län
+<label id="prov1" class="container">Nuvarande medellufttemperatur län
   <input type="checkbox" checked="checked" id="current_temp_prov">
   <span class="checkmark"></span>
 </label> 
 
-<label class="container">Nuvarande medel vägtemperatur län
+<label id="prov2" class="container">Nuvarande medelvägtemperatur län
   <input type="checkbox" checked="checked" id="current_road_prov">
   <span class="checkmark"></span>
 </label> 
 
-<label class="container">Nuvarande medel lufttemperatur över tid län
+<label id="prov3" class="container">Nuvarande medellufttemperatur över tid län
   <input type="checkbox" checked="checked" id="overtime_road_prov">
   <span class="checkmark"></span>
 </label> 
@@ -106,49 +109,53 @@
 
 
 <div id="type1">
-  <button id="Canvashidebutton" type="button" onclick="hideelements('type1','airtemp')">X</button> 
+  <button class="hidebut" id="Canvashidebutton" type="button" onclick="hideelements('type1','airtemp')">X</button> 
   <canvas id="myChart1"></canvas>
 </div>
 <div id="type2">
-  <button id="Canvashidebutton" type="button" onclick="hideelements('type2','Road_temp')">X</button> 
+  <button class="hidebut" id="Canvashidebutton" type="button" onclick="hideelements('type2','Road_temp')">X</button> 
   <canvas id="myChart2"></canvas>
 </div>
 <div id="type3">
-  <button id="Canvashidebutton" type="button" onclick="hideelements('type3','Air_humidity')">X</button> 
+  <button class="hidebut" id="Canvashidebutton" type="button" onclick="hideelements('type3','Air_humidity')">X</button> 
   <canvas id="myChart3"></canvas>
 </div>
 <div id="type4">
-  <button id="Canvashidebutton" type="button" onclick="hideelements('type4','Wind_speed')">X</button> 
+  <button class="hidebut" id="Canvashidebutton" type="button" onclick="hideelements('type4','Wind_speed')">X</button> 
   <canvas id="myChart4"></canvas>
 </div>
 <div id="type5">
-  <button id="Canvashidebutton" type="button" onclick="hideelements('type5','current_temp')">X</button> 
+  <button class="hidebut"  id="Canvashidebutton" type="button" onclick="hideelements('type5','current_temp')">X</button> 
   <canvas id="myChart5"></canvas>
 </div>
+<div id="type12">
+  <button class ="hidebut" id="Canvashidebutton" type="button" onclick="hideelements('type12','daggpunkt')">X</button> 
+   <canvas id="myChart12"></canvas>
+ </div>
 <div id="type6">
-  <button id="Canvashidebutton" type="button" onclick="hideelements('type6','current_road_temp')">X</button> 
+  <button class="hidebut"  id="Canvashidebutton" type="button" onclick="hideelements('type6','current_road_temp')">X</button> 
   <canvas id="myChart6"></canvas>
 </div>
 <div id="type7">
-  <button id="Canvashidebutton" type="button" onclick="hideelements('type7','current_hum')">X</button> 
+  <button class="hidebut" id="Canvashidebutton" type="button" onclick="hideelements('type7','current_hum')">X</button> 
   <canvas id="myChart7"></canvas>
 </div>
 <div id="type8">
- <button id="Canvashidebutton" type="button" onclick="hideelements('type8','current_windspeed')">X</button> 
+ <button class="hidebut" id="Canvashidebutton" type="button" onclick="hideelements('type8','current_windspeed')">X</button> 
   <canvas id="myChart8"></canvas>
 </div>
 <div id="type9">
- <button id="Canvashidebutton" type="button" onclick="hideelements('type9','current_temp_prov')">X</button> 
+ <button class ="province" id="Canvashidebutton" type="button" onclick="hideelements('type9','current_temp_prov')">X</button> 
   <canvas id="myChart9"></canvas>
 </div>
 
 <div id="type10">
-  <button id="Canvashidebutton" type="button" onclick="hideelements('type10','current_road_prov')">X</button> 
+  <button class ="province" id="Canvashidebutton" type="button" onclick="hideelements('type10','current_road_prov')">X</button> 
    <canvas id="myChart10"></canvas>
  </div>
 
  <div id="type11">
-  <button id="Canvashidebutton" type="button" onclick="hideelements('type11','overtime_road_prov')">X</button> 
+  <button class ="province" id="Canvashidebutton" type="button" onclick="hideelements('type11','overtime_road_prov')">X</button> 
    <canvas id="myChart11"></canvas>
  </div>
 
@@ -167,14 +174,29 @@ for(var i=0;i<thechosendata.length;i++){
 	stationsarrayid.push(thechosendata[i].id);
 	stationname.push(thechosendata[i].name);
 }
-//?????
+
 var latestWeatherData = window.opener.latestWeatherData;
 var chosenintcounties=[]
 var chosenCounties = window.opener.chosenCounties;
 for (var i=0; i<chosenCounties.length;i++){
   chosenintcounties.push(parseInt(chosenCounties[i]));
 }
-
+hide1("hidebut");
+hide1("province");
+if(stationsarrayid.length<=0){
+  for(var i =4;i<=11;i++){
+    hidebyid("prov"+i);
+  }
+  for(var y=1;y<9;y++){
+    hidebyid("type"+y);
+  }
+  hidebyid("type12");
+}
+if(chosenCounties.length<=0){
+  hidebyid("prov1");
+  hidebyid("prov2");
+  hidebyid("prov3");
+}
 document.getElementById("myRange1").max = Math.floor(Date.now() / 1000);
 document.getElementById("myRange2").max = Math.floor(Date.now() / 1000);
 
@@ -225,35 +247,51 @@ async function rungraphs(starttime, stoptime){
     
   const canvasclearvar11 = document.getElementById('myChart11').getContext('2d');
   canvasclearvar11.clearRect(0,0, document.getElementById('myChart11').width, document.getElementById('myChart11').height)
+
+  const canvasclearvar12 = document.getElementById('myChart12').getContext('2d');
+  canvasclearvar12.clearRect(0,0, document.getElementById('myChart12').width, document.getElementById('myChart12').height)
     //functioncalls to get data
-    await getWeatherData(stationsarrayid,starttime,stoptime,stationname);
-    await getlatest(stationsarrayid,stationname);
-    await getAverageTempProvince(chosenintcounties,starttime,stoptime);
-    await getLatestAvgCountyWeatherData(chosenCounties);
-	
-	//functions to draw graphs
-	await roadtemp();
+    
+    if(stationsarrayid.length>0){
+      await getWeatherData(stationsarrayid,starttime,stoptime,stationname);
+      await getlatest(stationsarrayid,stationname);
+    }
+    if(chosenintcounties.length>0){
+      await getAverageTempProvince(chosenintcounties,starttime,stoptime);
+      await getLatestAvgCountyWeatherData(chosenCounties);
+    }
 
-	await airtemp();
+    if(stationsarrayid.length>0){
+      	//functions to draw graphs
+      await roadtemp();
 
-	await humiditygraph();
+      await airtemp();
 
-	await windspeed();
+      await humiditygraph();
 
-	await currenttempgraph();
+      await windspeed();
 
-	await currentroadtempgraph();
+      await currenttempgraph();
 
-	await currenthumgraph();
+      await currentroadtempgraph();
 
-  await currentwindspeedgraph();
+      await currenthumgraph();
 
-  await roadtempprov()
+      await currentwindspeedgraph();
 
-	await currentairtempgraphprov();
+      await daggpunktfunc();
+      await currentdaggpunktfunc();
+      show1("hidebut");
+    }
 
-	await currentroadtempgraphprov();
+  if(chosenintcounties.length>0){
+    await roadtempprov()
 
+    await currentairtempgraphprov();
+
+    await currentroadtempgraphprov();
+    show1("province");
+  }
 }
 }
 
@@ -360,15 +398,40 @@ $(function () {
 		        
 		    }
   });
-  
+  $("#daggpunkt").click(function () {
+		    if ($(this).is(":checked")) {
+		        $("#type12").show();
+		      
+		    } else {
+		        $("#type12").hide();
+		        
+		    }
+  });
  });
 
+function hide1(classvar){
+  var appBanners = document.getElementsByClassName(classvar), i;
+for (var i = 0; i < appBanners.length; i ++) {
+    appBanners[i].style.display = 'none';
+}
+}
+
+function show1(classvar){
+  var appBanners = document.getElementsByClassName(classvar), i;
+for (var i = 0; i < appBanners.length; i ++) {
+    appBanners[i].style.display = 'block';
+}
+}
+
+function hidebyid(id){
+  var x = document.getElementById(id);
+  x.style.display = "none";
+}
 
 function hideelements(id,box){
   var x = document.getElementById(id);
   x.style.display = "none";
   document.getElementById(box).checked = false;
-
 }
 
 document.querySelectorAll('input[type=number]')

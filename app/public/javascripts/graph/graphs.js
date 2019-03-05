@@ -92,7 +92,7 @@ function currentroadtempgraphprov(weatherdata){
 	});
 }
 
-	
+var currentdaggpunkt = [];
 var currentdatawind = [];
 var currentdatatemp = [];
 var currentroadtemp = [];
@@ -124,10 +124,43 @@ function generatedataforbar(typeofgraph,datatempvar,stationame){
 	}
 	if (typeofgraph=="current_road_temp_county"){
 		currentroadtempprov.push(dataFirst);
+	}	
+	if (typeofgraph=="current_dagg_temp"){
+		currentdaggpunkt.push(dataFirst);
 	}
 
 
 }
+//current dagg temp
+function databarchartcurrentdagg(data,station_name){
+	var typeofgraph = "current_dagg_temp";
+	var stationame = station_name;
+	var datatempvar= data;
+	generatedataforbar(typeofgraph,datatempvar,stationame);
+}
+
+var chart15 = null;
+function currentdaggpunktfunc(weatherdata){
+	if(chart15!=null){
+		chart15.destroy();
+	}
+	var ctx = document.getElementById('myChart12').getContext('2d');
+	chart15 = new Chart(ctx, {
+	    type: 'bar',
+	    data: {
+		//labels: stations,
+		datasets: currentdaggpunkt
+	    },
+
+	    options: {
+			title:{
+	display:true,
+	text: "Nuvarande daggpunkt"}
+	}
+	});
+}
+
+
 //current data air temp
 function databarchartcurrent(weatherdata,station_name){
 	var typeofgraph = "current_air";
@@ -642,6 +675,18 @@ lineChart4 = new Chart(speedCanvas, {
 lineChart4.update();
 }
 
+/*
+f/100 ^1/8  (112+0.9T)+0.1T -112
+*/
+function daggpunktfunc(){
+	var dagg;
+	for(var i=0;i<currentdatatemp.length;i++){
+		if(currentdatatemp[i].data[0]>=0){
+			dagg = Math.pow((currentairhum[i].data[0]/100), (1/8)) *(112+(0.9*currentdatatemp[i].data[0]))+(0.1*currentdatatemp[i].data[0])-112;
+			databarchartcurrentdagg(dagg,currentdatatemp[i].label);
+		}
+	}
+}
 
 //clear all the arrays
 function cleararrays(){
@@ -667,6 +712,7 @@ function cleararrays(){
     datagraftimestamptempprov = [];	
 	datagraftimestamptempprovnotsliced = [];
 	checktruefalsetempprov=true;
+	currentdaggpunkt = []
 }
 
 
