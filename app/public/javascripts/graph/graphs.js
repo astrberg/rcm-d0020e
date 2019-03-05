@@ -155,7 +155,7 @@ function currentdaggpunktfunc(weatherdata){
 	    options: {
 			title:{
 	display:true,
-	text: "Nuvarande daggpunkt"}
+	text: "Nuvarande daggpunkt(nuvarande temp>=0)"}
 	}
 	});
 }

@@ -27,7 +27,7 @@ async function getlatest(station_id,station_name) {
 }
 async function getAverageTempProvince(counties, start_time, stop_time) {	
 	await $.getJSON("/api/getAverageTempProvince", {counties, start_time, stop_time}, function(AverageTempProvinceData) {
-		console.log("VALUES IN GETWEATHERDATA",AverageTempProvinceData)
+		//console.log("VALUES IN GETWEATHERDATA",AverageTempProvinceData)
 		//console.log(chosenCounties)
 		var max=[];
 		var imax=0;
