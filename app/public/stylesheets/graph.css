@@ -92,7 +92,7 @@ canvas{
 #Canvashidebutton{
   position: absolute;
   margin: 30px;
-  right: 0px;
+  right: 30px;
   background-color: red; 
   border: none;
   color: white;
