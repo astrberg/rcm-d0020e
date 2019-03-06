@@ -66,10 +66,10 @@ function addStationToLayer(station, layerNumber){
 
     layerGroups[layerNumber].addLayer(marker);    
     
-    marker.bindPopup('');
+    marker.bindPopup(addPopup(station,marker));
     marker.on('click', function(){
         if(marker.getPopup().isOpen()){
-            addPopup(station,this);
+            marker.getPopup().setContent(addPopup(station,marker));
             this.openPopup();
         }else{
             map.closePopup();

@@ -188,18 +188,20 @@ function getStationbyDrawRect(lat_lngs) {
  * @param {*} layer_elem a drawn figure.
  */
 function addMarked(layer_elem){
-    let stationID = layer_elem._popup._content.lastChild.id;
+    var stationID = layer_elem._popup._content.lastChild.id;
     const button = layer_elem._popup._content.lastChild;
     const station = stationByID(stationID);
-    if(!markedStations.includes(layer_elem)) {
-        if(chosenCounties.length === 0 && chosenStations.length === 0){
-            showStationBar();
-        }
-        markedStations.push(layer_elem);
-        addStation(station, layer_elem, button);
-    } else {
-        console.log("Station is already chosen");
-        //showStationBar();
+    if(!chosenStations.includes(station)){
+        if(!markedStations.includes(layer_elem)) {
+            if(chosenCounties.length === 0 && chosenStations.length === 0){
+                showStationBar();
+            }
+            markedStations.push(layer_elem);
+            addStation(station, layer_elem, button);
+        } else {
+            console.log("Station is already chosen");
+            //showStationBar();
+        } 
     }    
 }
 
