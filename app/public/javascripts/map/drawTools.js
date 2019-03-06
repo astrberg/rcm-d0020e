@@ -1,13 +1,23 @@
-//Draw functionality
-var drawnItems = new L.FeatureGroup();
+/**
+ * All drawn rectangles are stored in this array 
+ */
+let drawnRectLayers = [];
+
+/**
+ * All drawn circles are stored in this array 
+ */
+let drawnCircleLayers = []; 
+
+/**
+ * Draw functionality
+ */
+const drawnItems = new L.FeatureGroup();
 map.addLayer(drawnItems);
 
-// L.EditToolbar.Delete.include({
-//     removeAllLayers: false
-// });
-
-// Initialise the draw control and pass it the FeatureGroup of editable layers
-var drawControl = new L.Control.Draw({
+/**
+ * Initialise the draw control and pass it the FeatureGroup of editable layers
+ */
+const drawControl = new L.Control.Draw({
     draw : {
         polyline : false,
         marker : false,
@@ -67,24 +77,24 @@ map.addControl(drawControl);
  
 //Event for editing all drawn items, runs on "save"
 map.on(L.Draw.Event.EDITED, function (event) {
-    var layers = event.layers;
+    let layers = event.layers;
     layers.eachLayer(function (layer) {
         removeStationsOutsideDrawnItem();
     });
 });
 
 map.on(L.Draw.Event.DELETED, function (event) {
-    var layers = event.layers;
+    let layers = event.layers;
     
     layers.eachLayer(function (layer) {
         if(layer instanceof L.Rectangle){
-            for(var i = 0; i < drawnRectLayers.length; i++) {
+            for(let i = 0; i < drawnRectLayers.length; i++) {
                 if(drawnRectLayers[i]._leaflet_id == layer._leaflet_id) {
                     drawnRectLayers.splice(i, 1);  
                 }
             }
         }else if(layer instanceof L.Circle){
-            for(var i = 0; i < drawnCircleLayers.length; i++) {
+            for(let i = 0; i < drawnCircleLayers.length; i++) {
                 if(drawnCircleLayers[i]._leaflet_id == layer._leaflet_id) {
                     drawnCircleLayers.splice(i, 1);  
                 }
@@ -95,19 +105,17 @@ map.on(L.Draw.Event.DELETED, function (event) {
     removeStationsOutsideDrawnItem();
 });
 
-var drawnRectLayers = []; 
-var drawnCircleLayers = []; 
 
 //Event for creating drawn items.
 map.on(L.Draw.Event.CREATED, function (event) {
-    var layer = event.layer;
-    var type = event.layerType;
+    let layer = event.layer;
+    let type = event.layerType;
     if(type == 'circle') {
         drawnCircleLayers.push(layer);
         getStationbyDrawCircle(layer);
     }
     if(type == 'rectangle') {
-        var lat_lngs = [layer._latlngs[0],layer._latlngs[2]];
+        let lat_lngs = [layer._latlngs[0],layer._latlngs[2]];
         drawnRectLayers.push(layer);
         getStationbyDrawRect(lat_lngs);
         
@@ -115,12 +123,15 @@ map.on(L.Draw.Event.CREATED, function (event) {
 
     drawnItems.addLayer(layer);
 });
-//Removes stations marked by drawnItems only
+
+/**
+ * Removes stations marked by drawnItems only
+ */
 function removeMarkedStations(){
-    for(var i = 0; i < markedStations.length; i++){
+    for(let i = 0; i < markedStations.length; i++){
         let stationId = markedStations[i]._popup._content.lastChild.id;
-        var button = markedStations[i]._popup._content.lastChild;
-        var station = stationByID(stationId);
+        let button = markedStations[i]._popup._content.lastChild;
+        let station = stationByID(stationId);
         removeStation(station, markedStations[i], button);
     }
     markedStations = [];
@@ -128,20 +139,23 @@ function removeMarkedStations(){
 //Loops through all layergroups and each layer within them. 
 //If the courners of a drawn rectangle contains the lats and longs of a marker, add that marker to markedStations and chosenStations
 //Checks the circle center and the radius, if it contains the lats and longs of a marker, add that marker to markedStations and chosenStations
+/**
+ * Removes all markers that are outside a drawn figure
+ */
 function removeStationsOutsideDrawnItem() {
     removeMarkedStations();
-    for(var i = 0; i < layerGroups.length; i++) {
+    for(let i = 0; i < layerGroups.length; i++) {
         let layer_group = layerGroups[i]; 
         layer_group.eachLayer(function(layer_elem){
             if(layer_elem instanceof L.Marker){
-                for(var j = 0; j < drawnRectLayers.length; j++){  
+                for(let j = 0; j < drawnRectLayers.length; j++){  
                     if((L.latLngBounds(drawnRectLayers[j]._latlngs).contains(layer_elem.getLatLng()))){
                         addMarked(layer_elem);
                     }      
                 }
-                for(var k = 0; k < drawnCircleLayers.length; k++){
-                    var radius = drawnCircleLayers[k].getRadius();
-                    var circleCenter = drawnCircleLayers[k].getLatLng(); 
+                for(let k = 0; k < drawnCircleLayers.length; k++){
+                    let radius = drawnCircleLayers[k].getRadius();
+                    let circleCenter = drawnCircleLayers[k].getLatLng(); 
                     if(Math.abs(circleCenter.distanceTo(layer_elem.getLatLng())) <= radius){
                         addMarked(layer_elem);
                     }      
@@ -150,9 +164,13 @@ function removeStationsOutsideDrawnItem() {
         });
     }
 }
-//Called with create event, if the courners of a drawn rectangle contains any markers, add them to markedStations and chosenStations
+
+/**
+ * Called with create event, if the corners of a drawn rectangle contains any markers, add them to markedStations and chosenStations.
+ * @param {*} lat_lngs The north east corner point and the south west corner point of a rectangle. 
+ */
 function getStationbyDrawRect(lat_lngs) {
-    for(var i = 0; i < layerGroups.length; i++) {
+    for(let i = 0; i < layerGroups.length; i++) {
         let layer_group = layerGroups[i];
         layer_group.eachLayer(function(layer_elem){
             if(L.latLngBounds(lat_lngs).contains(layer_elem.getLatLng())){
@@ -164,11 +182,15 @@ function getStationbyDrawRect(lat_lngs) {
          });
     }
 }
-//Function to add markers, identical function for all types of drawn Items. Checks if a station is already chosen to avoid dublicates.
+
+/**
+ * Function to add markers, identical function for all types of drawn Items. Checks if a station is already chosen to avoid dublicates.
+ * @param {*} layer_elem a drawn figure.
+ */
 function addMarked(layer_elem){
     let stationID = layer_elem._popup._content.lastChild.id;
-    var button = layer_elem._popup._content.lastChild;
-    var station = stationByID(stationID);
+    const button = layer_elem._popup._content.lastChild;
+    const station = stationByID(stationID);
     if(!markedStations.includes(layer_elem)) {
         if(chosenCounties.length === 0 && chosenStations.length === 0){
             showStationBar();
@@ -180,11 +202,15 @@ function addMarked(layer_elem){
         //showStationBar();
     }    
 }
-//Gets the circleCenter and Radius of a drawn circle, if it contains any markers, add them to markedStations and chosenStations
+
+/**
+ * Gets the circleCenter and Radius of a drawn circle, if it contains any markers, add them to markedStations and chosenStations.
+ * @param {*} circleLayer a drawn circle.
+ */
 function getStationbyDrawCircle(circleLayer) {
-    var radius = circleLayer.getRadius();
-    var circleCenter = circleLayer.getLatLng();
-    for(var i = 0; i < layerGroups.length; i++) {
+    const radius = circleLayer.getRadius();
+    const circleCenter = circleLayer.getLatLng();
+    for(const i = 0; i < layerGroups.length; i++) {
         let layer_group = layerGroups[i];
         layer_group.eachLayer(function(layer_elem){
             if(Math.abs(circleCenter.distanceTo(layer_elem.getLatLng())) <= radius){
@@ -196,12 +222,13 @@ function getStationbyDrawCircle(circleLayer) {
     }
 
 }
-/*
-*@param ID from a station
-*@return Station from stationID, stored in stationsdata within database
-*/
+
+/**
+ * Use this method to get a station based on the station id.
+ * @param {*} stationID the station id of a specific station.
+ */
 function stationByID(stationID) {
-    for(var i = 0; i < stationsData.length; i++) {
+    for(const i = 0; i < stationsData.length; i++) {
         if(stationsData[i].id == stationID) {
             return stationsData[i];
         }

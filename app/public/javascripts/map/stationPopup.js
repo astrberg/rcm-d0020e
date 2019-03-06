@@ -1,6 +1,10 @@
-// Popup content
+/**
+ * Creates and returns the popup content for a station marker.
+ * @param {*} station a station data JSON object.
+ * @param {*} marker a Leaflet marker representing a specific station.
+ */
 function addPopup(station, marker) {
-  var popupContent = document.createElement("table-data");
+  let popupContent = document.createElement("table-data");
 
   let index = getLatestWeatherIndex(station);
   
@@ -25,20 +29,23 @@ function addPopup(station, marker) {
   
 
   // Leaflet require DOM therefor Jquery is not used
-  var button = document.createElement("button");
+  let button = document.createElement("button");
   button.id = station.id;
-  button.className = "add-button";
-  button.innerText = "Lägg till";
+  if(chosenStations.includes(station)){
+    button.className = "remove-button";
+    button.innerText = "Ta bort";
+  }else{
+    button.className = "add-button";
+    button.innerText = "Lägg till";
+  }
+  
   button.addEventListener("click" , function() {
         handleChosenStations(station, marker, this);
     
   });
   popupContent.appendChild(button);
 
-  // var popup = L.popup()
-  // .setContent(button);
-
-    marker.bindPopup(popupContent).openPopup();
+  return popupContent;
 }
 
 function windDirection(data) {
@@ -68,12 +75,15 @@ function windDirection(data) {
     }
 }
 
+/**
+ * Use this method to get a specific index from the latestWeatherdata array based on a specific station.
+ * @param {*} station a station data JSON object.
+ */
 function getLatestWeatherIndex(station){
   for(let j = 0; j < latestWeatherData.length; j++){
       if(station.id === latestWeatherData[j].station_id){
           return j;
       }
-  }
-  
+  } 
   return -1;
 }
