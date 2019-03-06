@@ -302,7 +302,7 @@ function datamultieplegraftempprov(weatherdata,Prov_id){
 	if (checktruefalsetempprov){
 		for(var i = 0; i < weatherdata.length; i++){
 			datagraftempprov.push(weatherdata[i].air_temperature);
-			datagraftimestamptempprov.push(weatherdata[i].timestamp.slice(2,10));
+			datagraftimestamptempprov.push(weatherdata[i].timestamp.slice(2,10)+" "+weatherdata[i].timestamp.slice(12,16));
 			datagraftimestamptempprovnotsliced.push(weatherdata[i].timestamp);
 		}
 	}else{
@@ -342,7 +342,7 @@ function datamultieplegrafwinspeed(weatherdata,station_name){
 	for(var i = 0; i < weatherdata.length; i++){
 		datagrafwindspeed.push(weatherdata[i].wind_speed);
 	if(checktruefalsewind){
-		datagraftimestampwindspeed.push(weatherdata[i].timestamp.slice(2,10));
+		datagraftimestampwindspeed.push(weatherdata[i].timestamp.slice(2,10)+" "+weatherdata[i].timestamp.slice(12,16));
 	}
 	}
 	checktruefalsewind=false;
@@ -362,7 +362,7 @@ function datamultieplegrafhumidity(weatherdata,station_name){
 	for(var i = 0; i < weatherdata.length; i++){
 		datagrafhum.push(weatherdata[i].air_humidity);
 		if(checktruefalsehum){
-		datagraftimestamphum.push(weatherdata[i].timestamp.slice(2,10));
+		datagraftimestamphum.push(weatherdata[i].timestamp.slice(2,10)+" "+weatherdata[i].timestamp.slice(12,16));
 	}
 	}
 	checktruefalsehum=false;
@@ -382,7 +382,7 @@ function datamultieplegrafair(weatherdata,station_name){
 	for(var i = 0; i < weatherdata.length; i++){
 		datagrafairtemp.push(weatherdata[i].air_temperature);
 		if(checktruefalseair){
-		datagraftimestampair.push(weatherdata[i].timestamp.slice(2,10));
+		datagraftimestampair.push(weatherdata[i].timestamp.slice(2,10)+" "+weatherdata[i].timestamp.slice(12,16));
 	}
 	}
 	checktruefalseair=false;
@@ -402,7 +402,7 @@ function datamultieplegraf(weatherdata,station_name){
 	for(var i = 0; i < weatherdata.length; i++){
 		datagrafroadtemp.push(weatherdata[i].road_temperature);
 		if(checktruefalse){
-			datagraftimestamp.push(weatherdata[i].timestamp.slice(2,10));
+			datagraftimestamp.push(weatherdata[i].timestamp.slice(2,10)+" "+weatherdata[i].timestamp.slice(12,16));
 		}
 	}
 	checktruefalse=false;
@@ -491,6 +491,13 @@ var speedData = {
 };
 
 var chartOptions = {
+    scales: {
+        xAxes: [{
+            ticks: {
+                fontSize: 15
+            }
+        }]
+    },
     title:{
 	display:true,
 	text: "Vägtemperatur medel län",
@@ -499,7 +506,7 @@ var chartOptions = {
     position: 'top',
     labels: {
       boxWidth: 80,
-      fontColor: 'black'
+      fontColor: 'black',
     }
 }
   }
@@ -532,6 +539,13 @@ var speedData = {
 };
 
 var chartOptions = {
+    scales: {
+        xAxes: [{
+            ticks: {
+                fontSize: 15
+            }
+        }]
+    },
     title:{
 	display:true,
 	text: "Vägtemperatur",
@@ -573,6 +587,13 @@ var speedData = {
 };
 
 var chartOptions = {
+    scales: {
+        xAxes: [{
+            ticks: {
+                fontSize: 15
+            }
+        }]
+    },
     title:{
 	display:true,
 	text: "Lufttemperatur",
@@ -581,10 +602,13 @@ var chartOptions = {
     position: 'top',
     labels: {
       boxWidth: 80,
-      fontColor: 'black'
+      fontColor: 'black',
     }
 }
+
   }
+
+
 };
 
 lineChart2 = new Chart(speedCanvas, {
@@ -613,6 +637,13 @@ var speedData = {
 };
 
 var chartOptions = {
+    scales: {
+        xAxes: [{
+            ticks: {
+                fontSize: 15
+            }
+        }]
+    },
     title:{
 	display:true,
 	text: "Luftfuktighet",
@@ -653,6 +684,13 @@ var speedData = {
 };
 
 var chartOptions = {
+    scales: {
+        xAxes: [{
+            ticks: {
+                fontSize: 15
+            }
+        }]
+    },
     title:{
 	display:true,
 	text: "Vindhastighet",
@@ -709,7 +747,7 @@ function cleararrays(){
 	checktruefalsehum=true;
 	checktruefalsewind=true;
 	datagraftempprov = [];
-    datagraftimestamptempprov = [];	
+    	datagraftimestamptempprov = [];	
 	datagraftimestamptempprovnotsliced = [];
 	checktruefalsetempprov=true;
 	currentdaggpunkt = []
