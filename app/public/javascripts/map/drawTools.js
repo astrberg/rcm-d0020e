@@ -210,7 +210,7 @@ function addMarked(layer_elem){
 function getStationbyDrawCircle(circleLayer) {
     const radius = circleLayer.getRadius();
     const circleCenter = circleLayer.getLatLng();
-    for(const i = 0; i < layerGroups.length; i++) {
+    for(let i = 0; i < layerGroups.length; i++) {
         let layer_group = layerGroups[i];
         layer_group.eachLayer(function(layer_elem){
             if(Math.abs(circleCenter.distanceTo(layer_elem.getLatLng())) <= radius){
@@ -228,7 +228,7 @@ function getStationbyDrawCircle(circleLayer) {
  * @param {*} stationID the station id of a specific station.
  */
 function stationByID(stationID) {
-    for(const i = 0; i < stationsData.length; i++) {
+    for(let i = 0; i < stationsData.length; i++) {
         if(stationsData[i].id == stationID) {
             return stationsData[i];
         }
