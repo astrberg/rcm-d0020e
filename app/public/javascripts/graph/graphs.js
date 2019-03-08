@@ -55,7 +55,10 @@ function databarchartcurrentprovair(temp,id){
 	generatedataforbar(typeofgraph,datatempvar,stationame);
 }
 var chart10 = null;
-function currentairtempgraphprov(weatherdata){
+/**
+ * This function will generate graph with current average air temp for province with the data in arrays generated from generatefuctions
+ */
+function currentairtempgraphprov(){
 	if(chart10!=null){
 		chart10.destroy();
 	}
@@ -88,7 +91,10 @@ function databarchartcurrentprovroad(temp,id){
 	generatedataforbar(typeofgraph,datatempvar,stationame);
 }
 var chart11 = null;
-function currentroadtempgraphprov(weatherdata){
+/**
+ * This function will generate graph with current average road temp for province with the data in arrays generated from generatefuctions
+ */
+function currentroadtempgraphprov(){
 	if(chart11!=null){
 		chart11.destroy();
 	}
@@ -122,7 +128,10 @@ function databarchartcurrentdagg(data,station_name){
 }
 
 var chart15 = null;
-function currentdaggpunktfunc(weatherdata){
+/**
+ * This function will generate current dew point graph with the data
+ */
+function currentdaggpunktfunc(){
 	if(chart15!=null){
 		chart15.destroy();
 	}
@@ -158,7 +167,10 @@ function databarchartcurrent(weatherdata,station_name){
 }
 
 var chart = null;
-function currenttempgraph(weatherdata){
+/**
+ * This function will generate current air temp graph with the data in arrays generated from generatefuctions
+ */
+function currenttempgraph(){
 	if(chart!=null){
 		chart.destroy();
 	}
@@ -194,7 +206,10 @@ function databarchartwindcurrent(weatherdata,station_name){
 }
 
 var chart6 = null;
-function currentwindspeedgraph(weatherdata){
+/**
+ * This function will generate current windspeed graph with the data in arrays generated from generatefuctions
+ */
+function currentwindspeedgraph(){
 	if(chart6!=null){
 		chart6.destroy();
 	}
@@ -214,9 +229,6 @@ function currentwindspeedgraph(weatherdata){
 	}
 	});
 }
-
-
-
 //current data road temp
 /**
  * Collects data and send to generate function
@@ -232,7 +244,10 @@ function databarchartroadcurrent(weatherdata,station_name){
 }
 
 var chart1 = null;
-function currentroadtempgraph(weatherdata){
+/**
+ * This function will generate current road temp graph with the data in arrays generated from generatefuctions
+ */
+function currentroadtempgraph(){
 	if(chart1!=null){
 		chart1.destroy();
 	}
@@ -269,7 +284,10 @@ function databarcharthumcurrent(weatherdata,station_name){
 	generatedataforbar(typeofgraph,datatempvar,stationame);
 }
 var chart2 = null;
-function currenthumgraph(weatherdata){
+/**
+ * This function will generate current humidity graph with the data in arrays generated from generatefuctions
+ */
+function currenthumgraph(){
 	if(chart2!=null){
 		chart2.destroy();
 	}
