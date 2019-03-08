@@ -1,97 +1,4 @@
-//different colors when data is below 0
-//Not used
-function graf2(){
-	var pointBackgroundColors = [];
-	var ctx = document.getElementById('myChart3').getContext('2d');
-	var myChart = new Chart(ctx, {
-	
-	    type: 'line',
-
-	
-	    data: {
-		labels: ["January", "February", "March", "April", "May", "June", "July"],
-		datasets: [{
-		    label: "graf3",
-		    pointBackgroundColor: pointBackgroundColors,
-		    data: [-200, -50,0, 100, 200, 300,500,200],
-		}]
-	    },
-
-	
-	    options: {
-		
-		}
-	});
-
-	for (i = 0; i < myChart.data.datasets[0].data.length; i++) {
-	    if (myChart.data.datasets[0].data[i] < 0) {
-		pointBackgroundColors.push("#FF0000");
-
-	    } else {
-		pointBackgroundColors.push("#0000FF");
-
-	    }
-	}
-
-	myChart.update();
-}
-//generatedataforcurrprov
-function databarchartcurrentprovair(temp,id){
-	var typeofgraph = "current_air_temp_county";
-	var stationame = id;
-	var datatempvar= temp;
-	generatedataforbar(typeofgraph,datatempvar,stationame);
-}
-var chart10 = null;
-function currentairtempgraphprov(weatherdata){
-	if(chart10!=null){
-		chart10.destroy();
-	}
-	var ctx = document.getElementById('myChart9').getContext('2d');
-	chart10 = new Chart(ctx, {
-	    type: 'bar',
-	    data: {
-		//labels: stations,
-		datasets: currentairtempprov
-	    },
-
-	
-	    options: {
-			title:{
-	display:true,
-	text: "Nuvarande medeltemperatur luft län"}
-	}
-	});
-}
-//generatedataforcurrprov
-function databarchartcurrentprovroad(temp,id){
-	var typeofgraph = "current_road_temp_county";
-	var stationame = id;
-	var datatempvar= temp;
-	generatedataforbar(typeofgraph,datatempvar,stationame);
-}
-var chart11 = null;
-function currentroadtempgraphprov(weatherdata){
-	if(chart11!=null){
-		chart11.destroy();
-	}
-	var ctx = document.getElementById('myChart10').getContext('2d');
-	chart11 = new Chart(ctx, {
-	    type: 'bar',
-	    data: {
-		//labels: stations,
-		datasets: currentroadtempprov
-	    },
-
-	
-	    options: {
-			title:{
-	display:true,
-	text: "Nuvarande medeltemperatur väg län"}
-	}
-	});
-}
-
+//A bunch of arrays which holds the data generated from generatedataforbar to be used in as current graphdata
 var currentdaggpunkt = [];
 var currentdatawind = [];
 var currentdatatemp = [];
@@ -99,7 +6,12 @@ var currentroadtemp = [];
 var currentairhum = [];
 var currentairtempprov = [];
 var currentroadtempprov = [];
-//Generats variables for the stations used as data for the current bar graphs. 
+/**
+ * Generats variables for the stations used as data for the current bar graphs. 
+ * @param {*} typeofgraph A string which tells which data is sent in
+ * @param {*} datatempvar This is the data used in graph later. temp, humidity etc
+ * @param {*} stationame The station name
+ */
 function generatedataforbar(typeofgraph,datatempvar,stationame){
     var dataFirst = {
     label: stationame,
@@ -128,10 +40,80 @@ function generatedataforbar(typeofgraph,datatempvar,stationame){
 	if (typeofgraph=="current_dagg_temp"){
 		currentdaggpunkt.push(dataFirst);
 	}
+}
 
+//generatedata for current province
+/**
+ * Collects data and send to generate function
+ * @param {*} temp Latest average air temp from province
+ * @param {*} id  id/name from province
+ */
+function databarchartcurrentprovair(temp,id){
+	var typeofgraph = "current_air_temp_county";
+	var stationame = id;
+	var datatempvar= temp;
+	generatedataforbar(typeofgraph,datatempvar,stationame);
+}
+var chart10 = null;
+function currentairtempgraphprov(weatherdata){
+	if(chart10!=null){
+		chart10.destroy();
+	}
+	var ctx = document.getElementById('myChart9').getContext('2d');
+	chart10 = new Chart(ctx, {
+	    type: 'bar',
+	    data: {
+		//labels: stations,
+		datasets: currentairtempprov
+	    },
 
+	
+	    options: {
+			title:{
+	display:true,
+	text: "Nuvarande medeltemperatur luft län"}
+	}
+	});
+}
+//generatedataforcurrprov
+/**
+ * Collects data and send to generate function
+ * @param {*} temp Latest average road temp from province
+ * @param {*} id  id/name from province
+ */
+function databarchartcurrentprovroad(temp,id){
+	var typeofgraph = "current_road_temp_county";
+	var stationame = id;
+	var datatempvar= temp;
+	generatedataforbar(typeofgraph,datatempvar,stationame);
+}
+var chart11 = null;
+function currentroadtempgraphprov(weatherdata){
+	if(chart11!=null){
+		chart11.destroy();
+	}
+	var ctx = document.getElementById('myChart10').getContext('2d');
+	chart11 = new Chart(ctx, {
+	    type: 'bar',
+	    data: {
+		//labels: stations,
+		datasets: currentroadtempprov
+	    },
+
+	
+	    options: {
+			title:{
+	display:true,
+	text: "Nuvarande medeltemperatur väg län"}
+	}
+	});
 }
 //current dagg temp
+/**
+ * Collects data and send to generate function
+ * @param {*} data  The dewpoint temp
+ * @param {*} station_name station name for the dewpoint
+ */
 function databarchartcurrentdagg(data,station_name){
 	var typeofgraph = "current_dagg_temp";
 	var stationame = station_name;
@@ -162,6 +144,11 @@ function currentdaggpunktfunc(weatherdata){
 
 
 //current data air temp
+/**
+ * Collects data and send to generate function
+ * @param {*} weatherdata This is the current air temp sent in
+ * @param {*} station_name station name 
+ */
 function databarchartcurrent(weatherdata,station_name){
 	var typeofgraph = "current_air";
 	var stationame = station_name;
@@ -193,6 +180,11 @@ function currenttempgraph(weatherdata){
 
 
 //current data windspeed 
+/**
+ * Collects data and send to generate function
+ * @param {*} weatherdata This is the current windspeed data 
+ * @param {*} station_name This is the stationame 
+ */
 function databarchartwindcurrent(weatherdata,station_name){
 	var typeofgraph = "current_windspeed";
 	var stationame = station_name;
@@ -226,6 +218,11 @@ function currentwindspeedgraph(weatherdata){
 
 
 //current data road temp
+/**
+ * Collects data and send to generate function
+ * @param {*} weatherdata This is the current road temp
+ * @param {*} station_name Station name 
+ */
 function databarchartroadcurrent(weatherdata,station_name){
 	var typeofgraph = "current_road";
 	var stationame = station_name;
@@ -259,6 +256,11 @@ function currentroadtempgraph(weatherdata){
 
 
 //current data air humidity
+/**
+ * Collects data and send to generate function
+ * @param {*} weatherdata Current humidity data
+ * @param {*} station_name  station name
+ */
 function databarcharthumcurrent(weatherdata,station_name){
 	var typeofgraph = "current_hum";
 	var stationame = station_name;
@@ -294,6 +296,11 @@ var datagraftempprov = [];
 var datagraftimestamptempprov = [];	
 var datagraftimestamptempprovnotsliced = [];	
 var checktruefalsetempprov=true;
+/**
+ * Collects data and send to generate function
+ * @param {*} weatherdata data for average air temp for province 
+ * @param {*} Prov_id the name for the province
+ */
 function datamultieplegraftempprov(weatherdata,Prov_id){
 	
 	var datagraftempprov = [];
@@ -335,6 +342,11 @@ function datamultieplegraftempprov(weatherdata,Prov_id){
 var datagrafwindspeed = [];
 var datagraftimestampwindspeed = [];	
 var checktruefalsewind=true;
+/**
+ * Collects data and send to generate function
+ * @param {*} weatherdata  This is the windspeed data
+ * @param {*} station_name station name
+ */
 function datamultieplegrafwinspeed(weatherdata,station_name){
 	var datagrafwindspeed = [];
 	var valuegraph = "windspeed"
@@ -355,6 +367,11 @@ function datamultieplegrafwinspeed(weatherdata,station_name){
 var datagrafhum = [];
 var datagraftimestamphum = [];	
 var checktruefalsehum=true;
+/**
+ * Collects data and send to generate function
+ * @param {*} weatherdata  Humidity data
+ * @param {*} station_name station name
+ */
 function datamultieplegrafhumidity(weatherdata,station_name){
 	var datagrafhum = [];
 	var valuegraph = "humidity"
@@ -375,6 +392,11 @@ function datamultieplegrafhumidity(weatherdata,station_name){
 var datagrafair = [];
 var datagraftimestampair = [];	
 var checktruefalseair=true;
+/**
+ * Collects data and send to generate function
+ * @param {*} weatherdata Air temp data
+ * @param {*} station_name station name
+ */
 function datamultieplegrafair(weatherdata,station_name){
 	var datagrafairtemp = [];
 	var valuegraph = "airtemp"
@@ -395,6 +417,11 @@ function datamultieplegrafair(weatherdata,station_name){
 var data3graf3 = [];
 var datagraftimestamp = [];
 var checktruefalse=true;	
+/**
+ * Collects data and send to generate function
+ * @param {*} weatherdata Road temp data
+ * @param {*} station_name station name
+ */
 function datamultieplegraf(weatherdata,station_name){
 	var datagrafroadtemp = [];
 	var valuegraph = "roadtemp"
@@ -413,7 +440,12 @@ function datamultieplegraf(weatherdata,station_name){
 //Lists to match the color of the stations in the graphs
 var stationnamelist = [];
 var colornamelist = [];
-//Generats variables for the stations used as data for the graphs. 
+/**
+ * Generats variables for the stations used as data for the graphs. 
+ * @param {*} value This specify which graph to generate data for like "roadtemp"
+ * @param {*} datagraf This is the data for the graph
+ * @param {*} stationame The station or province name
+ */
 function generatedata(value, datagraf, stationame){
     if(stationnamelist.includes(stationame)){
 	    var dataFirst = {
@@ -475,6 +507,9 @@ else{
 
 var lineChartptovair = null;
 //function to create prov air temp avg graph
+/**
+ * This function will generate road temp province graph with the data in arrays generated from generatefuctions
+ */
 function roadtempprov(){
 if(lineChartptovair!=null){
 	lineChartptovair.destroy();
@@ -522,6 +557,9 @@ lineChartptovair.update();
 
 var lineChart1 = null;
 //function to create road_temp graph
+/**
+ * This function will generate road temp graph with the data in arrays generated from generatefuctions
+ */
 function roadtemp(){
 if(lineChart1!=null){
 lineChart1.destroy();
@@ -571,6 +609,9 @@ lineChart1.update();
 
 var lineChart2 = null;
 //function to create air_temp graph
+/**
+ * This function will generate air temp graph with the data in arrays generated from generatefuctions
+ */
 function airtemp(){
 if(lineChart2 != null){
 lineChart2.destroy();
@@ -621,6 +662,9 @@ lineChart2.update();
 
 var lineChart3 = null;
 //function to create humidity graph
+/**
+ * This function will generate humidity graph with the data in arrays generated from generatefuctions
+ */
 function humiditygraph(){
 if(lineChart3 != null){
 lineChart3.destroy();
@@ -668,6 +712,9 @@ lineChart3.update();
 
 var lineChart4 = null;
 //function to create windspeed graph
+/**
+ * This function will generate windspeed graph with the data in arrays generated from generatefuctions
+ */
 function windspeed(){
 if(lineChart4 != null){
 lineChart4.destroy();
@@ -714,8 +761,12 @@ lineChart4.update();
 }
 
 /*
-f/100 ^1/8  (112+0.9T)+0.1T -112
+(f/100)^(1/8)*(112+0.9T)+0.1T-112
 */
+/**
+ * Takes data from current temp and current humidity and calculates the dew point for that station.
+ * Only works if current temp is bigger than or equal to 0
+ */
 function daggpunktfunc(){
 	var dagg;
 	for(var i=0;i<currentdatatemp.length;i++){
@@ -727,6 +778,9 @@ function daggpunktfunc(){
 }
 
 //clear all the arrays
+/**
+ * This will clear all the arrays and set the booleans to true
+ */
 function cleararrays(){
 	currentdatatemp = [];
 	datagrafwindspeed = [];
@@ -747,7 +801,7 @@ function cleararrays(){
 	checktruefalsehum=true;
 	checktruefalsewind=true;
 	datagraftempprov = [];
-    	datagraftimestamptempprov = [];	
+    datagraftimestamptempprov = [];	
 	datagraftimestamptempprovnotsliced = [];
 	checktruefalsetempprov=true;
 	currentdaggpunkt = []

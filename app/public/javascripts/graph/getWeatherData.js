@@ -1,5 +1,12 @@
 
-//Get weatherdata from the stations sent in
+/**
+ * Get weatherdata from the stations sent in.
+ * With the data you send it to graph.js to generate data for graphs
+ * @param {*} station_id Station id, used to get the data from api
+ * @param {*} start_time start time to get data from
+ * @param {*} stop_time  stop time to get data from
+ * @param {*} station_name station name instead of id, used to show name in graphs
+ */
 async function getWeatherData(station_id, start_time, stop_time,station_name) {		
 	await $.getJSON("/api/getWeatherData", {station_id, start_time, stop_time}, function(weatherData) {
 		for(let i = 0; i < weatherData.length; i++){
@@ -12,7 +19,13 @@ async function getWeatherData(station_id, start_time, stop_time,station_name) {
     });	
 }
 
-//Get current latest weatherdata from the stations sent in
+
+/**
+ * Get current latest weatherdata from the stations sent in.
+ * With the data you send it to graph.js to generate data for graphs
+ * @param {*} station_id station id, used to get the data from api
+ * @param {*} station_name tation name instead of id, used to show name in graphs
+ */
 async function getlatest(station_id,station_name) {
     await $.getJSON("/api/getLatestWeatherData", {station_id}, function(weatherData) {
 		
@@ -25,6 +38,14 @@ async function getlatest(station_id,station_name) {
 		}
     });	
 }
+
+/**
+ * Get the average temp for province from API.
+ * With the data you send it to graph.js to generate data for graphs
+ * @param {*} counties The chosen counties sent in
+ * @param {*} start_time start time to get data from
+ * @param {*} stop_time stop time to get data from
+ */
 async function getAverageTempProvince(counties, start_time, stop_time) {	
 	await $.getJSON("/api/getAverageTempProvince", {counties, start_time, stop_time}, function(AverageTempProvinceData) {
 		//console.log("VALUES IN GETWEATHERDATA",AverageTempProvinceData)
@@ -50,7 +71,11 @@ async function getAverageTempProvince(counties, start_time, stop_time) {
 		}
     });	
 }
-//get latst avg county data
+/**
+ * Get latest avg county data.
+ * With the data you send it to graph.js to generate data for graphs
+ * @param {*} chosenCounties  The chosen counties sent in
+ */
 async function getLatestAvgCountyWeatherData(chosenCounties){
       await $.getJSON('/api/getLatestAverageTempProvince', function(averageCountyWeather) {
           averageData = averageCountyWeather;
@@ -61,6 +86,7 @@ async function getLatestAvgCountyWeatherData(chosenCounties){
 	}
       });
 }
+
 /*
 //Get current latest weatherdata from the stations sent in
 async function getlatest(station_id,station_name) {
@@ -82,7 +108,6 @@ async function getlatest(station_id,station_name) {
 		}
 		
 	}
-   
 }
 */
 
