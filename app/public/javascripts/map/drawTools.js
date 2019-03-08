@@ -184,7 +184,7 @@ function getStationbyDrawRect(lat_lngs) {
 }
 
 /**
- * Function to add markers, identical function for all types of drawn Items. Checks if a station is already chosen to avoid dublicates.
+ * Function to add markers, identical function for all types of drawn Items. Checks if a station is already chosen to avoid duplicates.
  * @param {*} layer_elem a drawn figure.
  */
 function addMarked(layer_elem){

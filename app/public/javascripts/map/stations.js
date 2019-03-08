@@ -1,21 +1,21 @@
 /**
  * All the chosen stations are stored in this array.
  */
-let chosenStations = [];
+var chosenStations = [];
 
 /**
  * Every station JSON object is stored in this array.
  */
-let stationsData = [];
+var stationsData = [];
 /**
  * All the chosen counties are stored in this array.
  */
-let chosenCounties = [];
+var chosenCounties = [];
 
 /**
  * The latest weather data is stored in this array.
  */
-let latestWeatherData = [];
+var latestWeatherData = [];
 
 /**
  * Used to send out an alert of to 
