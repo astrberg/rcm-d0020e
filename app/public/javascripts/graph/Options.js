@@ -1,4 +1,10 @@
-//Press the checkboxes to show or hide
+/**
+ * Options.js contains the javascript and jquery to operate everything inside the <div id="options">..</div> inside graph.ejs
+ * Which includes the time/date input
+ * Hide/show elements
+ */
+
+//Press the checkboxes to show or hide the graphs/buttons
 $(function () {
         $("#airtemp").click(function () {
             if ($(this).is(":checked")) {
@@ -109,7 +115,7 @@ $(function () {
 		    }
   });
  });
-
+//hide elements functions
 function hide1(classvar){
   var appBanners = document.getElementsByClassName(classvar), i;
 for (var i = 0; i < appBanners.length; i ++) {
@@ -145,7 +151,7 @@ document.querySelectorAll('input[type=number]')
     if (!e.value) e.value = '00';
   });
 
-//Slider1
+//Slider1 for starttime
 var slider1 = document.getElementById("myRange1");
 var output1 = document.getElementById("output1");
 output1.innerHTML = '2019-01-20 13:12:12'; 
@@ -156,7 +162,7 @@ slider1.oninput = function() {
 } 
 
 
-//dateformat input1
+//dateformat input1 - calender
 var dateinput1 = document.getElementById("timeintervallpick1");
 dateinput1.oninput = function() {
 	var date = new Date(this.value)
@@ -186,7 +192,7 @@ timeformat2.oninput = function() {
 
 
 
-//Slider2
+//Slider2 for stoptime
 var slider = document.getElementById("myRange2");
 var output = document.getElementById("output2");
 output.innerHTML = '2019-01-30 13:23:20'; 
@@ -195,7 +201,7 @@ slider.oninput = function() {
 	parseour();
 } 
 
-//dateformat input2
+//dateformat input2 - calender
 var dateinput2 = document.getElementById("timeintervallpick2");
 dateinput2.oninput = function() {
 	var date = new Date(this.value)
@@ -222,7 +228,9 @@ timeformat4.oninput = function() {
 	document.getElementById("myRange2").value=date.getTime()/1000;
 	parseour();
 }
-
+/**
+ * This function will set the stoptime after using the calender or sliders
+ */
 function parseour(){
 var d2 = new Date(0);
   d2.setUTCSeconds(slider.value);
@@ -245,7 +253,9 @@ document.getElementById('timeinput243').value =d2.getHours();
 document.getElementById('timeinput244').value =d2.getMinutes();
 
 }
-
+/**
+ * This function will set the starttime after using the calender or sliders
+ */
 function parseour1(){
 var d1 = new Date(0);
  d1.setUTCSeconds(slider1.value);
