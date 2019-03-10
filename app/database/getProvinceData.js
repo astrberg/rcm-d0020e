@@ -1,4 +1,4 @@
-const mysqlssh = require('mysql-ssh');
+const mysql = require('mysql');
 const authorization = require('./authorization');
 var async = require("async");
 
@@ -20,7 +20,7 @@ module.exports = {
         auth.increaseMutex();
         
         // ssh to database server and then connect to db
-        mysqlssh.connect(auth.ssh, auth.database).then(client => {
+        mysql.createConnection(auth.database).then(client => {
             
             // select avg temps from stations in county over the last 15 min
             var old_broken_sql =  "SELECT * FROM (\
@@ -86,7 +86,7 @@ module.exports = {
                 auth.decreaseMutex();
 
                 if(auth.getMutex() == 0){
-                    mysqlssh.close()
+                    mysql.close()
                 }
 
             });
@@ -100,8 +100,7 @@ module.exports = {
         auth.increaseMutex();
         
         // ssh to database server and then connect to db
-        mysqlssh.connect(auth.ssh, auth.database).then(client => {
-            
+        mysql.createConnection(auth.database).then(client => {            
             // var sql = "SELECT * FROM weather_data WHERE station_id = ? AND timestamp BETWEEN ? AND ?";
             // "select w.air_temperature, s.county_number from weather_data as w, station_data as s where w.station_id = s.id and s.county_number = 25;"
             // "select w.air_temperature, w.timestamp from weather_data as w where w.station_id in (select s.id from station_data as s where county_number = 25);"
@@ -208,7 +207,7 @@ module.exports = {
                 auth.decreaseMutex();
 
                 if(auth.getMutex() == 0){
-                    mysqlssh.close()
+                    mysql.close()
                 }
             });
 

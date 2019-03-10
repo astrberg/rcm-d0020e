@@ -1,4 +1,4 @@
-const mysqlssh = require('mysql-ssh');
+const mysql = require('mysql');
 
 
 const authorization = require('./authorization');
@@ -22,13 +22,13 @@ module.exports = {
         let auth = new authorization.Authorization();
 
         // ssh to database server and then connect to db
-        mysqlssh.connect(auth.ssh, auth.database).then(client => {
+        mysql.connect( auth.database).then(client => {
 
             // get rowcount of weather
             client.query('SELECT COUNT(*) FROM `weather_data`', function (err, results, fields) {
                 if (err) throw err
                 console.log(results);
-                mysqlssh.close()
+                mysql.close()
 
                 res.sendStatus(200);
             })

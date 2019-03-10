@@ -3,7 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const mysqlssh = require('mysql-ssh');
+const mysql = require('mysql');
 const fs = require('fs');
 
 var indexRouter = require('./routes/index');

@@ -1,4 +1,4 @@
-const mysqlssh = require('mysql-ssh');
+const mysql = require('mysql');
 const authorization = require('./authorization');
 
 
@@ -19,8 +19,7 @@ module.exports = {
         auth.increaseMutex();
 
         // ssh to database server and then connect to db
-        mysqlssh.connect(auth.ssh, auth.database).then(client => {
-            
+        mysql.createConnection(auth.database).then(client => {            
             // get all station data that have weather data
             const sql = `select * from station_data where id in (select distinct station_id from 
                         (select station_id from weather_data as w order by w.id desc limit 894) as g)`;
@@ -35,7 +34,7 @@ module.exports = {
                 auth.decreaseMutex();
 
                 if(auth.getMutex() == 0){
-                    mysqlssh.close()
+                    mysql.close()
                 }
             })
 

@@ -1,4 +1,4 @@
-const mysqlssh = require('mysql-ssh');
+const mysql = require('mysql');
 const authorization = require('./authorization');
 var async = require("async");
 
@@ -18,8 +18,9 @@ module.exports = {
         let weather_data = [];
         auth.increaseMutex();
         // ssh to database server and then connect to db
-        mysqlssh.connect(auth.ssh, auth.database).then(client => {
+        mysql.createConnection(auth.database).then(client => {            
             const sql = "SELECT * FROM weather_data WHERE station_id = ? ORDER BY id DESC LIMIT 1";
+
 
             // do a async loop through the station_id list
             async.each(station_id, function(id, callback){
@@ -45,7 +46,7 @@ module.exports = {
                 auth.decreaseMutex();
 
                 if(auth.getMutex() == 0){
-                    mysqlssh.close()
+                    mysql.close()
                 }
                 
             });
@@ -60,7 +61,7 @@ module.exports = {
         auth.increaseMutex();
         
         // ssh to database server and then connect to db
-        mysqlssh.connect(auth.ssh, auth.database).then(client => {
+        mysql.createConnection(auth.database).then(client => {
             const sql = "SELECT * FROM weather_data ORDER BY id DESC LIMIT ?";
 
 
@@ -77,7 +78,7 @@ module.exports = {
                 auth.decreaseMutex();
 
                 if(auth.getMutex() == 0){
-                    mysqlssh.close()
+                    mysql.close()
                 }
 
             });
@@ -95,8 +96,7 @@ module.exports = {
         
         auth.increaseMutex();
         // ssh to database server and then connect to db
-        mysqlssh.connect(auth.ssh, auth.database).then(client => {
-            
+        mysql.createConnection(auth.database).then(client => {            
             
             // get weather data between to given timestamps
             var sql = "SELECT * FROM weather_data WHERE station_id = ? AND timestamp BETWEEN ? AND ?";
@@ -150,7 +150,7 @@ module.exports = {
                 auth.decreaseMutex();
 
                 if(auth.getMutex() == 0){
-                    mysqlssh.close()
+                    mysql.close()
                 }
             });
             
@@ -167,8 +167,7 @@ module.exports = {
         
         auth.increaseMutex();
         // ssh to database server and then connect to db
-        mysqlssh.connect(auth.ssh, auth.database).then(client => {
-            
+        mysql.createConnection(auth.database).then(client => {            
             
             // get weather data between to given timestamps
             var sql = "SELECT AVG(road_temperature),AVG(air_temperature), AVG(air_humidity), AVG(wind_speed) \
@@ -186,7 +185,7 @@ module.exports = {
                 auth.decreaseMutex();
 
                 if(auth.getMutex() == 0){
-                    mysqlssh.close()
+                    mysql.close()
                 }
             })
 
