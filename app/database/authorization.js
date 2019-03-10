@@ -9,11 +9,11 @@ class Authorization{
             database: 'db'
             };
     
-        this.ssh = {
-            host: '130.240.204.191',
-            user: 'bugmana',
-            privateKey: fs.readFileSync(process.env.HOME + '/.ssh/id_rsa')
-        };
+//        this.ssh = {
+//            host: '130.240.204.191',
+//            user: 'bugmana',
+//            privateKey: fs.readFileSync(process.env.HOME + '/.ssh/id_rsa')
+//        };
 
         this.mutex = 0;
     }
