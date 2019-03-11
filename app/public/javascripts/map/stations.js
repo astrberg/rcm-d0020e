@@ -20,7 +20,7 @@ var latestWeatherData = [];
 /**
  * Used to send out an alert of to 
  */
-let warningFlag = true;
+var warningFlag = true;
 
 /*
  * Returns all station JSON object

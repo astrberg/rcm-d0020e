@@ -29,7 +29,7 @@ async function getAllLatestWeatherData() {
 }
 
 /**
- * Get new data for stations and counties.
+ * Get new weather data for stations and counties.
  */
 async function getNewData(){
     await getLatestAvgCountyWeatherData();
