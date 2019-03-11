@@ -18,28 +18,31 @@ module.exports = {
         let auth = authorization.Authorization;
         auth.increaseMutex();
 
-        // ssh to database server and then connect to db
-        mysql.createConnection(auth.database).then(client => {            
+        var con = mysql.createConnection(auth.database);
+        var result = []
+        con.connect(function(err){           
             // get all station data that have weather data
             const sql = `select * from station_data where id in (select distinct station_id from 
                         (select station_id from weather_data as w order by w.id desc limit 894) as g)`;
             
-            client.query(sql, function (err, results, fields) {
+            con.query(sql, function (err, results) {
                 if (err) throw err
                 
                 
                 // send data back to client
-                res.send(results);
+                result = results;
 
+                res.send(results);
                 auth.decreaseMutex();
 
-                if(auth.getMutex() == 0){
-                    mysql.close()
-                }
-            })
 
-        }).catch(err => {
-            console.log(err)
-        }) 
+                if(auth.getMutex() == 0){
+                    // mysql.close()
+                }
+            });
+
+            
+
+        })
     }
 };

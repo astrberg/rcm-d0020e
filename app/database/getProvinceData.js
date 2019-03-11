@@ -20,7 +20,9 @@ module.exports = {
         auth.increaseMutex();
         
         // ssh to database server and then connect to db
-        mysql.createConnection(auth.database).then(client => {
+        var con = mysql.createConnection(auth.database);
+        
+        con.connect(function(err){
             
             // select avg temps from stations in county over the last 15 min
             var old_broken_sql =  "SELECT * FROM (\
@@ -39,7 +41,7 @@ module.exports = {
                                 as t on g.station_id = t.id) 
                             as h order by h.county_number asc`;
 
-            client.query(sql, function (err, results) {
+            con.query(sql, function (err, results) {
                 if (err) throw err
                  
                 
@@ -86,21 +88,20 @@ module.exports = {
                 auth.decreaseMutex();
 
                 if(auth.getMutex() == 0){
-                    mysql.close()
+                    //con.close()
                 }
 
             });
 
-        }).catch(err => {
-            console.log(err)
-        }) 
+        })
     }, getAverageTempProvince: function(req, res, next, provinces, start_time, stop_time){
         let auth = authorization.Authorization;
 
         auth.increaseMutex();
         
-        // ssh to database server and then connect to db
-        mysql.createConnection(auth.database).then(client => {            
+        var con = mysql.createConnection(auth.database);
+        
+        con.connect(function(err){            
             // var sql = "SELECT * FROM weather_data WHERE station_id = ? AND timestamp BETWEEN ? AND ?";
             // "select w.air_temperature, s.county_number from weather_data as w, station_data as s where w.station_id = s.id and s.county_number = 25;"
             // "select w.air_temperature, w.timestamp from weather_data as w where w.station_id in (select s.id from station_data as s where county_number = 25);"
@@ -119,7 +120,7 @@ module.exports = {
                 
                 let values = [province, start_time, stop_time]
 
-                client.query(sql,values, function (err, results) {
+                con.query(sql,values,  function (err, results) {
                     if (err) throw err
                     
                     let filtered_result = [];
@@ -211,8 +212,6 @@ module.exports = {
                 }
             });
 
-        }).catch(err => {
-            console.log(err)
         })
     }
 };

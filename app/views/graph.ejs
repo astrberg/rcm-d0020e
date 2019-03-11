@@ -91,7 +91,8 @@
 <div id="slideroptions">
 
 <div id="starttime">
-<p id"stopandstartp">STARTDATUM</p>
+<p id="stopandstartp">STARTDATUM</p>
+
 <p id="output1"></p>
 <div class="slidecontainer1">
   <input type="range" min="1545230510" max="0" value="1" class="slider" id="myRange1">
@@ -104,7 +105,7 @@
 </div>
 
 <div id="stoptime">
-<p id"stopandstartp">SLUTDATUM</p>
+<p id="stopandstartp">SLUTDATUM</p>
 <p id="output2"></p>
 <div class="slidecontainer2">
   <input type="range" min="1545230510" max="0" value="1" class="slider" id="myRange2">
@@ -220,8 +221,8 @@ document.getElementById("myRange2").max = Math.floor(Date.now() / 1000);
 var currentDate = new Date();
 
 //The default start and top time. Can easily be changed. Just match the same format
-var starttime='2019-01-20 13:12:12';
-var stoptime='2019-01-20 16:23:20';
+var starttime='2018-12-28 13:12:12';
+var stoptime='2018-12-29 16:23:20';
 
 rungraphs(starttime,stoptime);
 

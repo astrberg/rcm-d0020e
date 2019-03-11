@@ -17,8 +17,9 @@ module.exports = {
         let auth = authorization.Authorization;
         let weather_data = [];
         auth.increaseMutex();
-        // ssh to database server and then connect to db
-        mysql.createConnection(auth.database).then(client => {            
+        var con = mysql.createConnection(auth.database);
+        
+        con.connect(function(err){          
             const sql = "SELECT * FROM weather_data WHERE station_id = ? ORDER BY id DESC LIMIT 1";
 
 
@@ -27,8 +28,7 @@ module.exports = {
 
                 // get latest row of station weather data
                 const values =  [[id]];
-
-                client.query(sql, [values], function (err, results) {
+                con.query(sql, [values], function (err, results) {
                     if (err) throw err
                     
                     // convert timestamp and windspeed to wanted units
@@ -46,12 +46,10 @@ module.exports = {
                 auth.decreaseMutex();
 
                 if(auth.getMutex() == 0){
-                    mysql.close()
+                    // mysql.close()
                 }
                 
             });
-        }).catch(err => {
-            console.log(err)
         })
         
     },getAllLatestWeatherData : function(req, res, next, length){
@@ -60,12 +58,13 @@ module.exports = {
         let auth = authorization.Authorization;
         auth.increaseMutex();
         
-        // ssh to database server and then connect to db
-        mysql.createConnection(auth.database).then(client => {
+        var con = mysql.createConnection(auth.database);
+        
+        con.connect(function(err){ 
             const sql = "SELECT * FROM weather_data ORDER BY id DESC LIMIT ?";
 
+            con.query(sql, [[parseInt(length)]], function (err, results) {
 
-            client.query(sql, [[parseInt(length)]], function (err, results) {
                 if (err) throw err
                 
                 // convert timestamp and windspeed to wanted units
@@ -78,13 +77,11 @@ module.exports = {
                 auth.decreaseMutex();
 
                 if(auth.getMutex() == 0){
-                    mysql.close()
+                    // mysql.close()
                 }
 
             });
             
-        }).catch(err => {
-            console.log(err)
         })
         
     },
@@ -96,7 +93,9 @@ module.exports = {
         
         auth.increaseMutex();
         // ssh to database server and then connect to db
-        mysql.createConnection(auth.database).then(client => {            
+        var con = mysql.createConnection(auth.database);
+        
+        con.connect(function(err){             
             
             // get weather data between to given timestamps
             var sql = "SELECT * FROM weather_data WHERE station_id = ? AND timestamp BETWEEN ? AND ?";
@@ -108,7 +107,7 @@ module.exports = {
 
                 var values =  [id,start_time, stop_time];
 
-                client.query(sql, values, function (err, results) {
+                con.query(sql,values, function (err, results) {
                     if (err) throw err
                     
                     let filtered_result = [];
@@ -150,14 +149,12 @@ module.exports = {
                 auth.decreaseMutex();
 
                 if(auth.getMutex() == 0){
-                    mysql.close()
+                    // mysql.close()
                 }
             });
             
 
-        }).catch(err => {
-            console.log(err)
-        })    
+        })  
     },
     // get avarage weather data from given station
     getAverageWeatherData : function(req, res, next, station_id, start_time, stop_time){
@@ -167,14 +164,16 @@ module.exports = {
         
         auth.increaseMutex();
         // ssh to database server and then connect to db
-        mysql.createConnection(auth.database).then(client => {            
+        var con = mysql.createConnection(auth.database);
+        
+        con.connect(function(err){             
             
             // get weather data between to given timestamps
             var sql = "SELECT AVG(road_temperature),AVG(air_temperature), AVG(air_humidity), AVG(wind_speed) \
                        FROM weather_data WHERE station_id = ? AND timestamp BETWEEN ? AND ?";
             var values =  [station_id,start_time, stop_time];
             
-            client.query(sql, values, function (err, results) {
+            con.query(sql, values, function (err, results) {
                 if (err) throw err
 
                 
@@ -185,13 +184,12 @@ module.exports = {
                 auth.decreaseMutex();
 
                 if(auth.getMutex() == 0){
-                    mysql.close()
+                    // mysql.close()
                 }
             })
 
-        }).catch(err => {
-            console.log(err)
-        })    
+        })
+
     }
 };
 
