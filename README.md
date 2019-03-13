@@ -1,7 +1,7 @@
 # Road-Condition-Monitoring
 RCM is a tool for gathering data from [DATEX II](https://datex2.eu/) and presenting the data in a informative and user friendly way.
 
-See live [demo](http://130.240.204.191/)
+See live <a href="http://130.240.204.191/ target="_blank">demo</a>
 
 ## Prerequisite
 - [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
@@ -38,7 +38,9 @@ cargo run
 ```
 
 ### Database
-See [Docs](https://dev.mysql.com/doc/).
+
+See <a href="https://dev.mysql.com/doc/ target="_blank">Docs</a>.
+
 
 ## Built With
 * [Leaflet](https://leafletjs.com/) - A JavaScript library for interactive maps
