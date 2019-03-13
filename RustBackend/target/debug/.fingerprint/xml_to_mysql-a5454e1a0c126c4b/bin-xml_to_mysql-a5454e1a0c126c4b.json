@@ -1,0 +1,1 @@
+{"rustc":11779505878581416876,"features":"[]","target":4665585845655779666,"profile":17330921699730661463,"path":1036222786711178230,"deps":[["quick-xml v0.12.4","quick_xml",10740986243955862888]],"local":[{"MtimeBased":[[1550045592,933685474],".fingerprint/xml_to_mysql-a5454e1a0c126c4b/dep-bin-xml_to_mysql-a5454e1a0c126c4b"]}],"rustflags":[],"edition":"Edition2018"}

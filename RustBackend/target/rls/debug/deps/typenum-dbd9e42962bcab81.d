@@ -1,0 +1,15 @@
+/home/aron/rust/xml_to_mysql/target/rls/debug/deps/typenum-dbd9e42962bcab81.rmeta: /home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/typenum-1.10.0/src/lib.rs /home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/typenum-1.10.0/src/bit.rs /home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/typenum-1.10.0/src/uint.rs /home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/typenum-1.10.0/src/int.rs /home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/typenum-1.10.0/src/private.rs /home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/typenum-1.10.0/src/marker_traits.rs /home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/typenum-1.10.0/src/type_operators.rs /home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/typenum-1.10.0/src/operator_aliases.rs /home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/typenum-1.10.0/src/array.rs /home/aron/rust/xml_to_mysql/target/rls/debug/build/typenum-f0705c3a76965f96/out/consts.rs /home/aron/rust/xml_to_mysql/target/rls/debug/build/typenum-f0705c3a76965f96/out/op.rs
+
+/home/aron/rust/xml_to_mysql/target/rls/debug/deps/typenum-dbd9e42962bcab81.d: /home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/typenum-1.10.0/src/lib.rs /home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/typenum-1.10.0/src/bit.rs /home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/typenum-1.10.0/src/uint.rs /home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/typenum-1.10.0/src/int.rs /home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/typenum-1.10.0/src/private.rs /home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/typenum-1.10.0/src/marker_traits.rs /home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/typenum-1.10.0/src/type_operators.rs /home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/typenum-1.10.0/src/operator_aliases.rs /home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/typenum-1.10.0/src/array.rs /home/aron/rust/xml_to_mysql/target/rls/debug/build/typenum-f0705c3a76965f96/out/consts.rs /home/aron/rust/xml_to_mysql/target/rls/debug/build/typenum-f0705c3a76965f96/out/op.rs
+
+/home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/typenum-1.10.0/src/lib.rs:
+/home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/typenum-1.10.0/src/bit.rs:
+/home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/typenum-1.10.0/src/uint.rs:
+/home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/typenum-1.10.0/src/int.rs:
+/home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/typenum-1.10.0/src/private.rs:
+/home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/typenum-1.10.0/src/marker_traits.rs:
+/home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/typenum-1.10.0/src/type_operators.rs:
+/home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/typenum-1.10.0/src/operator_aliases.rs:
+/home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/typenum-1.10.0/src/array.rs:
+/home/aron/rust/xml_to_mysql/target/rls/debug/build/typenum-f0705c3a76965f96/out/consts.rs:
+/home/aron/rust/xml_to_mysql/target/rls/debug/build/typenum-f0705c3a76965f96/out/op.rs:

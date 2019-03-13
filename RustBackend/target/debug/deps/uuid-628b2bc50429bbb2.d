@@ -1,0 +1,15 @@
+/home/aron/rust/xml_to_mysql/target/debug/deps/libuuid-628b2bc50429bbb2.rlib: /home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/uuid-0.7.2/src/lib.rs /home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/uuid-0.7.2/src/adapter/mod.rs /home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/uuid-0.7.2/src/adapter/core_support/mod.rs /home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/uuid-0.7.2/src/builder.rs /home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/uuid-0.7.2/src/parser/mod.rs /home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/uuid-0.7.2/src/parser/core_support.rs /home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/uuid-0.7.2/src/parser/std_support.rs /home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/uuid-0.7.2/src/prelude.rs /home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/uuid-0.7.2/src/core_support.rs /home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/uuid-0.7.2/src/std_support.rs /home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/uuid-0.7.2/src/v4.rs
+
+/home/aron/rust/xml_to_mysql/target/debug/deps/uuid-628b2bc50429bbb2.d: /home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/uuid-0.7.2/src/lib.rs /home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/uuid-0.7.2/src/adapter/mod.rs /home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/uuid-0.7.2/src/adapter/core_support/mod.rs /home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/uuid-0.7.2/src/builder.rs /home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/uuid-0.7.2/src/parser/mod.rs /home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/uuid-0.7.2/src/parser/core_support.rs /home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/uuid-0.7.2/src/parser/std_support.rs /home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/uuid-0.7.2/src/prelude.rs /home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/uuid-0.7.2/src/core_support.rs /home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/uuid-0.7.2/src/std_support.rs /home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/uuid-0.7.2/src/v4.rs
+
+/home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/uuid-0.7.2/src/lib.rs:
+/home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/uuid-0.7.2/src/adapter/mod.rs:
+/home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/uuid-0.7.2/src/adapter/core_support/mod.rs:
+/home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/uuid-0.7.2/src/builder.rs:
+/home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/uuid-0.7.2/src/parser/mod.rs:
+/home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/uuid-0.7.2/src/parser/core_support.rs:
+/home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/uuid-0.7.2/src/parser/std_support.rs:
+/home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/uuid-0.7.2/src/prelude.rs:
+/home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/uuid-0.7.2/src/core_support.rs:
+/home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/uuid-0.7.2/src/std_support.rs:
+/home/aron/.cargo/registry/src/github.com-1ecc6299db9ec823/uuid-0.7.2/src/v4.rs:
