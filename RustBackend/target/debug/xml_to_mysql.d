@@ -1,1 +1,0 @@
-/home/aron/rust/xml_to_mysql/target/debug/xml_to_mysql: /home/aron/rust/xml_to_mysql/src/database.rs /home/aron/rust/xml_to_mysql/src/fetch.rs /home/aron/rust/xml_to_mysql/src/main.rs /home/aron/rust/xml_to_mysql/src/parse_xml.rs
