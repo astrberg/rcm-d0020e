@@ -2,7 +2,7 @@
 // remove suggestion-field when clicking outside
 $("body").mousedown(function(e){
 
-    var suggestionField = $("#suggestion-field");
+    let suggestionField = $("#suggestion-field");
 
     // if the target of the click isn't the suggestionField nor a descendant of the suggestionField
     if (!suggestionField.is(e.target) && suggestionField.has(e.target).length === 0) 
@@ -27,15 +27,11 @@ $("#suggestion-field").mouseenter( function(){
     map.dragging.enable();
 });
 
-
-
-// $("#suggestion-field").on("click", ".suggestion-box", function(){
-//     // get the index saved as id
-//     index = $(this).attr("id");
-
-//     zoomToStation(stationsData[index]);
-// });
-
+/**
+ * Creates and returns a suggestion box of a specific station.
+ * @param {*} station a station data JSON object.
+ * @param {*} index the index of station in stationData array
+ */
 function getSuggestionBox(station, index){
     let suggestionBox = document.createElement('div');
     suggestionBox.className = "suggestion-box";
@@ -58,7 +54,7 @@ function getSuggestionBox(station, index){
     }
     
     addButton.addEventListener('click',function(){
-        for(var i = 0; i < layerGroups.length; i++) {
+        for(let i = 0; i < layerGroups.length; i++) {
             let layer_group = layerGroups[i]; 
             layer_group.eachLayer(function(layer_elem){
                 if(layer_elem instanceof L.Marker){
@@ -84,6 +80,9 @@ function getSuggestionBox(station, index){
     return suggestionBox;
 } 
 
+/**
+ * Adds suggested stations in the search list
+ */
 function searchbarHandler(){
     
     let name = $("#searchbar").val();
@@ -102,13 +101,16 @@ function searchbarHandler(){
     }
 }
 
-
+/**
+ * Returns stations based on the user input text.
+ * @param {*} name input text from the user
+ */
 function searchStation(name){
 
     let foundStations = [];
 
     // create regex
-    var regex = new RegExp(name.toUpperCase());
+    let regex = new RegExp(name.toUpperCase());
     
     for(let i = 0; i < stationsData.length; i++){
         
